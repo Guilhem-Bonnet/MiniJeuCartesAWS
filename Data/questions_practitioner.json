@@ -1,0 +1,449 @@
+{
+  "deckId": "aws-practitioner-v2",
+  "title": "AWS Certified Cloud Practitioner — Timed Run Deck V2",
+  "questions": [
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Storage",
+      "prompt": "Quel service AWS est un stockage d'objets ?",
+      "answers": ["Amazon S3", "Amazon RDS", "AWS Lambda", "Amazon EC2"],
+      "correctIndex": 0,
+      "explanation": "S3 est un stockage d'objets (buckets/objets) pour fichiers, backups, contenu statique."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Compute",
+      "prompt": "Quel service exécute du code sans serveur à gérer ?",
+      "answers": ["Amazon EC2", "AWS Lambda", "Amazon EBS", "Amazon Route 53"],
+      "correctIndex": 1,
+      "explanation": "AWS Lambda exécute des fonctions à la demande (serverless)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Database",
+      "prompt": "Quel service est une base de données relationnelle managée ?",
+      "answers": ["Amazon RDS", "Amazon S3", "Amazon SQS", "Amazon CloudFront"],
+      "correctIndex": 0,
+      "explanation": "RDS propose des moteurs SQL managés (PostgreSQL, MySQL, MariaDB, etc.)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Networking",
+      "prompt": "Quel service gère le DNS ?",
+      "answers": ["Amazon Route 53", "Amazon VPC", "AWS IAM", "AWS CloudTrail"],
+      "correctIndex": 0,
+      "explanation": "Route 53 est le service DNS (zones et enregistrements)."
+    },
+
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "IAM",
+      "prompt": "Quel service gère les identités et permissions ?",
+      "answers": ["AWS IAM", "AWS KMS", "Amazon ECR", "Amazon CloudFront"],
+      "correctIndex": 0,
+      "explanation": "IAM gère utilisateurs, groupes, rôles et politiques d'accès."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Monitoring",
+      "prompt": "Quel service collecte des métriques et permet des alarmes ?",
+      "answers": ["Amazon CloudWatch", "AWS Config", "Amazon SNS", "AWS Glue"],
+      "correctIndex": 0,
+      "explanation": "CloudWatch collecte métriques/logs et permet de déclencher des alarmes."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Messaging",
+      "prompt": "Quel service est une file de messages managée ?",
+      "answers": ["Amazon SQS", "Amazon EFS", "AWS WAF", "AWS Organizations"],
+      "correctIndex": 0,
+      "explanation": "SQS est une file de messages (queue) pour découpler des composants."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "CDN",
+      "prompt": "Quel service est un CDN pour distribuer du contenu ?",
+      "answers": ["Amazon CloudFront", "Amazon S3", "Amazon EBS", "AWS Direct Connect"],
+      "correctIndex": 0,
+      "explanation": "CloudFront est le CDN d'AWS."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "Encryption",
+      "prompt": "Quel service gère des clés de chiffrement managées ?",
+      "answers": ["AWS KMS", "AWS IAM", "Amazon VPC", "Amazon RDS"],
+      "correctIndex": 0,
+      "explanation": "KMS gère des clés et des opérations de chiffrement/déchiffrement."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "Audit",
+      "prompt": "Quel service enregistre les appels API pour audit ?",
+      "answers": ["AWS CloudTrail", "Amazon CloudWatch", "AWS Trusted Advisor", "AWS Budgets"],
+      "correctIndex": 0,
+      "explanation": "CloudTrail trace les événements/API calls pour audit et investigation."
+    },
+
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "SharedResponsibility",
+      "prompt": "Dans le modèle de responsabilité partagée, que gère AWS (en général) ?",
+      "answers": ["La sécurité du cloud (infrastructure)", "La configuration IAM du client", "Les données du client", "Les correctifs applicatifs du client"],
+      "correctIndex": 0,
+      "explanation": "AWS gère l'infrastructure sous-jacente; le client gère ce qu'il déploie/configure dans AWS."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "WellArchitected",
+      "prompt": "Quel est un bénéfice clé du cloud public ?",
+      "answers": ["Élasticité à la demande", "Capex obligatoire", "Capacité fixe", "Aucune responsabilité côté client"],
+      "correctIndex": 0,
+      "explanation": "Le cloud permet d'ajuster les ressources à la demande (scaling)."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "RegionsAZ",
+      "prompt": "Pourquoi utiliser plusieurs Availability Zones pour une application ?",
+      "answers": ["Améliorer la haute disponibilité", "Réduire le coût de stockage S3", "Remplacer IAM", "Éviter toute latence réseau"],
+      "correctIndex": 0,
+      "explanation": "Déployer sur plusieurs AZ aide à tolérer la panne d'une AZ."
+    },
+
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Pricing",
+      "prompt": "Quel modèle de facturation AWS est le plus courant ?",
+      "answers": ["Paiement à l'usage", "Paiement annuel obligatoire", "Paiement par utilisateur", "Paiement par IP"],
+      "correctIndex": 0,
+      "explanation": "AWS facture généralement à l'usage, selon la consommation."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "CostManagement",
+      "prompt": "Quel service aide à créer des budgets et alertes de coûts ?",
+      "answers": ["AWS Budgets", "AWS CloudTrail", "Amazon Inspector", "Amazon Route 53"],
+      "correctIndex": 0,
+      "explanation": "AWS Budgets permet de définir des seuils et d'être alerté."
+    },
+
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "LeastPrivilege",
+      "prompt": "Quel principe recommande de n'accorder que les permissions nécessaires ?",
+      "answers": ["Moindre privilège", "Défense en profondeur", "Chiffrement au repos", "Réplication multi-AZ"],
+      "correctIndex": 0,
+      "explanation": "Le moindre privilège réduit la surface d'attaque et les erreurs."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "MFA",
+      "prompt": "Quelle option renforce l'authentification d'un compte IAM ?",
+      "answers": ["Activer MFA", "Activer S3 Versioning", "Créer un VPC", "Activer CloudFront"],
+      "correctIndex": 0,
+      "explanation": "MFA ajoute un second facteur (ex: appli OTP)."
+    },
+
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Quel service fournit un système de fichiers partagé géré (montable sur plusieurs instances) ?",
+      "answers": ["Amazon EFS", "Amazon EBS", "Amazon S3", "Amazon Glacier"],
+      "correctIndex": 0,
+      "explanation": "EFS est un système de fichiers partagé (type NFS) managé."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "LoadBalancing",
+      "prompt": "Quel composant distribue le trafic entrant sur plusieurs cibles (ex: instances) ?",
+      "answers": ["Elastic Load Balancing", "AWS WAF", "AWS CloudTrail", "Amazon S3"],
+      "correctIndex": 0,
+      "explanation": "ELB distribue le trafic, améliore résilience et montée en charge."
+    },
+
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "DeploymentModels",
+      "prompt": "Quel terme décrit un modèle combinant on-premises et cloud ?",
+      "answers": ["Hybride", "Serverless", "Monolithique", "Sans état"],
+      "correctIndex": 0,
+      "explanation": "Hybride = ressources à la fois on-premises et cloud."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Support",
+      "prompt": "Quel est un avantage d'un plan support AWS (selon le niveau) ?",
+      "answers": ["Accès à du support technique", "Accès gratuit à tous les services", "Remise automatique maximale", "Région illimitée"],
+      "correctIndex": 0,
+      "explanation": "Les plans support donnent un accès au support et des temps de réponse."
+    },
+
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Savings",
+      "prompt": "Quel mécanisme peut réduire les coûts pour une charge stable (selon le cas) ?",
+      "answers": ["Engagement de capacité / Savings Plans", "Augmenter le nombre de régions", "Désactiver CloudWatch", "Utiliser uniquement du On-Demand"],
+      "correctIndex": 0,
+      "explanation": "Les engagements (selon l'offre) peuvent réduire le coût pour des usages prévisibles."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "CostAllocation",
+      "prompt": "Pour ventiler les coûts par équipe/projet, quelle pratique est la plus adaptée ?",
+      "answers": ["Utiliser des tags de cost allocation", "Créer un VPC par équipe", "Activer MFA pour tous", "Utiliser uniquement S3"],
+      "correctIndex": 0,
+      "explanation": "Les tags (cost allocation) aident à attribuer les coûts et à faire des rapports."
+    },
+
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Encryption",
+      "prompt": "Quel énoncé est le plus correct concernant le chiffrement et la responsabilité partagée ?",
+      "answers": [
+        "AWS fournit des services/outils; le client choisit/configure quand et comment chiffrer",
+        "AWS chiffre toujours toutes les données du client sans configuration",
+        "Le client ne peut jamais chiffrer ses données dans AWS",
+        "Le chiffrement remplace IAM et les politiques"
+      ],
+      "correctIndex": 0,
+      "explanation": "AWS fournit des capacités; le client reste responsable des choix et configurations de sécurité."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Quelle pratique est recommandée pour accorder des permissions à une application sur AWS ?",
+      "answers": ["Utiliser un rôle IAM", "Utiliser l'utilisateur root", "Partager une clé d'accès unique entre équipes", "Mettre les secrets en clair dans le code"],
+      "correctIndex": 0,
+      "explanation": "Les rôles permettent des permissions temporaires et réduisent les risques liés aux clés longues durées."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "WAF",
+      "prompt": "Quel service aide à protéger des applications web contre des attaques courantes ?",
+      "answers": ["AWS WAF", "Amazon S3", "AWS Snowball", "Amazon EBS"],
+      "correctIndex": 0,
+      "explanation": "WAF filtre/contrôle le trafic HTTP(S) selon des règles."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Organizations",
+      "prompt": "Quel service aide à gérer plusieurs comptes AWS de manière centralisée ?",
+      "answers": ["AWS Organizations", "Amazon Inspector", "Amazon Route 53", "AWS Lambda"],
+      "correctIndex": 0,
+      "explanation": "Organizations permet de regrouper des comptes et définir des politiques (SCP)."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Compliance",
+      "prompt": "Quel service peut aider à évaluer la posture de sécurité / conformité via règles et configurations ?",
+      "answers": ["AWS Config", "Amazon S3", "Amazon CloudFront", "AWS Step Functions"],
+      "correctIndex": 0,
+      "explanation": "AWS Config suit des changements de config et évalue la conformité avec des règles."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Incident",
+      "prompt": "Après un incident, quel service aide à analyser l'historique des appels API ?",
+      "answers": ["AWS CloudTrail", "Amazon SQS", "Amazon EFS", "AWS Direct Connect"],
+      "correctIndex": 0,
+      "explanation": "CloudTrail fournit l'historique des actions/API calls pour investigation."
+    },
+
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "VPC",
+      "prompt": "Quel service fournit un réseau virtuel isolé pour vos ressources AWS ?",
+      "answers": ["Amazon VPC", "Amazon Route 53", "AWS IAM", "AWS KMS"],
+      "correctIndex": 0,
+      "explanation": "VPC permet de définir sous-réseaux, tables de routage, ACL, etc."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Databases",
+      "prompt": "Quel service AWS est une base NoSQL managée ?",
+      "answers": ["Amazon DynamoDB", "Amazon RDS", "Amazon Redshift", "Amazon EFS"],
+      "correctIndex": 0,
+      "explanation": "DynamoDB est une base NoSQL managée, à faible latence."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "S3",
+      "prompt": "Quel énoncé décrit le mieux la durabilité recherchée pour un stockage d'objets comme S3 ?",
+      "answers": [
+        "Conçu pour une très forte durabilité des objets",
+        "Conçu pour remplacer un disque local d'une instance",
+        "Conçu uniquement pour des bases relationnelles",
+        "Conçu uniquement pour un réseau privé"
+      ],
+      "correctIndex": 0,
+      "explanation": "S3 est conçu pour une durabilité très élevée des objets (concept CCP)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Serverless",
+      "prompt": "Dans un design serverless, quelle idée est la plus correcte ?",
+      "answers": [
+        "Moins d'administration de serveurs, mais il faut concevoir/monitorer l'application",
+        "Aucun coût, car il n'y a pas de serveurs",
+        "Impossible de faire de la sécurité",
+        "Toujours plus rapide qu'une architecture classique"
+      ],
+      "correctIndex": 0,
+      "explanation": "Serverless réduit la gestion d'infra, mais pas la responsabilité applicative (logs, sécurité, perf)."
+    },
+
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "WellArchitected",
+      "prompt": "Quel principe aide le plus à limiter l'impact d'une panne ?",
+      "answers": ["Concevoir pour la défaillance", "Tout centraliser sur une seule instance", "Désactiver les métriques", "Éviter les sauvegardes"],
+      "correctIndex": 0,
+      "explanation": "Concevoir pour la défaillance (redundancy, retries, multi-AZ) réduit l'impact."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quelle notion décrit un emplacement géographique AWS (ex: Europe (Paris)) ?",
+      "answers": ["Région", "VPC", "Rôle IAM", "Bucket"],
+      "correctIndex": 0,
+      "explanation": "Une Région est un emplacement géographique composé de plusieurs AZ."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Elasticity",
+      "prompt": "Quelle description correspond le mieux à l'élasticité ?",
+      "answers": ["Adapter automatiquement les ressources à la demande", "Payer uniquement à l'année", "Toujours utiliser une instance plus grosse", "Déployer uniquement on-premises"],
+      "correctIndex": 0,
+      "explanation": "L'élasticité ajuste les ressources selon la charge."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "CloudValue",
+      "prompt": "Quel bénéfice du cloud aide à innover plus vite ?",
+      "answers": ["Provisionnement rapide", "Achat de serveurs long", "Capacité fixe", "Risque nul par défaut"],
+      "correctIndex": 0,
+      "explanation": "Le provisionnement rapide accélère les essais/itérations."
+    },
+
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Monitoring",
+      "prompt": "Pour centraliser des logs applicatifs et les interroger, quel service est le plus pertinent au niveau CCP ?",
+      "answers": ["Amazon CloudWatch Logs", "Amazon Route 53", "AWS Budgets", "Amazon S3 Glacier"],
+      "correctIndex": 0,
+      "explanation": "CloudWatch Logs centralise des logs et permet la consultation/recherche de base."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Networking",
+      "prompt": "Quel énoncé décrit le mieux un Security Group ?",
+      "answers": ["Un pare-feu stateful au niveau instance/ENI", "Une liste de contrôle stateless au niveau subnet", "Un service de DNS managé", "Un service de chiffrement des données"],
+      "correctIndex": 0,
+      "explanation": "Les Security Groups sont stateful et s'attachent aux interfaces réseau/instances."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Networking",
+      "prompt": "Quel énoncé décrit le mieux une Network ACL (NACL) ?",
+      "answers": ["Un filtre stateless au niveau subnet", "Un filtre stateful au niveau instance", "Un service de file de messages", "Un service de CDN"],
+      "correctIndex": 0,
+      "explanation": "Les NACL s'appliquent aux subnets et sont stateless (règles entrée/sortie)."
+    },
+
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Root",
+      "prompt": "Quelle bonne pratique concerne le compte root AWS ?",
+      "answers": ["Activer MFA et l'utiliser rarement", "Le partager à l'équipe", "L'utiliser pour toutes les tâches quotidiennes", "Le désactiver complètement"],
+      "correctIndex": 0,
+      "explanation": "Le root doit être protégé (MFA) et utilisé uniquement quand nécessaire."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Secrets",
+      "prompt": "Quelle approche est la plus adaptée pour éviter d'exposer des clés dans le code ?",
+      "answers": ["Utiliser un gestionnaire de secrets / paramètres", "Committer les clés puis les supprimer", "Mettre les clés dans des commentaires", "Envoyer les clés par e-mail"],
+      "correctIndex": 0,
+      "explanation": "Éviter le code source pour les secrets et préférer un service dédié / variables d'environnement gérées."
+    },
+
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Pricing",
+      "prompt": "Quel est un levier classique pour réduire une facture cloud sans changer la fonctionnalité ?",
+      "answers": ["Right-sizing (ajuster la taille des ressources)", "Augmenter le nombre de logs", "Activer plus de régions", "Désactiver la haute disponibilité"],
+      "correctIndex": 0,
+      "explanation": "Le right-sizing (CPU/RAM) et l'arrêt des ressources inutiles sont des leviers fréquents."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "CostVisibility",
+      "prompt": "Pourquoi activer la répartition des coûts par tags ?",
+      "answers": ["Mieux attribuer les coûts par équipe/projet", "Accélérer les requêtes DNS", "Améliorer la durabilité S3", "Remplacer les sauvegardes"],
+      "correctIndex": 0,
+      "explanation": "Les tags permettent de ventiler et analyser les coûts par dimension métier."
+    },
+
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "CloudModels",
+      "prompt": "Quel terme décrit un service où tu ne gères pas les serveurs mais tu gères le code ?",
+      "answers": ["Serverless", "On-premises", "Colocation", "Bare metal uniquement"],
+      "correctIndex": 0,
+      "explanation": "En serverless, l'infrastructure est abstraite; tu gères ton code/config et l'observabilité."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Resilience",
+      "prompt": "Quel choix réduit le mieux le risque de point de défaillance unique ?",
+      "answers": ["Déployer sur plusieurs AZ", "Déployer tout sur une seule instance", "Stocker les secrets dans le code", "Désactiver les alarmes"],
+      "correctIndex": 0,
+      "explanation": "Multi-AZ aide à tolérer la panne d'une zone."
+    }
+  ]
+}

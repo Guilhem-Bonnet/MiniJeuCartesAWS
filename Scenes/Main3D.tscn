@@ -1,0 +1,486 @@
+[gd_scene load_steps=36 format=3 uid="uid://c6ermvsdoabeh"]
+
+[ext_resource type="Script" uid="uid://3evg2a3lhjsp" path="res://Scripts/TimedRunUI.cs" id="1"]
+[ext_resource type="PackedScene" uid="uid://bcd25lstfoqq4" path="res://Scenes/CardUI/CardFrontUI.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://0jmbpdifu1j5" path="res://Scenes/CardUI/CardBackUI.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bcgp8fxvsckpv" path="res://Assets/3D/Flower Pot/FlowerPot2.fbx" id="3_qbgkv"]
+[ext_resource type="ArrayMesh" uid="uid://bdt1ybrlfu5dt" path="res://Assets/3D/Desk Lamp/model.obj" id="4_d7535"]
+[ext_resource type="FontFile" uid="uid://c2bnen2fa56p5" path="res://Assets/Fonts/Cinzel/Cinzel[wght].ttf" id="5"]
+[ext_resource type="ArrayMesh" uid="uid://dun1u22urd3po" path="res://Assets/3D/Coffee Mug/coffeeMug.obj" id="5_ryluv"]
+[ext_resource type="ArrayMesh" uid="uid://derojw70l7efq" path="res://Assets/3D/House plant/Houseplant.obj" id="6_0dgp6"]
+[ext_resource type="FontFile" uid="uid://dojyhgf7mdrmi" path="res://Assets/Fonts/Inter/Inter[opsz,wght].ttf" id="7"]
+[ext_resource type="ArrayMesh" uid="uid://bqa1qmo0rca8q" path="res://Assets/3D/Plants - Assorted shelf plants/model.obj" id="7_4yk2m"]
+[ext_resource type="ArrayMesh" uid="uid://dmlkiyww5y8ee" path="res://Assets/3D/Window Blinds/model.obj" id="11_cp1uk"]
+[ext_resource type="PackedScene" uid="uid://byt2va5b2f1jg" path="res://Assets/3D/Monitor.fbx" id="12_f0usu"]
+[ext_resource type="ArrayMesh" uid="uid://cm08r25nhm4hm" path="res://Assets/3D/Book Stack/model.obj" id="13_4yk2m"]
+[ext_resource type="PackedScene" uid="uid://d4janrrcu10m1" path="res://Assets/3D/Doorway/Door (2).fbx" id="14_cp1uk"]
+[ext_resource type="PackedScene" uid="uid://b7v0s8t1qog4v" path="res://Assets/3D/Normal Wall/Normal.fbx" id="15_f0usu"]
+[ext_resource type="PackedScene" uid="uid://bply3go6qphf6" path="res://Assets/3D/Mug With Office Tool/Mug with office tools.fbx" id="16_bekxh"]
+[ext_resource type="ArrayMesh" uid="uid://qr7t1psfhi18" path="res://Assets/3D/Pens/Pens_518.obj" id="17_bekxh"]
+[ext_resource type="ArrayMesh" uid="uid://cxjf227121soq" path="res://Assets/3D/Small Stack of Paper/model.obj" id="18_acp8f"]
+[ext_resource type="ArrayMesh" uid="uid://cmlovdne2ux24" path="res://Assets/3D/Wall Shelf/WallShelf.obj" id="19_mrh8s"]
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 1
+background_color = Color(0.03, 0.04, 0.06, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.35, 0.4, 0.55, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6"]
+albedo_color = Color(0.09, 0.1, 0.14, 1)
+metallic = 0.08
+roughness = 0.35
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3"]
+size = Vector2(1.344, 0.96)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(0.1344, 0.01, 0.096)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1"]
+emission_shape = 2
+emission_sphere_radius = 0.15
+initial_velocity_min = 0.7
+initial_velocity_max = 1.3
+gravity = Vector3(0, -1.6, 0)
+scale_min = 0.8
+scale_max = 1.2
+color = Color(0.35, 0.8, 0.6, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+albedo_color = Color(0.12, 0.1, 0.09, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(3.6, 0.1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2"]
+albedo_color = Color(0.08, 0.09, 0.12, 1)
+roughness = 0.9
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1"]
+size = Vector2(7, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.85, 0.92, 1, 0.85)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+initial_velocity_min = 0.15
+initial_velocity_max = 0.35
+angular_velocity_max = 0.4
+gravity = Vector3(0, -0.22, 0)
+scale_min = 0.25
+scale_max = 0.55
+color = Color(0.82, 0.9, 1, 0.9)
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+radius = 0.12
+height = 0.24
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5"]
+albedo_color = Color(0.05, 0.06, 0.08, 1)
+roughness = 0.9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
+bg_color = Color(0.08, 0.09, 0.12, 0.92)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2"]
+bg_color = Color(0.12, 0.14, 0.2, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3"]
+bg_color = Color(0.12, 0.14, 0.2, 0.55)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.85, 0.92, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="Main3D" type="Node3D"]
+
+[node name="CardFocus" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0.05, 0.62, 0.95)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.955336, 0.208964, -0.208964, 0, 0.707107, 0.707107, 0.29552, -0.67559, 0.67559, 0, 2.2, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881898, 0, -0.25881898, 0.9659259, 0, 0.780505, 1.4604902)
+
+[node name="CardRig" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.49290958, -0.87008053, 0, 0.87008053, 0.49290958, -1.1920929e-07, 0.67903703, 1.2670246)
+
+[node name="CardBody" type="CSGBox3D" parent="CardRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+size = Vector3(0.14, 0.001, 0.1)
+material = SubResource("StandardMaterial3D_6")
+
+[node name="CardFace" type="MeshInstance3D" parent="CardRig"]
+transform = Transform3D(0.1, 0, 0, 0, 0.099999994, 0, 0, 0, 0.099999994, 0, 0.10052798, 0.00058436394)
+mesh = SubResource("PlaneMesh_3")
+
+[node name="CardBack" type="MeshInstance3D" parent="CardRig"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, -1.8626451e-08, 0, 1.8626451e-08, -0.1, 0, 0.09922848, 0.00029963255)
+mesh = SubResource("PlaneMesh_3")
+
+[node name="CardClickArea" type="StaticBody3D" parent="CardRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1005, 0.00055)
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="CardRig/CardClickArea"]
+shape = SubResource("BoxShape3D_1")
+
+[node name="CardFrontViewport" type="SubViewport" parent="CardRig"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(1434, 1024)
+render_target_update_mode = 4
+
+[node name="Face" parent="CardRig/CardFrontViewport" instance=ExtResource("2")]
+
+[node name="CardBackViewport" type="SubViewport" parent="CardRig"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(1434, 1024)
+render_target_update_mode = 4
+
+[node name="Back" parent="CardRig/CardBackViewport" instance=ExtResource("3")]
+
+[node name="Sparkles" type="GPUParticles3D" parent="CardRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0.18)
+emitting = false
+amount = 40
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_1")
+
+[node name="Set" type="Node3D" parent="."]
+
+[node name="FlowerPot2" parent="Set" instance=ExtResource("3_qbgkv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8118976, 0.86269724, -2.0135126)
+
+[node name="DeckRig" type="Node3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 0.08, 0.25)
+
+[node name="DeckStack" type="CSGBox3D" parent="Set/DeckRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14363843, 0.00072062016, 0.1551651)
+size = Vector3(0.1, 0.035, 0.14)
+material = SubResource("StandardMaterial3D_6")
+
+[node name="DeckSpawn" type="Marker3D" parent="Set/DeckRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+
+[node name="Table" type="MeshInstance3D" parent="Set"]
+material_override = SubResource("StandardMaterial3D_1")
+mesh = SubResource("BoxMesh_1")
+
+[node name="BackWall" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(2.9131598, 0, 0, 0, 0.7896857, 0.4306772, 0, -0.09521978, 3.5717332, 0, 4.3403215, -1.4)
+material_override = SubResource("StandardMaterial3D_2")
+mesh = SubResource("PlaneMesh_1")
+
+[node name="BackWall2" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1.4909344, 0, 1, -6.517081e-08, -4.654187, 1.4681919, -2.9185362)
+material_override = SubResource("StandardMaterial3D_2")
+mesh = SubResource("PlaneMesh_1")
+
+[node name="BackWall3" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 3.9379983, 0.11355901, -2.9185362)
+material_override = SubResource("StandardMaterial3D_2")
+mesh = SubResource("PlaneMesh_1")
+
+[node name="BackWall4" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 1.0299602, 3.95768, -2.9185362)
+material_override = SubResource("StandardMaterial3D_2")
+mesh = SubResource("PlaneMesh_1")
+
+[node name="BackWall5" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -0.33909875, 0, 1, -1.48224775e-08, 1.0299602, -0.84336567, -2.9185362)
+material_override = SubResource("StandardMaterial3D_2")
+mesh = SubResource("PlaneMesh_1")
+
+[node name="WarmLamp" type="OmniLight3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.976105, 0.5500001, 0.49958557)
+light_color = Color(1, 0.78, 0.58, 1)
+light_energy = 2.2
+omni_range = 4.0
+
+[node name="WarmLamp2" type="OmniLight3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.83167446, 0.7806605, 0.063020274)
+light_color = Color(1, 0.78, 0.58, 1)
+light_energy = 2.2
+omni_range = 4.0
+
+[node name="WarmLamp3" type="OmniLight3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.83167446, 0.7806605, 1.8942188)
+light_color = Color(1, 0.78, 0.58, 1)
+light_energy = 2.2
+omni_range = 4.0
+
+[node name="Snow" type="GPUParticles3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 1.45, -5.18133)
+material_override = SubResource("StandardMaterial3D_7")
+amount = 180
+lifetime = 6.0
+speed_scale = 0.35
+process_material = SubResource("ParticleProcessMaterial_2")
+draw_pass_1 = SubResource("SphereMesh_1")
+
+[node name="Cat" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.05, 0.15, 0.45)
+material_override = SubResource("StandardMaterial3D_5")
+mesh = SubResource("SphereMesh_1")
+
+[node name="Model" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(0.2772141, 0, -0.9608082, 0, 1, 0, 0.9608082, 0, 0.2772141, 1.2418602, 0.7308488, -0.070114195)
+mesh = ExtResource("4_d7535")
+
+[node name="CoffeeMug" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(0.0085942, 0, 0.002672024, 0, 0.008999999, 0, -0.002672024, 0, 0.0085942, 0.87725616, 0.21511024, 0.48775607)
+mesh = ExtResource("5_ryluv")
+
+[node name="Houseplant" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(0.117, 0, 0, 0, 0.117, 0, 0, 0, 0.117, -1.4065808, 0, -0.27824342)
+mesh = ExtResource("6_0dgp6")
+
+[node name="Model2" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3318789, 0, -2.628012)
+mesh = ExtResource("7_4yk2m")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Set"]
+transform = Transform3D(-0.9981027, 0, 0.061571166, 0.023249174, 0.9259695, 0.376882, -0.05701302, 0.3775984, -0.92421263, 0, 1.438514, -6.436013)
+light_color = Color(0.49669665, 0.6059552, 0.88146895, 1)
+light_energy = 10.213
+light_indirect_energy = 5.307
+spot_range = 11.848374
+spot_angle = 24.44
+
+[node name="DiscardTarget" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.11, 0.25)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Root" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="TopHUD" type="Control" parent="HUD/Root"]
+anchors_preset = 0
+anchor_right = 1.0
+offset_left = 30.0
+offset_top = 22.0
+offset_right = -30.0
+offset_bottom = 80.0
+grow_horizontal = 2
+
+[node name="TopRow" type="HBoxContainer" parent="HUD/Root/TopHUD"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Domain" type="Label" parent="HUD/Root/TopHUD/TopRow"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5")
+text = "Domaine: ☁️ CloudConcepts"
+
+[node name="Spacer" type="Control" parent="HUD/Root/TopHUD/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Timer" type="Label" parent="HUD/Root/TopHUD/TopRow"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
+text = "V3 ⏱️ 02:00"
+
+[node name="Score" type="Label" parent="HUD/Root/TopHUD/TopRow"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
+text = "Score: 0/0"
+horizontal_alignment = 2
+
+[node name="Margin" type="MarginContainer" parent="HUD/Root"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Center" type="CenterContainer" parent="HUD/Root/Margin"]
+layout_mode = 2
+
+[node name="CardPanel" type="PanelContainer" parent="HUD/Root/Margin/Center"]
+custom_minimum_size = Vector2(860, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1")
+
+[node name="CardMargin" type="MarginContainer" parent="HUD/Root/Margin/Center/CardPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 26
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 26
+
+[node name="VBox" type="VBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TopRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+layout_mode = 2
+
+[node name="Domain" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/TopRow"]
+layout_mode = 2
+text = "Domaine: ☁️ CloudConcepts"
+
+[node name="Spacer" type="Control" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Timer" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/TopRow"]
+layout_mode = 2
+text = "⏱️ 02:00"
+
+[node name="Score" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/TopRow"]
+layout_mode = 2
+text = "Score: 0/0"
+horizontal_alignment = 2
+
+[node name="Question" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Question…"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Answers" type="VBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="A" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/Answers"]
+custom_minimum_size = Vector2(640, 96)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "A"
+
+[node name="B" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/Answers"]
+custom_minimum_size = Vector2(640, 96)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "B"
+
+[node name="C" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/Answers"]
+custom_minimum_size = Vector2(640, 96)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "C"
+
+[node name="D" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/Answers"]
+custom_minimum_size = Vector2(640, 96)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "D"
+
+[node name="Feedback" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Restart" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+visible = false
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Rejouer"
+
+[node name="Model" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34254915, 1.059881, -2.7724154)
+mesh = ExtResource("11_cp1uk")
+
+[node name="Monitor" parent="." instance=ExtResource("12_f0usu")]
+transform = Transform3D(1.6480236, 0, -1.2902194, 0, 2.0929997, 0, 1.2902194, 0, 1.6480236, 0.5782461, 0.051951744, -0.36754298)
+
+[node name="Model2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.290365, 0, 0.3721186, 0, 0.47200006, 0, -0.3721186, 0, 0.290365, -1.5004392, 0.20073774, 0.3177917)
+mesh = ExtResource("13_4yk2m")
+
+[node name="Door (2)" parent="." instance=ExtResource("14_cp1uk")]
+transform = Transform3D(0.5896358, 0, 0, 0, 0.747497, 0, 0, 0, 0.53773123, -0.30901694, -0.8528265, -1.818056)
+
+[node name="Normal" parent="." instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -2.3569, -2.1384826, -1.2344716)
+
+[node name="Normal2" parent="." instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -4.603533, -2.1384826, -1.2344716)
+
+[node name="Normal3" parent="." instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -6.8128157, -2.1384826, -1.2344716)
+
+[node name="Normal4" parent="." instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 1.6061316, -2.1384826, -1.2344716)
+
+[node name="Normal5" parent="." instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 3.8594952, -2.1384826, -1.2344716)
+
+[node name="Normal6" parent="." instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 6.128377, -2.1384826, -1.2344716)
+
+[node name="Mug with office tools" parent="." instance=ExtResource("16_bekxh")]
+transform = Transform3D(1.631, 0, 0, 0, 1.631, 0, 0, 0, 1.631, -0.7267091, 0.053308368, -0.72962844)
+
+[node name="Pens518" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0029549298, 0, 0.004033409, 0, 0.005, 0, -0.004033409, 0, 0.0029549298, 0.40316558, 0.056742996, -0.23661578)
+mesh = ExtResource("17_bekxh")
+
+[node name="Model3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.9980573, 0, -0.06230277, 0, 1, 0, 0.06230277, 0, -0.9980573, -2.0133946, 0, -2.4677873)
+mesh = ExtResource("7_4yk2m")
+
+[node name="Model4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.6312318, 0, 0.98392445, 0, 1.1689999, 0, -0.98392445, 0, -0.6312318, -1.110494, 0.06742811, 0.81369716)
+mesh = ExtResource("18_acp8f")
+
+[node name="WallShelf" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.012469174, 0, -0.62387556, 0, 0.6240001, 0, 0.62387556, 0, -0.012469174, 1.6149335, 1.4182924, -2.5242624)
+mesh = ExtResource("19_mrh8s")

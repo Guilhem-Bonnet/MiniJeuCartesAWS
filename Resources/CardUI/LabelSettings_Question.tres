@@ -1,0 +1,12 @@
+[gd_resource type="LabelSettings" format=3]
+
+[ext_resource type="FontFile" path="res://Assets/Fonts/Inter/Inter[opsz,wght].ttf" id="1"]
+
+[resource]
+font = ExtResource("1")
+font_size = 56
+outline_size = 6
+outline_color = Color(0, 0, 0, 0.75)
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_offset = Vector2(0, 2)
