@@ -729,6 +729,223 @@
       "answers": ["SCP (Service Control Policies)", "Security Groups", "S3 Versioning", "CloudFront Origins"],
       "correctIndex": 0,
       "explanation": "Les SCP définissent des limites de permissions maximales dans Organizations."
+    },
+
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Support",
+      "prompt": "Quel plan de support AWS est destiné à l'apprentissage et aux cas simples avec un support de base ?",
+      "answers": ["Basic", "Enterprise", "Business", "Developer"],
+      "correctIndex": 0,
+      "explanation": "Le plan Basic est le niveau d'entrée (support limité) ; les autres plans offrent du support technique plus avancé."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Support",
+      "prompt": "Quel avantage est typiquement associé aux plans Business/Enterprise (selon le niveau) ?",
+      "answers": ["Accès à un support technique 24/7", "Accès gratuit à tous les services AWS", "Aucune facturation", "Régions illimitées et gratuites"],
+      "correctIndex": 0,
+      "explanation": "Les plans supérieurs offrent des temps de réponse et un support technique plus complets."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Billing",
+      "prompt": "Où peut-on consulter et télécharger des factures AWS ?",
+      "answers": ["AWS Billing and Cost Management", "AWS CloudTrail", "Amazon CloudWatch", "AWS Systems Manager"],
+      "correctIndex": 0,
+      "explanation": "La console Billing and Cost Management centralise facturation, paiements et rapports de coûts."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Savings",
+      "prompt": "Quel mécanisme est souvent adapté pour réduire le coût d'usage d'instances EC2 tout en conservant de la flexibilité (selon le cas) ?",
+      "answers": ["Savings Plans", "Augmenter le nombre de snapshots", "Mettre tout en Multi-Region", "Désactiver le chiffrement"],
+      "correctIndex": 0,
+      "explanation": "Savings Plans offrent des réductions en échange d'un engagement de dépenses (selon le type)."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Pricing",
+      "prompt": "Quel type de tarification EC2 peut être très économique mais peut être interrompu par AWS si la capacité est nécessaire ?",
+      "answers": ["Spot Instances", "On-Demand", "Dedicated Hosts", "Reserved Instances"],
+      "correctIndex": 0,
+      "explanation": "Les Spot Instances utilisent la capacité disponible à prix réduit, mais peuvent être interrompues."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "ElasticBeanstalk",
+      "prompt": "Quel service facilite le déploiement d'applications web en gérant automatiquement une partie de l'infrastructure (niveau CCP) ?",
+      "answers": ["AWS Elastic Beanstalk", "Amazon Route 53", "AWS CloudTrail", "AWS Artifact"],
+      "correctIndex": 0,
+      "explanation": "Elastic Beanstalk déploie une application et gère des composants courants (selon plateforme) comme l'auto-scaling et la supervision de base."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Route53",
+      "prompt": "Dans Route 53, quelle politique de routage envoie le trafic vers la ressource la plus proche géographiquement (approche globale) ?",
+      "answers": ["Latency-based routing", "Simple routing", "Failover routing", "Multivalue answer"],
+      "correctIndex": 0,
+      "explanation": "Le routage par latence vise à diriger vers la cible qui offre la latence la plus faible pour l'utilisateur."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Route53",
+      "prompt": "Quelle politique Route 53 est utilisée pour basculer vers une cible de secours en cas de panne (avec health checks) ?",
+      "answers": ["Failover routing", "Weighted routing", "Latency-based routing", "Geolocation routing"],
+      "correctIndex": 0,
+      "explanation": "Failover routing permet un scénario actif/passif avec checks de santé."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "VPC",
+      "prompt": "Quel service permet d'accéder à des services AWS (ex: S3) depuis un VPC sans passer par Internet public (selon le service) ?",
+      "answers": ["VPC Endpoints", "NAT Gateway", "Internet Gateway", "AWS Direct Connect"],
+      "correctIndex": 0,
+      "explanation": "Les VPC Endpoints (Gateway/Interface) permettent un accès privé à certains services sans sortir sur Internet."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "CloudFront",
+      "prompt": "Quel comportement CloudFront améliore généralement les performances perçues et réduit la charge sur l'origine ?",
+      "answers": ["Mettre en cache le contenu aux edge locations", "Désactiver le chiffrement", "Envoyer tout le trafic via une seule région", "Désactiver les logs"],
+      "correctIndex": 0,
+      "explanation": "Le caching CloudFront rapproche le contenu des utilisateurs et réduit les requêtes vers l'origine."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "CloudFront",
+      "prompt": "Dans CloudFront, quelle configuration contrôle notamment la durée de mise en cache (TTL) et le comportement de cache ?",
+      "answers": ["Cache policy", "Security Group", "SCP", "Subnet"],
+      "correctIndex": 0,
+      "explanation": "Une cache policy (et/ou headers TTL) influence le TTL et la façon dont CloudFront met en cache les réponses."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "DynamoDB",
+      "prompt": "Quel concept DynamoDB est utilisé pour déterminer dans quelle partition les données sont stockées ?",
+      "answers": ["Partition key (clé de partition)", "Security Group", "Availability Zone", "Route table"],
+      "correctIndex": 0,
+      "explanation": "La clé de partition distribue les items entre partitions et impacte performances/scalabilité."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "DynamoDB",
+      "prompt": "Quel service est adapté pour une base NoSQL très scalable avec latence faible et performance prévisible (niveau CCP) ?",
+      "answers": ["Amazon DynamoDB", "Amazon RDS", "Amazon Redshift", "Amazon EFS"],
+      "correctIndex": 0,
+      "explanation": "DynamoDB est une base NoSQL managée, conçue pour la scalabilité et la faible latence."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "S3",
+      "prompt": "Quel paramètre S3 aide à empêcher la suppression accidentelle d'un objet (selon les besoins) ?",
+      "answers": ["S3 Object Lock", "Internet Gateway", "NACL", "AWS WAF"],
+      "correctIndex": 0,
+      "explanation": "S3 Object Lock peut aider à empêcher la suppression/modification (ex: besoins WORM) selon la configuration."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "S3",
+      "prompt": "Quelle fonctionnalité S3 réplique automatiquement des objets vers une autre région pour une stratégie multi-région ?",
+      "answers": ["Cross-Region Replication (CRR)", "Auto Scaling", "Elastic Load Balancing", "AWS Direct Connect"],
+      "correctIndex": 0,
+      "explanation": "La CRR réplique des objets S3 vers une autre région (avec prérequis comme le versioning)."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Dans IAM, quelle entité est conçue pour être assumée et fournir des permissions temporaires ?",
+      "answers": ["Rôle IAM", "Utilisateur IAM root", "Bucket S3", "Security Group"],
+      "correctIndex": 0,
+      "explanation": "Les rôles IAM sont assumés (assume role) et peuvent fournir des credentials temporaires."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Quel mécanisme IAM permet d'accorder des permissions à une ressource AWS (ex: bucket S3) de façon centralisée par document JSON ?",
+      "answers": ["Une policy IAM", "Un subnet", "Un health check", "Une AZ"],
+      "correctIndex": 0,
+      "explanation": "Les policies IAM définissent des autorisations (actions/ressources/conditions) en JSON."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "NetworkSecurity",
+      "prompt": "Quelle différence est correcte entre Security Groups et NACL ?",
+      "answers": ["Security Groups = stateful; NACL = stateless", "Security Groups = stateless; NACL = stateful", "Les deux sont du DNS", "Les deux remplacent IAM"],
+      "correctIndex": 0,
+      "explanation": "Security Groups sont stateful et s'attachent aux ENI/instances; NACL sont stateless au niveau subnet."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Logging",
+      "prompt": "Quel service aide à détecter des configurations non conformes en continu (ex: règle 'bucket S3 public') ?",
+      "answers": ["AWS Config", "AWS CloudTrail", "Amazon SQS", "AWS Step Functions"],
+      "correctIndex": 0,
+      "explanation": "AWS Config évalue la conformité via des règles et l'historique des configurations."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Logging",
+      "prompt": "Quel scénario correspond le mieux à l'usage de CloudTrail plutôt que CloudWatch ?",
+      "answers": ["Auditer qui a appelé une API (qui/quoi/quand)", "Mettre en cache du contenu", "Créer une base NoSQL", "Déployer un VPC"],
+      "correctIndex": 0,
+      "explanation": "CloudTrail sert à l'audit des actions/API calls; CloudWatch est orienté métriques/logs/alertes."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quel terme décrit le plus précisément un ensemble de data centers dans une région, isolés les uns des autres ?",
+      "answers": ["Availability Zones", "Buckets", "Security Groups", "Rôles IAM"],
+      "correctIndex": 0,
+      "explanation": "Une région contient plusieurs AZ (zones) conçues pour être isolées afin d'améliorer la résilience."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "WellArchitected",
+      "prompt": "Quel principe du Well-Architected aide à limiter les changements risqués en production ?",
+      "answers": ["Automatiser et faire des changements petits et réversibles", "Centraliser sur une seule instance", "Éviter les tests", "Supprimer la supervision"],
+      "correctIndex": 0,
+      "explanation": "Des changements petits, automatisés et réversibles réduisent le risque et facilitent le rollback."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Marketplace",
+      "prompt": "Qu'est-ce qu'AWS Marketplace (au niveau CCP) ?",
+      "answers": ["Un catalogue de solutions logicielles/services tiers déployables sur AWS", "Un service de DNS", "Un service de chiffrement", "Un type d'Availability Zone"],
+      "correctIndex": 0,
+      "explanation": "AWS Marketplace propose des produits logiciels/solutions (AMIs, SaaS, etc.) fournis par des éditeurs."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Observability",
+      "prompt": "Quel mécanisme CloudWatch permet d'exécuter automatiquement une action quand une métrique dépasse un seuil ?",
+      "answers": ["CloudWatch Alarms", "S3 Versioning", "VPC Endpoints", "SCP"],
+      "correctIndex": 0,
+      "explanation": "Les alarmes CloudWatch se basent sur des métriques et peuvent déclencher des notifications/actions."
     }
   ]
 }
