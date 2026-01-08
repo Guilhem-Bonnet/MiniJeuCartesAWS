@@ -1,9 +1,7 @@
-[gd_resource type="StyleBoxFlat" format=3]
+[gd_resource type="StyleBoxFlat" format=3 uid="uid://bglundh7t0s8m"]
 
 [resource]
 bg_color = Color(0.12, 0.14, 0.2, 0.55)
-anti_aliasing = true
-anti_aliasing_size = 1.0
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
