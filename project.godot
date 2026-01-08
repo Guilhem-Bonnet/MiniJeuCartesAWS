@@ -20,3 +20,6 @@ window/stretch/aspect="keep"
 
 [dotnet]
 project/assembly_name="MiniJeuCartesAWS"
+
+[rendering]
+textures/vram_compression/import_etc2_astc=true
