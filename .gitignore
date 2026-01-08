@@ -1,0 +1,20 @@
+# Godot
+.godot/
+.import/
+
+# Godot export presets (local)
+export.cfg
+export_presets.cfg
+
+# C# / .NET
+bin/
+obj/
+
+# IDE
+.vs/
+.idea/
+
+# OS / divers
+*.tmp
+*.log
+.DS_Store

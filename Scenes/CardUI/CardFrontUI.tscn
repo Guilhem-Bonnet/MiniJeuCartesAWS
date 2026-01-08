@@ -1,0 +1,190 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcd25lstfoqq4"]
+
+[ext_resource type="LabelSettings" uid="uid://bvu46dc06vq7c" path="res://Resources/CardUI/LabelSettings_Domain.tres" id="1"]
+[ext_resource type="FontFile" uid="uid://c2bnen2fa56p5" path="res://Assets/Fonts/Cinzel/Cinzel[wght].ttf" id="2_2jdbr"]
+[ext_resource type="LabelSettings" uid="uid://bck6l0wewgemr" path="res://Resources/CardUI/LabelSettings_Answer.tres" id="4"]
+[ext_resource type="StyleBox" path="res://Resources/CardUI/StyleBoxFlat_AnswerBar.tres" id="5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2jdbr"]
+font = ExtResource("2_2jdbr")
+font_size = 149
+outline_size = 7
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3tv2n"]
+font_size = 44
+
+[node name="Face" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FaceMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 253
+theme_override_constants/margin_top = 207
+theme_override_constants/margin_right = 253
+theme_override_constants/margin_bottom = 28
+
+[node name="FaceVBox" type="VBoxContainer" parent="FaceMargin"]
+layout_mode = 2
+theme_override_constants/separation = 122
+
+[node name="FaceTop" type="HBoxContainer" parent="FaceMargin/FaceVBox"]
+layout_mode = 2
+
+[node name="FaceDomain" type="Label" parent="FaceMargin/FaceVBox/FaceTop"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "☁️ CloudConcepts"
+label_settings = ExtResource("1")
+
+[node name="FaceQuestion" type="Label" parent="FaceMargin/FaceVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Question…"
+label_settings = SubResource("LabelSettings_2jdbr")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="FaceAnswers" type="VBoxContainer" parent="FaceMargin/FaceVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 35
+
+[node name="AnswerA" type="PanelContainer" parent="FaceMargin/FaceVBox/FaceAnswers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("5")
+
+[node name="AnswerMargin" type="MarginContainer" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerA"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="AnswerRow" type="HBoxContainer" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerA/AnswerMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FaceA" type="Label" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerA/AnswerMargin/AnswerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1) …"
+label_settings = ExtResource("4")
+autowrap_mode = 3
+
+[node name="FaceAResult" type="Label" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerA/AnswerMargin/AnswerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3tv2n")
+horizontal_alignment = 2
+
+[node name="AnswerB" type="PanelContainer" parent="FaceMargin/FaceVBox/FaceAnswers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("5")
+
+[node name="AnswerMargin" type="MarginContainer" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerB"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="AnswerRow" type="HBoxContainer" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerB/AnswerMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FaceB" type="Label" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerB/AnswerMargin/AnswerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2) …"
+label_settings = ExtResource("4")
+autowrap_mode = 3
+
+[node name="FaceBResult" type="Label" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerB/AnswerMargin/AnswerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3tv2n")
+horizontal_alignment = 2
+
+[node name="AnswerC" type="PanelContainer" parent="FaceMargin/FaceVBox/FaceAnswers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("5")
+
+[node name="AnswerMargin" type="MarginContainer" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerC"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="AnswerRow" type="HBoxContainer" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerC/AnswerMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FaceC" type="Label" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerC/AnswerMargin/AnswerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3) …"
+label_settings = ExtResource("4")
+autowrap_mode = 3
+
+[node name="FaceCResult" type="Label" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerC/AnswerMargin/AnswerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3tv2n")
+horizontal_alignment = 2
+
+[node name="AnswerD" type="PanelContainer" parent="FaceMargin/FaceVBox/FaceAnswers"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("5")
+
+[node name="AnswerMargin" type="MarginContainer" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerD"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="AnswerRow" type="HBoxContainer" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerD/AnswerMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FaceD" type="Label" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerD/AnswerMargin/AnswerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4) …"
+label_settings = ExtResource("4")
+autowrap_mode = 3
+
+[node name="FaceDResult" type="Label" parent="FaceMargin/FaceVBox/FaceAnswers/AnswerD/AnswerMargin/AnswerRow"]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3tv2n")
+horizontal_alignment = 2

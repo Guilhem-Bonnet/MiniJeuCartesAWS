@@ -1,0 +1,11 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bvu46dc06vq7c"]
+
+[ext_resource type="FontFile" uid="uid://c2bnen2fa56p5" path="res://Assets/Fonts/Cinzel/Cinzel[wght].ttf" id="1"]
+
+[resource]
+font = ExtResource("1")
+font_size = 65
+font_color = Color(0.9735517, 0.8197012, 0.3597697, 1)
+outline_color = Color(0, 0, 0, 0.75)
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_offset = Vector2(0, 2)
