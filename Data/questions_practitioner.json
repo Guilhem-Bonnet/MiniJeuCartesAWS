@@ -444,6 +444,291 @@
       "answers": ["Déployer sur plusieurs AZ", "Déployer tout sur une seule instance", "Stocker les secrets dans le code", "Désactiver les alarmes"],
       "correctIndex": 0,
       "explanation": "Multi-AZ aide à tolérer la panne d'une zone."
+    },
+
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Compute",
+      "prompt": "Quel service est principalement utilisé pour lancer des machines virtuelles dans AWS ?",
+      "answers": ["Amazon EC2", "Amazon S3", "Amazon Route 53", "Amazon DynamoDB"],
+      "correctIndex": 0,
+      "explanation": "EC2 fournit des instances (machines virtuelles) dans le cloud."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Quel service fournit un stockage bloc attaché à une instance EC2 ?",
+      "answers": ["Amazon EBS", "Amazon S3", "Amazon EFS", "Amazon CloudFront"],
+      "correctIndex": 0,
+      "explanation": "EBS est un stockage bloc (volumes) généralement attaché à une instance EC2."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Quel service est le plus adapté pour archiver longtemps des données rarement consultées à moindre coût ?",
+      "answers": ["Amazon S3 Glacier (classes d'archivage)", "Amazon EBS", "Amazon EFS", "Amazon EC2"],
+      "correctIndex": 0,
+      "explanation": "Les classes d'archivage S3 Glacier sont conçues pour du stockage long terme à coût réduit (avec des temps de restauration)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Quel service est une base de données managée compatible PostgreSQL/MySQL et optimisée dans AWS ?",
+      "answers": ["Amazon Aurora", "Amazon DynamoDB", "Amazon S3", "Amazon SQS"],
+      "correctIndex": 0,
+      "explanation": "Aurora est une base relationnelle managée (famille RDS) compatible MySQL/PostgreSQL."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Analytics",
+      "prompt": "Quel service est un entrepôt de données (data warehouse) managé pour l'analytique ?",
+      "answers": ["Amazon Redshift", "Amazon RDS", "Amazon EFS", "AWS Lambda"],
+      "correctIndex": 0,
+      "explanation": "Redshift est un data warehouse managé, orienté analytique (requêtes, BI)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Networking",
+      "prompt": "Quel service permet une connexion réseau dédiée entre on-premises et AWS ?",
+      "answers": ["AWS Direct Connect", "Amazon CloudFront", "Amazon Route 53", "AWS WAF"],
+      "correctIndex": 0,
+      "explanation": "Direct Connect fournit une liaison dédiée (souvent plus stable et avec latence prévisible) entre votre réseau et AWS."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Networking",
+      "prompt": "Quel composant permet à des instances dans un subnet privé de sortir sur Internet (sortant) sans être joignables depuis Internet ?",
+      "answers": ["NAT Gateway", "Internet Gateway", "AWS WAF", "Security Group"],
+      "correctIndex": 0,
+      "explanation": "Une NAT Gateway permet la sortie Internet depuis un subnet privé (egress) tout en évitant une exposition directe en entrée."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Messaging",
+      "prompt": "Quel service permet de publier des notifications vers de multiples abonnés (pub/sub) ?",
+      "answers": ["Amazon SNS", "Amazon EBS", "Amazon VPC", "Amazon Route 53"],
+      "correctIndex": 0,
+      "explanation": "SNS est un service de notifications et de pub/sub (topics, subscriptions)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Integration",
+      "prompt": "Quel service facilite l'orchestration d'étapes (workflows) entre plusieurs services AWS ?",
+      "answers": ["AWS Step Functions", "Amazon CloudFront", "AWS Budgets", "Amazon EFS"],
+      "correctIndex": 0,
+      "explanation": "Step Functions orchestre des workflows (états, retries, timeouts) entre services (Lambda, ECS, etc.)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "InfrastructureAsCode",
+      "prompt": "Quel service permet de déployer des ressources AWS via des templates (Infrastructure as Code) ?",
+      "answers": ["AWS CloudFormation", "AWS CloudTrail", "Amazon CloudWatch", "Amazon Route 53"],
+      "correctIndex": 0,
+      "explanation": "CloudFormation déploie une infrastructure décrite en templates (IaC), reproductible et versionnable."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Containers",
+      "prompt": "Quel service est une plateforme managée pour exécuter des conteneurs Docker sur AWS (niveau CCP) ?",
+      "answers": ["Amazon ECS", "Amazon RDS", "Amazon S3", "Amazon CloudFront"],
+      "correctIndex": 0,
+      "explanation": "ECS est un service de conteneurs managé (souvent avec Fargate ou EC2)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Containers",
+      "prompt": "Quel service permet d'exécuter des conteneurs sans gérer les serveurs sous-jacents ?",
+      "answers": ["AWS Fargate", "Amazon EC2", "Amazon EBS", "AWS Direct Connect"],
+      "correctIndex": 0,
+      "explanation": "Fargate est un mode serverless pour conteneurs (ECS/EKS) : pas de gestion d'instances."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "Identity",
+      "prompt": "Quel service permet de fournir des identités (inscription/connexion) pour des applications web et mobiles ?",
+      "answers": ["Amazon Cognito", "AWS KMS", "Amazon EBS", "AWS Shield"],
+      "correctIndex": 0,
+      "explanation": "Cognito gère utilisateurs, fédération et jetons (authentification) pour apps."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "ThreatDetection",
+      "prompt": "Quel service détecte des menaces en analysant des logs (ex: VPC Flow Logs, CloudTrail, DNS) ?",
+      "answers": ["Amazon GuardDuty", "AWS Budgets", "Amazon EFS", "AWS CloudFormation"],
+      "correctIndex": 0,
+      "explanation": "GuardDuty fournit de la détection de menaces managée basée sur des sources de logs."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DDoS",
+      "prompt": "Quel service aide à protéger des applications contre des attaques DDoS ?",
+      "answers": ["AWS Shield", "Amazon SQS", "AWS Glue", "Amazon EBS"],
+      "correctIndex": 0,
+      "explanation": "AWS Shield fournit une protection DDoS (Standard inclus, Advanced en option)."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DataProtection",
+      "prompt": "Quel service aide à découvrir et protéger des données sensibles (ex: PII) stockées dans S3 ?",
+      "answers": ["Amazon Macie", "Amazon CloudFront", "Amazon Route 53", "AWS Direct Connect"],
+      "correctIndex": 0,
+      "explanation": "Macie identifie des données sensibles dans S3 et aide à la gouvernance/protection."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Compliance",
+      "prompt": "Quel service donne accès aux rapports de conformité et accords AWS (SOC, ISO, etc.) ?",
+      "answers": ["AWS Artifact", "AWS CloudTrail", "Amazon Inspector", "Amazon SNS"],
+      "correctIndex": 0,
+      "explanation": "Artifact centralise les rapports et documents de conformité AWS."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Management",
+      "prompt": "Quel service centralise l'inventaire, l'automatisation et la gestion opérationnelle sur AWS (niveau CCP) ?",
+      "answers": ["AWS Systems Manager", "Amazon CloudFront", "AWS WAF", "Amazon EFS"],
+      "correctIndex": 0,
+      "explanation": "Systems Manager aide à gérer des ressources (inventaire, patching, runbooks, Parameter Store, etc.)."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Monitoring",
+      "prompt": "Quel énoncé distingue le mieux CloudWatch et CloudTrail ?",
+      "answers": [
+        "CloudWatch = métriques/logs/alertes; CloudTrail = historique des appels API",
+        "CloudWatch = DNS; CloudTrail = CDN",
+        "CloudWatch = bases de données; CloudTrail = stockage objets",
+        "Ils sont identiques"
+      ],
+      "correctIndex": 0,
+      "explanation": "CloudWatch est orienté observabilité (métriques, logs, alarmes), CloudTrail trace les actions/API calls."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "WellArchitected",
+      "prompt": "Quel pilier du Well-Architected Framework concerne la réduction des coûts et l'optimisation financière ?",
+      "answers": ["Cost Optimization", "Security", "Reliability", "Performance Efficiency"],
+      "correctIndex": 0,
+      "explanation": "Le pilier Cost Optimization vise à éviter les dépenses inutiles et à optimiser les coûts."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "WellArchitected",
+      "prompt": "Quel exemple illustre le mieux 'payer à l'usage' ?",
+      "answers": ["Payer en fonction des ressources consommées", "Payer un forfait fixe quel que soit l'usage", "Payer uniquement en espèces", "Payer par nombre de développeurs"],
+      "correctIndex": 0,
+      "explanation": "Le modèle le plus courant sur AWS est la facturation liée à la consommation (pay-as-you-go)."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "CostManagement",
+      "prompt": "Quel outil aide à analyser l'historique des coûts et à faire des visualisations/rapports ?",
+      "answers": ["AWS Cost Explorer", "AWS CloudTrail", "Amazon VPC", "AWS IAM"],
+      "correctIndex": 0,
+      "explanation": "Cost Explorer permet d'explorer les coûts, les tendances et de filtrer par services/tags."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Billing",
+      "prompt": "Quel service permet de suivre l'utilisation gratuite et la facturation globale d'un compte ?",
+      "answers": ["AWS Billing and Cost Management", "Amazon GuardDuty", "AWS WAF", "AWS CloudFormation"],
+      "correctIndex": 0,
+      "explanation": "Billing and Cost Management centralise factures, paiements, et outils de suivi des coûts."
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Savings",
+      "prompt": "Pour une charge EC2 prévisible sur 1 an, quel mécanisme peut réduire le coût (selon le cas) ?",
+      "answers": ["Reserved Instances", "Augmenter le nombre d'AZ", "Passer tout en on-premises", "Désactiver les tags"],
+      "correctIndex": 0,
+      "explanation": "Les Reserved Instances (ou Savings Plans selon le cas) peuvent réduire les coûts pour des usages stables/prévisibles."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "CDN",
+      "prompt": "Avec CloudFront, comment s'appelle généralement la source (S3, ALB, etc.) d'où provient le contenu ?",
+      "answers": ["Origin", "Subnet", "Role", "Availability Zone"],
+      "correctIndex": 0,
+      "explanation": "Dans CloudFront, l'origine (origin) est la source du contenu distribué."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "S3",
+      "prompt": "Quel mécanisme S3 aide à restaurer un objet supprimé ou écrasé par erreur ?",
+      "answers": ["S3 Versioning", "Security Groups", "NACL", "AWS WAF"],
+      "correctIndex": 0,
+      "explanation": "Le versioning conserve plusieurs versions d'un objet et aide à récupérer après suppression/overwrite."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Backup",
+      "prompt": "Quel service centralise et automatise les sauvegardes de plusieurs services AWS (RDS, EBS, DynamoDB, etc.) ?",
+      "answers": ["AWS Backup", "AWS CloudTrail", "Amazon Route 53", "AWS Artifact"],
+      "correctIndex": 0,
+      "explanation": "AWS Backup orchestre des policies de backup/restauration pour divers services."
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Migration",
+      "prompt": "Quel service fournit un dispositif physique pour transférer de grandes quantités de données vers AWS ?",
+      "answers": ["AWS Snowball", "AWS Lambda", "Amazon CloudWatch", "AWS WAF"],
+      "correctIndex": 0,
+      "explanation": "Snowball est une solution de transfert de données avec appareil physique pour des volumes importants."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "ServiceModels",
+      "prompt": "Quel exemple correspond le mieux à un service managé de type PaaS (tu gères l'app, pas l'OS) ?",
+      "answers": ["Amazon RDS", "Amazon EC2", "Un serveur on-premises", "Un switch réseau"],
+      "correctIndex": 0,
+      "explanation": "RDS est managé : AWS gère une grande partie de l'infrastructure/OS; tu gères schéma, données et paramètres."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Pour permettre à une instance EC2 d'accéder à S3 sans stocker de clés dans le code, quelle solution est la plus adaptée ?",
+      "answers": ["Attacher un rôle IAM à l'instance", "Créer un utilisateur IAM et mettre la clé dans le code", "Utiliser le compte root", "Désactiver TLS"],
+      "correctIndex": 0,
+      "explanation": "Un rôle IAM sur l'instance fournit des credentials temporaires via le mécanisme AWS (meilleure pratique)."
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Governance",
+      "prompt": "Quel mécanisme d'AWS Organizations permet de définir des garde-fous de permissions au niveau compte/OU ?",
+      "answers": ["SCP (Service Control Policies)", "Security Groups", "S3 Versioning", "CloudFront Origins"],
+      "correctIndex": 0,
+      "explanation": "Les SCP définissent des limites de permissions maximales dans Organizations."
     }
   ]
 }
