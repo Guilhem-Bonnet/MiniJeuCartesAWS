@@ -1695,31 +1695,10 @@ void fragment() {
         var chosenColor = ok ? "#2EE59C" : "#FF4D5A";
         var icon = ok ? "✅" : "❌";
 
-        var lines = new List<string>();
-        for (var i = 0; i < _currentOptions.Length; i++)
-        {
-            var letter = (char)('A' + i);
-            var t = EscapeBbcode(_currentOptions[i].Text);
-
-            var tag = "";
-            if (i == correctIndex)
-                tag += " [b](bonne réponse)[/b]";
-            if (i == chosenIndex)
-                tag += " [b](ta réponse)[/b]";
-
-            if (i == correctIndex)
-                lines.Add($"[color=#2EE59C]{letter}. {t}{tag}[/color]");
-            else if (i == chosenIndex)
-                lines.Add($"[color=#FF4D5A]{letter}. {t}{tag}[/color]");
-            else
-                lines.Add($"{letter}. {t}{tag}");
-        }
-
-        // Note: on ne “fabrique” pas l’explication des autres choix; on affiche l’explication fournie.
+        // Note: on ne liste pas les choix (doublon avec le recto) ; on affiche l’essentiel.
         _cardBackContent.Text =
             $"{icon} [b]Ta réponse:[/b] [color={chosenColor}]{EscapeBbcode(chosenText)}[/color]\n" +
             $"[b]Bonne réponse:[/b] [color=#2EE59C]{EscapeBbcode(correctText)}[/color]\n\n" +
-            $"[b]Choix proposés:[/b]\n{string.Join("\n", lines)}\n\n" +
             $"[b]Pourquoi ?[/b]\n{EscapeBbcode(_currentQuestion.Explanation)}\n\n" +
             $"[center][b]Clique sur la carte pour continuer[/b][/center]";
     }
