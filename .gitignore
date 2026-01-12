@@ -2,6 +2,10 @@
 .godot/
 .import/
 
+# Logs/tools Godot locaux (ne pas versionner)
+godot/app_userdata/
+godot/mono/build_logs/
+
 # Godot export presets
 export.cfg
 
