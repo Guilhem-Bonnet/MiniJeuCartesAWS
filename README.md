@@ -4,10 +4,14 @@ Mini-jeu de cartes pour s'entraîner à la certification **AWS Certified Cloud P
 
 État actuel : **V3** (timed run 3D, cartes “collector”, face/verso, offline).
 
+- Menu “Prêt ?” : bouton **Paramètres** (audio/volumes/durée) + bouton **Quitter**.
+- Les paramètres sont persistés en local (dans `user://mini_jeu_cartes_aws_settings.json`).
+
 - Direction artistique / intentions : `DA.md`
 - Règles du jeu : `REGLES_DU_JEU.md`
 - Roadmap : `ROADMAP.md`
 - Guide pour IA (architecture/paths/tests) : `IA_CONTEXT.md`
+- Doc d'évolution (future) : `DOC_EVO_SCRIPT_CARTE.md`
 
 ## Lancer (éditeur)
 
