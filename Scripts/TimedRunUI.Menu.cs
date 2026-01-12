@@ -24,14 +24,12 @@ public partial class TimedRunUI : Control
 
         if (IsInstanceValid(_menuSettingsButton))
         {
-            _menuSettingsButton!.Pressed -= ToggleSettingsPanel;
-            _menuSettingsButton!.Pressed += ToggleSettingsPanel;
+            SafeConnectNoDup(_menuSettingsButton, SignalPressed, Callable.From(ToggleSettingsPanel));
         }
 
         if (IsInstanceValid(_menuQuitButton))
         {
-            _menuQuitButton!.Pressed -= QuitGame;
-            _menuQuitButton!.Pressed += QuitGame;
+            SafeConnectNoDup(_menuQuitButton, SignalPressed, Callable.From(QuitGame));
         }
 
         // Settings panel
@@ -45,38 +43,32 @@ public partial class TimedRunUI : Control
 
         if (IsInstanceValid(_settingsCloseButton))
         {
-            _settingsCloseButton!.Pressed -= HideSettingsPanel;
-            _settingsCloseButton!.Pressed += HideSettingsPanel;
+            SafeConnectNoDup(_settingsCloseButton, SignalPressed, Callable.From(HideSettingsPanel));
         }
 
         if (IsInstanceValid(_settingsEnableAudio))
         {
-            _settingsEnableAudio!.Toggled -= OnEnableAudioToggled;
-            _settingsEnableAudio!.Toggled += OnEnableAudioToggled;
+            SafeConnectNoDup(_settingsEnableAudio, SignalToggled, Callable.From<bool>(OnEnableAudioToggled));
         }
 
         if (IsInstanceValid(_settingsEnableAmbience))
         {
-            _settingsEnableAmbience!.Toggled -= OnEnableAmbienceToggled;
-            _settingsEnableAmbience!.Toggled += OnEnableAmbienceToggled;
+            SafeConnectNoDup(_settingsEnableAmbience, SignalToggled, Callable.From<bool>(OnEnableAmbienceToggled));
         }
 
         if (IsInstanceValid(_settingsSfxVolume))
         {
-            _settingsSfxVolume!.ValueChanged -= OnSfxVolumeChanged;
-            _settingsSfxVolume!.ValueChanged += OnSfxVolumeChanged;
+            SafeConnectNoDup(_settingsSfxVolume, SignalValueChanged, Callable.From<double>(OnSfxVolumeChanged));
         }
 
         if (IsInstanceValid(_settingsAmbienceVolume))
         {
-            _settingsAmbienceVolume!.ValueChanged -= OnAmbienceVolumeChanged;
-            _settingsAmbienceVolume!.ValueChanged += OnAmbienceVolumeChanged;
+            SafeConnectNoDup(_settingsAmbienceVolume, SignalValueChanged, Callable.From<double>(OnAmbienceVolumeChanged));
         }
 
         if (IsInstanceValid(_settingsTimeLimit))
         {
-            _settingsTimeLimit!.ValueChanged -= OnTimeLimitChanged;
-            _settingsTimeLimit!.ValueChanged += OnTimeLimitChanged;
+            SafeConnectNoDup(_settingsTimeLimit, SignalValueChanged, Callable.From<double>(OnTimeLimitChanged));
         }
 
         ApplyRuntimeToSettingsUI();
