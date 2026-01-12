@@ -65,6 +65,9 @@ public partial class TimedRunUI : Control
 
     [Export] public float DeckCardThickness { get; set; } = 0.0015f;
 
+    // Défausse (visuel): pile qui grossit au fur et à mesure.
+    [Export] public bool EnableDiscardPile { get; set; } = true;
+
     private Control _panelRoot = null!;
     private Label _domainLabel = null!;
     private Label _timerLabel = null!;
@@ -80,17 +83,14 @@ public partial class TimedRunUI : Control
     private readonly List<Button> _answerButtons = new();
     private readonly Random _rng = new();
     
-    private Node? _audioRoot;
-    private readonly List<AudioStreamPlayer> _sfxPlayers = new();
-    private int _sfxPlayerIdx;
-    private AudioStreamPlayer? _ambiencePlayer;
-    
-    private AudioStream? _sfxFlip;
-    private AudioStream? _sfxDraw;
-    private AudioStream? _sfxShuffle;
-    private AudioStream? _sfxCorrect;
-    private AudioStream? _sfxWrong;
-    private AudioStream? _ambienceLoop;
+    // Audio: on utilise uniquement les AudioStreamPlayer3D placés dans la scène (Main3D.tscn / Audio3D).
+    private Node3D? _audio3dRoot;
+    private AudioStreamPlayer3D? _sfxFlip;
+    private AudioStreamPlayer3D? _sfxDraw;
+    private AudioStreamPlayer3D? _sfxShuffle;
+    private AudioStreamPlayer3D? _sfxCorrect;
+    private AudioStreamPlayer3D? _sfxWrong;
+    private AudioStreamPlayer3D? _ambience;
 
     private Node3D _cardRig = null!;
     private GpuParticles3D _sparkles = null!;
@@ -122,6 +122,8 @@ public partial class TimedRunUI : Control
     private float _lastFlipSign = 1f;
     private StaticBody3D? _cardClickArea;
 
+    private bool _cardMotionAnchorValid;
+    private Transform3D _cardMotionAnchorGlobal;
     private Vector2 _mouseMotion;
 
     private Node3D? _deckRig;
@@ -129,6 +131,11 @@ public partial class TimedRunUI : Control
     private Marker3D? _deckSpawn;
     private Marker3D? _cardFocus;
     private Marker3D? _discardTarget;
+
+    private CsgBox3D? _discardStack;
+    private int _visualDiscardCount;
+    private bool _discardAnchorsCaptured;
+    private float _discardStackBottomY;
 
     private int _visualDeckCapacity = 24;
     private int _visualDeckRemaining;
@@ -152,8 +159,27 @@ public partial class TimedRunUI : Control
     private int _runToken;
     private int _questionToken;
 
-    private Tween? _cardTween;
-    private Tween? _deckTween;
+    // Animations (AnimationPlayer)
+    private const string AnimCardDraw = "card_draw";
+    private const string AnimCardSendAway = "card_send_away";
+    private const string AnimCardFlipFallbackLeft = "card_flip_fallback_left";
+    private const string AnimDeckShuffle = "deck_shuffle";
+
+    private AnimationPlayer? _cardAnim;
+    private AnimationPlayer? _deckAnim;
+    private Node3D? _cardRigOffset;
+    private Node3D? _deckRigOffset;
+
+    private enum PendingAnimAction
+    {
+        None = 0,
+        CardSendAwayAndMaybeShuffle = 1,
+    }
+
+    private PendingAnimAction _pendingAnimAction;
+    private string _pendingAnimName = "";
+    private int _pendingRunToken;
+    private int _pendingQuestionToken;
 
     private bool _runActive;
     private bool _answeredCurrent;
@@ -228,9 +254,20 @@ public partial class TimedRunUI : Control
 
         _restartButton.Pressed += StartRun;
 
+        // Menu (Paramètres / Quitter)
+        InitMenuAndSettingsUI();
+
         // 3D refs
         _cardRig = GetNode<Node3D>("../../CardRig");
         _camera = GetNode<Camera3D>("../../Camera");
+        _cardAnim = GetNodeOrNull<AnimationPlayer>("../../CardRig/CardAnim");
+        if (IsInstanceValid(_cardAnim))
+        {
+            // Evite les doublons en hot-reload.
+            _cardAnim!.AnimationFinished -= OnCardAnimationFinished;
+            _cardAnim!.AnimationFinished += OnCardAnimationFinished;
+        }
+        _cardRigOffset = EnsureOffsetParent(_cardRig, "CardRigOffset");
         _sparkles = GetNode<GpuParticles3D>("../../CardRig/Sparkles");
         _cardFrontMesh = GetNode<MeshInstance3D>("../../CardRig/CardFace");
         _cardBackMesh = GetNode<MeshInstance3D>("../../CardRig/CardBack");
@@ -294,6 +331,17 @@ public partial class TimedRunUI : Control
         // Nodes "monde" (siblings du HUD) — robuste: GetNodeOrNull + fallback FindChild.
         ResolveWorldNodesForDeck();
 
+        EnsureDiscardPileNodes();
+
+        _deckAnim = GetNodeOrNull<AnimationPlayer>("../../Set/DeckRig/DeckAnim");
+        if (IsInstanceValid(_deckAnim))
+        {
+            _deckAnim!.AnimationFinished -= OnDeckAnimationFinished;
+            _deckAnim!.AnimationFinished += OnDeckAnimationFinished;
+        }
+        if (IsInstanceValid(_deckRig))
+            _deckRigOffset = EnsureOffsetParent(_deckRig!, "DeckRigOffset");
+
         _tableMesh = GetNode<MeshInstance3D>("../../Set/Table");
         _wallMesh = GetNode<MeshInstance3D>("../../Set/BackWall");
 
@@ -307,6 +355,9 @@ public partial class TimedRunUI : Control
 
         _visualDeckRemaining = _visualDeckCapacity;
         UpdateDeckVisual();
+
+        _visualDiscardCount = 0;
+        UpdateDiscardVisual();
 
         LoadDeck();
         ShowReadyScreen();
@@ -330,6 +381,9 @@ public partial class TimedRunUI : Control
             var normal = (StyleBoxFlat)_answerBarStyleBase.Duplicate();
             var hover = (StyleBoxFlat)_answerBarHoverStyleBase.Duplicate();
             _answerBarStyles.Add(normal);
+        // Base de micro-motion: par défaut, on part de la pose réelle en scène.
+        _cardMotionAnchorValid = true;
+        _cardMotionAnchorGlobal = _cardReferenceGlobal;
             _answerBarHoverStyles.Add(hover);
 
             var normalNoBorder = (StyleBoxFlat)normal.Duplicate();
@@ -405,6 +459,77 @@ public partial class TimedRunUI : Control
         _deckAnchorsCaptured = true;
     }
 
+    private void EnsureDiscardPileNodes()
+    {
+        if (!EnableDiscardPile)
+            return;
+
+        if (!IsInstanceValid(_discardTarget))
+            return;
+
+        // Préfère un node existant dans la scène: DiscardTarget/DiscardStack.
+        _discardStack = _discardTarget!.GetNodeOrNull<CsgBox3D>("DiscardStack");
+        if (!IsInstanceValid(_discardStack))
+        {
+            var size = new Vector3(0.1f, 0.001f, 0.14f);
+            if (IsInstanceValid(_deckStack))
+                size = _deckStack!.Size;
+
+            _discardStack = new CsgBox3D
+            {
+                Name = "DiscardStack",
+                Size = new Vector3(size.X, 0.001f, size.Z),
+                Visible = false,
+            };
+
+            // Matériau cohérent avec le deck si possible.
+            if (IsInstanceValid(_deckStack) && _deckStack!.Material != null)
+                _discardStack.Material = _deckStack.Material;
+
+            _discardTarget.AddChild(_discardStack);
+        }
+
+        _discardAnchorsCaptured = false;
+    }
+
+    private void CaptureDiscardAnchorsIfNeeded()
+    {
+        if (_discardAnchorsCaptured)
+            return;
+        if (!IsInstanceValid(_discardStack))
+            return;
+
+        var size = _discardStack!.Size;
+        var pos = _discardStack.Position;
+        _discardStackBottomY = pos.Y - (size.Y * 0.5f);
+        _discardAnchorsCaptured = true;
+    }
+
+    private void UpdateDiscardVisual()
+    {
+        if (!EnableDiscardPile)
+            return;
+        if (!IsInstanceValid(_discardStack))
+            return;
+
+        CaptureDiscardAnchorsIfNeeded();
+
+        if (_visualDiscardCount <= 0)
+        {
+            _discardStack!.Visible = false;
+            return;
+        }
+
+        _discardStack!.Visible = true;
+
+        // Même logique que le deck: on augmente la hauteur sans déplacer la base.
+        var h = Math.Max(DeckCardThickness * 2.0f, _visualDiscardCount * DeckCardThickness);
+        var prevSize = _discardStack.Size;
+        var prevPos = _discardStack.Position;
+        _discardStack.Size = new Vector3(prevSize.X, h, prevSize.Z);
+        _discardStack.Position = new Vector3(prevPos.X, _discardStackBottomY + (h * 0.5f), prevPos.Z);
+    }
+
     private void ShowReadyScreen()
     {
         _runActive = false;
@@ -415,7 +540,6 @@ public partial class TimedRunUI : Control
 
         foreach (var b in _answerButtons)
             b.Visible = false;
-
         _panelRoot.Visible = true;
 
         _domainLabel.Text = "Domaine: —";
@@ -434,6 +558,13 @@ public partial class TimedRunUI : Control
         _restartButton.Visible = true;
         _restartButton.Disabled = false;
         _restartButton.GrabFocus();
+    }
+
+    private Transform3D GetCardMotionBaseTransformGlobal()
+    {
+        if (_cardMotionAnchorValid)
+            return _cardMotionAnchorGlobal;
+        return GetFocusTransformGlobal();
     }
 
     private void ResolveWorldNodesForDeck()
@@ -682,41 +813,20 @@ public partial class TimedRunUI : Control
         return false;
     }
 
-    private void ApplyAnswerRowVisualState()
-    {
-        if (_cardAnswerPanels.Count != 4)
-            return;
-
-        if (_answerBarStyles.Count != 4 || _answerBarHoverStyles.Count != 4)
-            return;
-        if (_answerBarStylesNoBorder.Count != 4 || _answerBarHoverStylesNoBorder.Count != 4)
-            return;
-
-        var styles = _isDarkCardTheme ? _answerBarStylesNoBorder : _answerBarStyles;
-        var hoverStyles = _isDarkCardTheme ? _answerBarHoverStylesNoBorder : _answerBarHoverStyles;
-
-        var effectiveHoverIndex = (_answeredCurrent || _cardIsBackSide) ? -1 : _hoveredAnswerIndex;
-
-        for (var i = 0; i < _cardAnswerPanels.Count; i++)
-        {
-            var panel = _cardAnswerPanels[i];
-            if (!IsInstanceValid(panel))
-                continue;
-
-            var isHover = i == effectiveHoverIndex;
-
-            // Important: ne pas utiliser SelfModulate pour teinter le PanelContainer,
-            // sinon ça multiplie aussi la couleur du texte et peut le rendre illisible.
-            panel.SelfModulate = Colors.White;
-            panel.AddThemeStyleboxOverride("panel", isHover ? hoverStyles[i] : styles[i]);
-        }
-    }
-
     private void ApplyCardMicroMotion(double delta)
     {
-        // Ne pas lutter contre les tweens (tirage, flip, discard, etc.)
-        if (_cardTween != null && GodotObject.IsInstanceValid(_cardTween))
+        // Ne pas lutter contre les animations (tirage, flip, discard, etc.)
+        if (IsCardAnimationPlaying())
             return;
+
+        // Capture une base stable (pose fin d'anim) avant d'appliquer la micro-motion.
+        // Sans ça, on peut avoir un snap si `GetFocusTransformGlobal()` diffère de la pose
+        // réelle de fin du clip (typiquement après `card_draw`).
+        if (!_cardMotionAnchorValid && !_cardIsBackSide)
+        {
+            _cardMotionAnchorValid = true;
+            _cardMotionAnchorGlobal = _cardRig.GlobalTransform;
+        }
 
         // Pendant la lecture du verso, la lisibilité prime.
         if (_cardIsBackSide)
@@ -738,7 +848,7 @@ public partial class TimedRunUI : Control
             var alpha = 1.0f - Mathf.Exp(-Mathf.Max(1.0f, MouseMotionSmoothing) * (float)delta);
             _mouseMotion = _mouseMotion.Lerp(target, alpha);
 
-            var baseT = GetFocusTransformGlobal();
+            var baseT = GetCardMotionBaseTransformGlobal();
             var b = baseT.Basis;
 
             // Déplacement léger DANS le plan de la carte.
@@ -763,464 +873,9 @@ public partial class TimedRunUI : Control
             AnimateCardIdle();
     }
 
-    private void SuppressIdle(double seconds)
+    private bool IsCardAnimationPlaying()
     {
-        var now = Time.GetTicksMsec() / 1000.0;
-        _idleResumeAt = Math.Max(_idleResumeAt, now + Math.Max(0, seconds));
-        _idleAnchorValid = false;
-    }
-
-    private static void KillTween(ref Tween? tween)
-    {
-        if (tween == null)
-            return;
-
-        if (GodotObject.IsInstanceValid(tween))
-            tween.Kill();
-
-        tween = null;
-    }
-
-    private void CancelInFlightAnimations()
-    {
-        KillTween(ref _cardTween);
-        KillTween(ref _deckTween);
-        _idleAnchorValid = false;
-    }
-
-    private bool IsIdleAllowed()
-    {
-        var now = Time.GetTicksMsec() / 1000.0;
-        return now >= _idleResumeAt;
-    }
-
-    private void ApplyViewportToCardMaterials()
-    {
-        // Matériaux "collector" (face/verso) pilotés par paramètres.
-        var shader = new Shader
-        {
-            Code = @"shader_type spatial;
-render_mode specular_schlick_ggx;
-
-uniform sampler2D face_tex : source_color, filter_linear_mipmap_anisotropic;
-uniform sampler2D grain_tex : source_color, filter_linear_mipmap_anisotropic;
-
-uniform vec3 bg_color = vec3(0.12, 0.13, 0.18);
-uniform vec3 base_tint = vec3(1.0, 1.0, 1.0);
-uniform float grain_strength = 0.10;
-uniform float grain_scale = 10.0;
-uniform float contrast = 1.0;
-uniform bool flip_uv = false;
-uniform float bend = 0.0; // [-1..1] effet de souplesse pendant le flip
-
-void vertex() {
-    // PlaneMesh: surface dans XZ, normale ~+Y. On ajoute une légère courbure vers la normale.
-    float x = UV.x - 0.5;
-    float profile = clamp((0.25 - x * x) * 4.0, 0.0, 1.0); // 0 bords, 1 centre
-    float amp = clamp(abs(bend), 0.0, 1.0);
-    float lift = amp * profile * 0.020; // discret mais visible (un peu souple)
-    VERTEX += NORMAL * lift;
-}
-
-void fragment() {
-    vec2 uv = UV;
-    if (flip_uv) {
-        uv = vec2(1.0 - uv.x, 1.0 - uv.y);
-    }
-
-    vec4 ft = texture(face_tex, uv);
-    vec3 face = ft.rgb;
-    float a = ft.a;
-    face = (face - 0.5) * contrast + 0.5;
-    float g = texture(grain_tex, uv * grain_scale).r;
-
-    // Si le SubViewport est transparent, on le mélange avec un fond.
-    vec3 col = mix(bg_color, face, a);
-    col *= base_tint;
-    col *= mix(1.0, 0.90 + 0.20 * g, grain_strength);
-    // Pas de vignette/border/frame: rendu plus propre, lisibilité prioritaire.
-
-    ALBEDO = col;
-    ROUGHNESS = 0.93;
-    METALLIC = 0.0;
-    SPECULAR = 0.0;
-}
-"
-        };
-
-        _cardFrontMat = new ShaderMaterial { Shader = shader };
-        _cardFrontMat.SetShaderParameter("face_tex", _cardFrontViewport.GetTexture());
-        _cardFrontMat.SetShaderParameter("grain_tex", _paperGrain);
-        _cardFrontMat.SetShaderParameter("bg_color", new Color(0.12f, 0.13f, 0.18f, 1f));
-        _cardFrontMat.SetShaderParameter("flip_uv", false);
-        _cardFrontMat.SetShaderParameter("bend", 0.0f);
-
-        _cardBackMat = new ShaderMaterial { Shader = shader };
-        _cardBackMat.SetShaderParameter("face_tex", _cardBackViewport.GetTexture());
-        _cardBackMat.SetShaderParameter("grain_tex", _paperGrain);
-        _cardBackMat.SetShaderParameter("bg_color", new Color(0.10f, 0.11f, 0.14f, 1f));
-        _cardBackMat.SetShaderParameter("flip_uv", true);
-        _cardBackMat.SetShaderParameter("bend", 0.0f);
-
-        _cardFrontMesh.MaterialOverride = _cardFrontMat;
-        _cardBackMesh.MaterialOverride = _cardBackMat;
-    }
-
-    private void BuildProceduralTextures()
-    {
-        _paperGrain = CreateNoiseTexture(256, 256, 2.2f, FastNoiseLite.NoiseTypeEnum.Simplex);
-        _woodGrain = CreateNoiseTexture(512, 512, 1.2f, FastNoiseLite.NoiseTypeEnum.Perlin);
-        _wallGrain = CreateNoiseTexture(512, 512, 0.9f, FastNoiseLite.NoiseTypeEnum.SimplexSmooth);
-    }
-
-    private Texture2D CreateNoiseTexture(int w, int h, float frequency, FastNoiseLite.NoiseTypeEnum type)
-    {
-        var noise = new FastNoiseLite
-        {
-            NoiseType = type,
-            Frequency = frequency,
-        };
-
-        var tex = new NoiseTexture2D
-        {
-            Width = w,
-            Height = h,
-            Noise = noise,
-            Seamless = true,
-        };
-
-        return tex;
-    }
-
-    private void EnsureAudio()
-    {
-        if (!EnableAudio)
-            return;
-        
-        // Script attaché à HUD/Root: on crée tout sous ce node.
-        _audioRoot = GetNodeOrNull<Node>("Audio");
-        if (!IsInstanceValid(_audioRoot))
-        {
-            _audioRoot = new Node { Name = "Audio" };
-            AddChild(_audioRoot);
-        }
-        
-        _sfxFlip = TryLoadStream("res://Assets/Audio/SFX/card_flip.wav");
-        _sfxDraw = TryLoadStream("res://Assets/Audio/SFX/card_draw.wav");
-        _sfxShuffle = TryLoadStream("res://Assets/Audio/SFX/card_shuffle.wav");
-        _sfxCorrect = TryLoadStream("res://Assets/Audio/SFX/correct.wav");
-        _sfxWrong = TryLoadStream("res://Assets/Audio/SFX/wrong.wav");
-        _ambienceLoop = TryLoadStream("res://Assets/Audio/Ambience/ambience_loop.wav");
-        
-        // Players SFX (petit pool pour éviter de couper un son si un autre part).
-        if (_sfxPlayers.Count == 0)
-        {
-            for (var i = 0; i < 4; i++)
-            {
-                var p = new AudioStreamPlayer
-                {
-                    Name = $"Sfx{i}",
-                    Bus = "SFX",
-                    VolumeDb = SfxVolumeDb,
-                };
-                _audioRoot.AddChild(p);
-                _sfxPlayers.Add(p);
-            }
-        }
-        else
-        {
-            foreach (var p in _sfxPlayers)
-            {
-                if (IsInstanceValid(p))
-                {
-                    p.Bus = "SFX";
-                    p.VolumeDb = SfxVolumeDb;
-                }
-            }
-        }
-        
-        // Ambience
-        if (!IsInstanceValid(_ambiencePlayer))
-        {
-            _ambiencePlayer = new AudioStreamPlayer
-            {
-                Name = "Ambience",
-                Bus = "Ambience",
-                VolumeDb = AmbienceVolumeDb,
-            };
-            _audioRoot.AddChild(_ambiencePlayer);
-        }
-        else
-        {
-            _ambiencePlayer!.Bus = "Ambience";
-            _ambiencePlayer!.VolumeDb = AmbienceVolumeDb;
-        }
-        
-        if (EnableAmbience && IsInstanceValid(_ambiencePlayer) && _ambiencePlayer!.Stream == null)
-        {
-            _ambiencePlayer.Stream = _ambienceLoop;
-            if (_ambiencePlayer.Stream is AudioStreamWav wav)
-            {
-                // loop simple (le WAV est "loopable" par construction)
-                wav.LoopMode = AudioStreamWav.LoopModeEnum.Forward;
-                wav.LoopBegin = 0;
-                wav.LoopEnd = wav.Data != null ? wav.Data.Length : 0;
-            }
-            if (_ambiencePlayer.Stream != null)
-                _ambiencePlayer.Play();
-        }
-    }
-    
-    private static AudioStream? TryLoadStream(string path)
-    {
-        if (!ResourceLoader.Exists(path))
-            return null;
-        return GD.Load<AudioStream>(path);
-    }
-    
-    private void PlaySfx(AudioStream? stream, float pitch = 1.0f)
-    {
-        if (!EnableAudio)
-            return;
-        if (stream == null)
-            return;
-        if (_sfxPlayers.Count == 0)
-            return;
-        
-        var p = _sfxPlayers[_sfxPlayerIdx % _sfxPlayers.Count];
-        _sfxPlayerIdx++;
-        
-        if (!IsInstanceValid(p))
-            return;
-        
-        p.VolumeDb = SfxVolumeDb;
-        p.Stream = stream;
-        p.PitchScale = pitch;
-        p.Play();
-    }
-
-    private void ApplySceneMaterials()
-    {
-        // Table: bois sombre (simple mais texturé)
-        if (IsInstanceValid(_tableMesh))
-        {
-            var tableMat = new StandardMaterial3D
-            {
-                AlbedoColor = new Color(0.17f, 0.14f, 0.12f, 1f),
-                Roughness = 0.72f,
-                Metallic = 0.02f,
-                AlbedoTexture = _woodGrain,
-            };
-
-            _tableMesh.MaterialOverride = tableMat;
-        }
-
-        // Mur: grain léger (style plâtre/peinture)
-        if (IsInstanceValid(_wallMesh))
-        {
-            var wallMat = new StandardMaterial3D
-            {
-                AlbedoColor = new Color(0.10f, 0.11f, 0.15f, 1f),
-                Roughness = 0.86f,
-                Metallic = 0.0f,
-                AlbedoTexture = _wallGrain,
-            };
-
-            _wallMesh.MaterialOverride = wallMat;
-        }
-    }
-
-    private void AnimateAmbientLight()
-    {
-        // Légère pulsation (chill) sur la lampe chaude
-        var t = (float)Time.GetTicksMsec() / 1000f;
-        _warmLamp.LightEnergy = 2.25f + Mathf.Sin(t * 0.65f) * 0.22f;
-    }
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is not InputEventKey key || !key.Pressed)
-            return;
-
-        if (!_runActive)
-        {
-            if (key.Keycode == Key.Enter || key.Keycode == Key.KpEnter || key.Keycode == Key.Space)
-            {
-                if (IsInstanceValid(_restartButton) && _restartButton.Visible && !_restartButton.Disabled)
-                    StartRun();
-            }
-            return;
-        }
-
-        if (key.Keycode == Key.Key1) Choose(0);
-        else if (key.Keycode == Key.Key2) Choose(1);
-        else if (key.Keycode == Key.Key3) Choose(2);
-        else if (key.Keycode == Key.Key4) Choose(3);
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        if (!_runActive)
-            return;
-
-        // Clic gauche sur la carte => choisir une réponse (sans UI overlay).
-        if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
-        {
-            if (_answeredCurrent && _cardIsBackSide && _awaitingContinueClick)
-                TryContinueByCardClick();
-            else if (!_answeredCurrent && !_cardIsBackSide)
-                TryChooseByCardClick();
-            return;
-        }
-
-        // Clavier 1–4 (plus "tôt" que _UnhandledInput)
-        if (@event is InputEventKey key && key.Pressed)
-        {
-            if (key.Keycode == Key.Key1) Choose(0);
-            else if (key.Keycode == Key.Key2) Choose(1);
-            else if (key.Keycode == Key.Key3) Choose(2);
-            else if (key.Keycode == Key.Key4) Choose(3);
-        }
-    }
-
-    private void TryChooseByCardClick()
-    {
-        if (!_runActive || _answeredCurrent || _cardIsBackSide)
-            return;
-        if (!IsInstanceValid(_camera) || !IsInstanceValid(_cardFrontMesh) || !IsInstanceValid(_cardClickArea))
-            return;
-
-        var vp = GetViewport();
-        var mouse = vp.GetMousePosition();
-        var from = _camera.ProjectRayOrigin(mouse);
-        var dir = _camera.ProjectRayNormal(mouse);
-        var to = from + dir * 10.0f;
-
-        var world = _camera.GetWorld3D();
-        if (world == null)
-            return;
-
-        var query = PhysicsRayQueryParameters3D.Create(from, to);
-        query.CollisionMask = CardClickCollisionMask;
-        query.CollideWithAreas = false;
-        query.CollideWithBodies = true;
-
-        var hit = world.DirectSpaceState.IntersectRay(query);
-        if (hit.Count == 0)
-            return;
-
-        if (!hit.TryGetValue("collider", out var colliderObj))
-            return;
-        var colliderGo = colliderObj.AsGodotObject();
-        if (colliderGo == null || colliderGo != _cardClickArea)
-            return;
-
-        if (!hit.TryGetValue("position", out var posObj))
-            return;
-        var hitWorld = (Vector3)posObj;
-
-        if (!TryMapHitToAnswerIndex(hitWorld, out var idx))
-            return;
-
-        Choose(idx);
-    }
-
-    private void TryContinueByCardClick()
-    {
-        if (!_runActive || !_answeredCurrent || !_cardIsBackSide)
-            return;
-        if (!_awaitingContinueClick)
-            return;
-        if (!IsInstanceValid(_camera) || !IsInstanceValid(_cardClickArea))
-            return;
-
-        var vp = GetViewport();
-        var mouse = vp.GetMousePosition();
-        var from = _camera.ProjectRayOrigin(mouse);
-        var dir = _camera.ProjectRayNormal(mouse);
-        var to = from + dir * 10.0f;
-
-        var world = _camera.GetWorld3D();
-        if (world == null)
-            return;
-
-        var query = PhysicsRayQueryParameters3D.Create(from, to);
-        query.CollisionMask = CardClickCollisionMask;
-        query.CollideWithAreas = false;
-        query.CollideWithBodies = true;
-
-        var hit = world.DirectSpaceState.IntersectRay(query);
-        if (hit.Count == 0)
-            return;
-
-        if (!hit.TryGetValue("collider", out var colliderObj))
-            return;
-        var colliderGo = colliderObj.AsGodotObject();
-        if (colliderGo == null || colliderGo != _cardClickArea)
-            return;
-
-        _awaitingContinueClick = false;
-        AnimateCardSendAwayAndMaybeShuffle(_continueRunToken, _continueQuestionToken);
-    }
-
-    private bool TryMapHitToAnswerIndex(Vector3 hitWorld, out int answerIndex)
-    {
-        answerIndex = -1;
-
-        // Convertit la position hit en coordonnées locales de la face (PlaneMesh en XZ).
-        var p = _cardFrontMesh.ToLocal(hitWorld);
-        var plane = GetCardPlaneSize();
-        var w = Math.Max(0.0001f, plane.X);
-        var h = Math.Max(0.0001f, plane.Y);
-
-        var u = (p.X / w) + 0.5f;
-        var v = (p.Z / h) + 0.5f; // 0 en haut (Z=-h/2), 1 en bas (Z=+h/2)
-
-        // Mapping précis: on utilise la mise en page réelle (rectangles des 4 réponses dans le SubViewport).
-        if (IsInstanceValid(_cardFrontViewport) && _cardAnswerRows.Count == 4 && _cardAnswerRows.All(IsInstanceValid))
-        {
-            var vpSize = _cardFrontViewport.Size;
-            var pt = new Vector2(u * vpSize.X, v * vpSize.Y);
-
-            for (var i = 0; i < _cardAnswerRows.Count; i++)
-            {
-                var rect = _cardAnswerRows[i].GetGlobalRect();
-                if (rect.HasPoint(pt))
-                {
-                    answerIndex = i;
-                    return true;
-                }
-            }
-        }
-
-        // Fallback (ancienne logique par bandes)
-        if (u < ClickAnswerRegionUMargin || u > 1.0f - ClickAnswerRegionUMargin)
-            return false;
-
-        var top = Mathf.Min(ClickAnswerRegionVTop, ClickAnswerRegionVBottom);
-        var bottom = Mathf.Max(ClickAnswerRegionVTop, ClickAnswerRegionVBottom);
-        if (v < top || v > bottom)
-            return false;
-
-        var t = (v - top) / Mathf.Max(0.0001f, bottom - top);
-        var idx = Mathf.Clamp((int)(t * 4.0f), 0, 3);
-        answerIndex = idx;
-        return true;
-    }
-
-    private Vector2 GetCardPlaneSize()
-    {
-        try
-        {
-            if (IsInstanceValid(_cardFrontMesh) && _cardFrontMesh.Mesh is PlaneMesh pm)
-                return pm.Size;
-        }
-        catch
-        {
-        }
-
-        // Fallback (paysage)
-        return new Vector2(1.344f, 0.96f);
+        return IsInstanceValid(_cardAnim) && _cardAnim!.IsPlaying();
     }
 
     private Vector3 GetCardVisibleCenterWorld()
@@ -1274,6 +929,12 @@ void fragment() {
         _correct = 0;
         _domainStats.Clear();
 
+        _visualDeckRemaining = _visualDeckCapacity;
+        UpdateDeckVisual();
+
+        _visualDiscardCount = 0;
+        UpdateDiscardVisual();
+
         foreach (var d in _usedByDomain.Keys.ToList())
             _usedByDomain[d].Clear();
 
@@ -1302,6 +963,9 @@ void fragment() {
         _runActive = false;
         _answeredCurrent = true;
         _hasCurrentQuestion = false;
+
+        _visualDiscardCount = 0;
+        UpdateDiscardVisual();
 
         foreach (var b in _answerButtons)
             b.Visible = false;
@@ -1417,118 +1081,6 @@ void fragment() {
         AnimateDrawFromDeck(first);
     }
 
-    private void AnimateDrawFromDeck(bool first)
-    {
-        SuppressIdle(0.60);
-        
-        // Petit son de pioche/pose.
-        PlaySfx(_sfxDraw, pitch: 0.98f + (float)_rng.NextDouble() * 0.06f);
-
-        if (!IsInstanceValid(_deckSpawn) || !IsInstanceValid(_cardFocus))
-        {
-            if (first) AnimateCardEnter(); else AnimateCardFlip();
-            return;
-        }
-
-        // La carte "sort" du deck.
-        var startT = _deckSpawn.GlobalTransform;
-        startT.Basis = startT.Basis.Rotated(Vector3.Up, Mathf.DegToRad(-18f));
-
-        var liftT = startT;
-        liftT.Origin = liftT.Origin + new Vector3(0, 0.05f, 0);
-
-        var focusT = GetFocusTransformGlobal();
-
-        _cardRig.GlobalTransform = startT;
-
-        KillTween(ref _cardTween);
-        var tween = CreateTween();
-        _cardTween = tween;
-        tween.TweenProperty(_cardRig, "global_transform", liftT, 0.12)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(_cardRig, "global_transform", focusT, 0.22)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
-
-        tween.TweenCallback(Callable.From(() => _cardTween = null));
-    }
-
-    private void ApplyCardStyleForDifficulty(int difficulty)
-    {
-        // Facile: papier clair; Moyen: neutre; Difficile: sombre collector
-        var d = Math.Clamp(difficulty, 1, 3);
-        _isDarkCardTheme = d >= 3;
-
-        if (_cardFrontMat != null)
-        {
-            if (d == 1)
-            {
-                _cardFrontMat.SetShaderParameter("bg_color", new Color(0.98f, 0.97f, 0.94f, 1f));
-                _cardFrontMat.SetShaderParameter("base_tint", new Color(1.00f, 0.98f, 0.95f, 1f));
-                _cardFrontMat.SetShaderParameter("grain_strength", 0.06f);
-                _cardFrontMat.SetShaderParameter("grain_scale", 12.0f);
-                _cardFrontMat.SetShaderParameter("contrast", 1.25f);
-            }
-            else if (d == 2)
-            {
-                _cardFrontMat.SetShaderParameter("bg_color", new Color(0.92f, 0.94f, 1.00f, 1f));
-                _cardFrontMat.SetShaderParameter("base_tint", new Color(0.95f, 0.96f, 1.00f, 1f));
-                _cardFrontMat.SetShaderParameter("grain_strength", 0.07f);
-                _cardFrontMat.SetShaderParameter("grain_scale", 11.0f);
-                _cardFrontMat.SetShaderParameter("contrast", 1.28f);
-            }
-            else
-            {
-                // Thème sombre, mais lisible: on garde un fond foncé tout en évitant de "tuer" l'UI.
-                _cardFrontMat.SetShaderParameter("bg_color", new Color(0.10f, 0.105f, 0.13f, 1f));
-                _cardFrontMat.SetShaderParameter("base_tint", new Color(0.95f, 0.96f, 1.00f, 1f));
-                _cardFrontMat.SetShaderParameter("grain_strength", 0.08f);
-                _cardFrontMat.SetShaderParameter("grain_scale", 10.0f);
-                _cardFrontMat.SetShaderParameter("contrast", 1.10f);
-            }
-        }
-
-        if (_cardBackMat != null)
-        {
-            // IMPORTANT: le shader multiplie TOUTE la couleur finale par base_tint.
-            // Si on met un tint sombre ici, on "tue" aussi le texte du SubViewport.
-            // On garde un verso sombre via bg_color (défini au setup), mais on laisse
-            // la texture UI (texte) rester lisible.
-            _cardBackMat.SetShaderParameter("base_tint", new Color(1f, 1f, 1f, 1f));
-            _cardBackMat.SetShaderParameter("grain_strength", 0.07f);
-            _cardBackMat.SetShaderParameter("grain_scale", 10.0f);
-            _cardBackMat.SetShaderParameter("contrast", 1.05f);
-        }
-
-        // Lisibilité: carte sombre => titres dorés, réponses en blanc cassé.
-        // Carte claire => texte noir.
-        var faceText = d >= 3 ? DarkCardGold : LightCardBlack;
-        var answersText = d >= 3 ? DarkCardAnswerText : faceText;
-        if (IsInstanceValid(_cardDomainLabel))
-            _cardDomainLabel.SelfModulate = faceText;
-        if (IsInstanceValid(_cardQuestionLabel))
-            _cardQuestionLabel.SelfModulate = faceText;
-        foreach (var l in _cardAnswerLabels)
-        {
-            if (IsInstanceValid(l))
-                l.SelfModulate = answersText;
-        }
-
-        // Le verso est sur fond sombre: on force un texte clair stable.
-        if (IsInstanceValid(_cardBackContent))
-            _cardBackContent.AddThemeColorOverride("default_color", NeutralText);
-
-        // S'assure que le style des réponses suit le thème (bordure ou non).
-        ApplyAnswerRowVisualState();
-    }
-
-    private void SetBackSidePending()
-    {
-        if (!IsInstanceValid(_cardBackContent))
-            return;
-
-        _cardBackContent.Text = "Réponds d'abord, puis retourne la carte.";
-    }
-
     private void Choose(int chosenIndex)
     {
         if (!_runActive)
@@ -1579,742 +1131,4 @@ void fragment() {
         _continueQuestionToken = _questionToken;
     }
 
-    private void AnimateCardSendAwayAndMaybeShuffle(int runTokenAtStart, int questionTokenAtStart)
-    {
-        if (!_runActive)
-            return;
-        if (_runToken != runTokenAtStart)
-            return;
-        if (_questionToken != questionTokenAtStart)
-            return;
-
-        SuppressIdle(0.80);
-
-        if (!IsInstanceValid(_discardTarget))
-        {
-            // Fallback: juste enchaîner
-            if (_runActive) NextQuestion();
-            return;
-        }
-
-        KillTween(ref _cardTween);
-        var tween = CreateTween();
-        _cardTween = tween;
-        var startT = _cardRig.GlobalTransform;
-        var liftT = startT;
-        liftT.Origin = liftT.Origin + new Vector3(0, 0.02f, 0);
-
-        var discardT = _discardTarget.GlobalTransform;
-        discardT.Basis = discardT.Basis.Rotated(Vector3.Up, Mathf.DegToRad(25f));
-
-        tween.TweenProperty(_cardRig, "global_transform", liftT, 0.10)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(_cardRig, "global_transform", discardT, 0.20)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
-
-        tween.TweenCallback(Callable.From(() =>
-        {
-            if (!_runActive)
-                return;
-            if (_runToken != runTokenAtStart)
-                return;
-            if (_questionToken != questionTokenAtStart)
-                return;
-
-            _visualDeckRemaining = Math.Max(0, _visualDeckRemaining - 1);
-            UpdateDeckVisual();
-        }));
-
-        tween.TweenInterval(0.05);
-
-        tween.TweenCallback(Callable.From(() =>
-        {
-            if (!_runActive)
-                return;
-            if (_runToken != runTokenAtStart)
-                return;
-            if (_questionToken != questionTokenAtStart)
-                return;
-
-            if (_visualDeckRemaining <= 0)
-            {
-                AnimateDeckShuffle();
-                _visualDeckRemaining = _visualDeckCapacity;
-                UpdateDeckVisual();
-            }
-
-            if (_runActive)
-                NextQuestion();
-        }));
-
-        tween.TweenCallback(Callable.From(() => _cardTween = null));
-    }
-
-    private void AnimateDeckShuffle()
-    {
-        if (!IsInstanceValid(_deckRig))
-            return;
-
-        PlaySfx(_sfxShuffle, pitch: 0.96f + (float)_rng.NextDouble() * 0.08f);
-
-        SuppressIdle(0.75);
-        KillTween(ref _deckTween);
-        var tween = CreateTween();
-        _deckTween = tween;
-        var startRot = _deckRig!.RotationDegrees;
-        var startPos = _deckRig!.Position;
-
-        // Petit "mélange" visible: lift + secousses + retour
-        tween.TweenProperty(_deckRig, "position", startPos + new Vector3(0, 0.03f, 0), 0.10)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
-        tween.Parallel().TweenProperty(_deckRig, "rotation_degrees", startRot + new Vector3(0, 0, 6f), 0.10)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
-
-        tween.TweenProperty(_deckRig, "rotation_degrees", startRot + new Vector3(0, 0, -6f), 0.10)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.InOut);
-        tween.TweenProperty(_deckRig, "rotation_degrees", startRot + new Vector3(0, 0, 4f), 0.08)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.InOut);
-        tween.TweenProperty(_deckRig, "rotation_degrees", startRot, 0.08)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
-
-        tween.Parallel().TweenProperty(_deckRig, "position", startPos, 0.16)
-            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.In);
-    }
-
-    private void SetBackSideResult(int chosenIndex, bool ok)
-    {
-        if (!IsInstanceValid(_cardBackContent))
-            return;
-
-        var chosenText = _currentOptions[chosenIndex].Text;
-        var correctIndex = Array.FindIndex(_currentOptions, o => o.IsCorrect);
-        var correctText = correctIndex >= 0 && correctIndex < _currentOptions.Length
-            ? _currentOptions[correctIndex].Text
-            : _currentQuestion.CorrectAnswer;
-
-        var chosenColor = ok ? "#2EE59C" : "#FF4D5A";
-        var icon = ok ? "✅" : "❌";
-
-        // Note: on ne liste pas les choix (doublon avec le recto) ; on affiche l’essentiel.
-        _cardBackContent.Text =
-            $"{icon} [b]Ta réponse:[/b] [color={chosenColor}]{EscapeBbcode(chosenText)}[/color]\n" +
-            $"[b]Bonne réponse:[/b] [color=#2EE59C]{EscapeBbcode(correctText)}[/color]\n\n" +
-            $"[b]Pourquoi ?[/b]\n{EscapeBbcode(_currentQuestion.Explanation)}\n\n" +
-            $"[center][b]Clique sur la carte pour continuer[/b][/center]";
-    }
-
-    private static string EscapeBbcode(string s)
-    {
-        if (string.IsNullOrEmpty(s))
-            return "";
-        return s
-            .Replace("[", "\\[")
-            .Replace("]", "\\]");
-    }
-
-    private void UpdateTopRow()
-    {
-        var score = $"Score: {_correct}/{_answered}";
-        var timer = $"{BuildMarker} ⏱️ {FormatTime(_timeRemaining)}";
-        if (IsInstanceValid(_scoreLabel))
-            _scoreLabel.Text = score;
-        if (IsInstanceValid(_timerLabel))
-            _timerLabel.Text = timer;
-
-        // Défensif: si la scène HUD a été modifiée (ex: suppression du post-it),
-        // on évite un crash et on re-résout les refs si besoin.
-        if (!IsInstanceValid(_topScoreLabel))
-            _topScoreLabel = GetNodeOrNull<Label>("TopHUD/TopRow/Score") ?? _topScoreLabel;
-        if (!IsInstanceValid(_topTimerLabel))
-            _topTimerLabel = GetNodeOrNull<Label>("TopHUD/TopRow/Timer") ?? _topTimerLabel;
-
-        if (IsInstanceValid(_topScoreLabel))
-            _topScoreLabel.Text = score;
-        if (IsInstanceValid(_topTimerLabel))
-            _topTimerLabel.Text = timer;
-
-        // Défensif: les UI de SubViewport peuvent être recréées / rechargées.
-        if (!IsInstanceValid(_cardScoreFaceLabel) || !IsInstanceValid(_cardTimerFaceLabel))
-        {
-            var faceUi = GetNodeOrNull<Control>("../../CardRig/CardFrontViewport/Face");
-            if (IsInstanceValid(faceUi))
-            {
-                if (!IsInstanceValid(_cardScoreFaceLabel))
-                    _cardScoreFaceLabel = faceUi.GetNodeOrNull<Label>("%FaceScore") ?? _cardScoreFaceLabel;
-                if (!IsInstanceValid(_cardTimerFaceLabel))
-                    _cardTimerFaceLabel = faceUi.GetNodeOrNull<Label>("%FaceTimer") ?? _cardTimerFaceLabel;
-            }
-        }
-
-        if (IsInstanceValid(_cardScoreFaceLabel))
-            _cardScoreFaceLabel.Text = score;
-        if (IsInstanceValid(_cardTimerFaceLabel))
-            _cardTimerFaceLabel.Text = $"⏱️ {FormatTime(_timeRemaining)}";
-    }
-
-    private static string FormatTime(double seconds)
-    {
-        var s = Math.Max(0, (int)Math.Ceiling(seconds));
-        var m = s / 60;
-        var r = s % 60;
-        return $"{m:00}:{r:00}";
-    }
-
-    private string FormatDomain(string domain)
-    {
-        var icon = DomainIcons.TryGetValue(domain, out var i) ? i : "🧩";
-        return $"Domaine: {icon} {domain}";
-    }
-
-    private string FormatDomainFace(string domain)
-    {
-        var icon = DomainIcons.TryGetValue(domain, out var i) ? i : "🧩";
-        return $"{icon} {domain}";
-    }
-
-    private void HighlightAnswers(int chosenIndex)
-    {
-        var correctIndex = Array.FindIndex(_currentOptions, o => o.IsCorrect);
-        _chosenAnswerIndex = chosenIndex;
-        _correctAnswerIndex = correctIndex;
-
-        // Recto (sur la carte): indicateur explicite à droite, sans changer les teintes de fond.
-        for (var i = 0; i < _cardAnswerResultLabels.Count; i++)
-        {
-            var label = _cardAnswerResultLabels[i];
-            if (!IsInstanceValid(label))
-                continue;
-
-            if (i == correctIndex)
-            {
-                label.Text = "Bonne";
-                label.SelfModulate = NeutralText;
-            }
-            else if (i == chosenIndex)
-            {
-                label.Text = "Mauvaise";
-                label.SelfModulate = NeutralText;
-            }
-            else
-            {
-                label.Text = "";
-                label.SelfModulate = NeutralText;
-            }
-        }
-
-        // Ne pas recolorer les boutons UI par code: on laisse le thème gérer l'apparence.
-    }
-
-    private void FxCorrect()
-    {
-        SuppressIdle(0.30);
-        PlaySfx(_sfxCorrect, pitch: 0.98f + (float)_rng.NextDouble() * 0.05f);
-        if (IsInstanceValid(_sparkles))
-        {
-            _sparkles.Emitting = false;
-            _sparkles.Restart();
-            _sparkles.Emitting = true;
-        }
-
-        var tween = CreateTween();
-        var baseRot = _cardRig.Rotation;
-        tween.TweenProperty(_cardRig, "rotation", new Vector3(baseRot.X - 0.08f, baseRot.Y, baseRot.Z), 0.08);
-        tween.TweenProperty(_cardRig, "rotation", baseRot, 0.14);
-    }
-
-    private void FxWrong()
-    {
-        SuppressIdle(0.20);
-        PlaySfx(_sfxWrong, pitch: 0.98f + (float)_rng.NextDouble() * 0.05f);
-        // Petit shake
-        var tween = CreateTween();
-        var p = _cardRig.Position;
-        tween.TweenProperty(_cardRig, "position", p + new Vector3(0.03f, 0, 0), 0.04);
-        tween.TweenProperty(_cardRig, "position", p - new Vector3(0.03f, 0, 0), 0.04);
-        tween.TweenProperty(_cardRig, "position", p, 0.04);
-    }
-
-    private void AnimateCardEnter()
-    {
-        SuppressIdle(0.35);
-        var tween = CreateTween();
-        var basePos = _cardRig.Position;
-        var baseRot = _cardRig.Rotation;
-        _cardRig.Position = basePos + new Vector3(0, -0.05f, 0);
-        _cardRig.Rotation = baseRot;
-        tween.TweenProperty(_cardRig, "position", basePos, 0.18);
-        tween.TweenProperty(_cardRig, "rotation", baseRot + new Vector3(0.02f, 0, 0), 0.18);
-        tween.TweenProperty(_cardRig, "rotation", baseRot, 0.12);
-    }
-
-    private void AnimateCardFlip()
-    {
-        // Flip court utilisé uniquement en fallback (sans deck): pivot au centre (style croupier), sans changer la position finale.
-        SuppressIdle(0.35);
-
-        var tween = CreateTween();
-        var startPos = _cardRig.Position;
-
-        var liftPos = startPos + new Vector3(0, 0.03f, 0);
-
-        tween.TweenProperty(_cardRig, "position", liftPos, 0.12)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.Out);
-        var sign = _flipLeftNext ? -1f : 1f;
-        _flipLeftNext = !_flipLeftNext;
-
-        // IMPORTANT: flip recto/verso => rotation autour d'un axe DANS le plan.
-        // Style "croupier": bascule avant/arrière autour de l'axe largeur (X).
-        tween.Parallel().TweenProperty(_cardRig, "rotation_degrees", new Vector3(105f * sign, 0f, 0f), 0.12)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.In);
-
-        tween.TweenCallback(Callable.From(() =>
-        {
-            _cardRig.RotationDegrees = new Vector3(-105f * sign, 0f, 0f);
-        }));
-
-        tween.TweenProperty(_cardRig, "position", startPos, 0.12)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.In);
-        tween.Parallel().TweenProperty(_cardRig, "rotation_degrees", Vector3.Zero, 0.12)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.Out);
-    }
-
-    private Transform3D GetBackTransformGlobal()
-    {
-        var focusT = GetFocusTransformGlobal();
-        var frontBasis = focusT.Basis;
-        // La face de carte est une PlaneMesh (normale locale ~Y). Un vrai recto/verso nécessite
-        // une rotation autour d'un axe dans le plan (X ou Z).
-        // Flip "sur le côté" => rotation autour de l'axe hauteur (Z), pour garder le texte lisible.
-        var axis = frontBasis.Z;
-        var backBasis = frontBasis.Rotated(axis, Mathf.Pi);
-        return WithBasisAtOrigin(backBasis, focusT.Origin);
-    }
-
-    private void AnimateCardRevealBack()
-    {
-        // Retourne la carte (verso) recto/verso avec pivot au centre (flip latéral).
-        // Important: la position finale reste exactement celle d'avant le flip, sinon illisible.
-        SuppressIdle(0.70);
-        
-        PlaySfx(_sfxFlip, pitch: 0.97f + (float)_rng.NextDouble() * 0.06f);
-
-        var tween = CreateTween();
-        _cardTween = tween;
-        var startT = _cardRig.GlobalTransform;
-        var baseCenter = IsInstanceValid(_cardFrontMesh) ? _cardFrontMesh.GlobalTransform.Origin : GetCardVisibleCenterWorld();
-        var liftCenter = baseCenter + new Vector3(0, 0.025f, 0);
-
-        // On calcule les transforms en utilisant l'offset local du recto (avant de basculer l'état).
-        var frontLocalOffset = IsInstanceValid(_cardFrontMesh) ? _cardFrontMesh.Position : Vector3.Zero;
-
-        _cardIsBackSide = true;
-
-        // IMPORTANT: on part de la base actuelle (sinon la carte "glisse" car le pivot n'est pas au centre du Node).
-        var frontBasis = startT.Basis;
-        var axis = frontBasis.Z; // axe dans le plan (flip sur le côté)
-
-        // La direction (droite/gauche) se voit dans l'intermédiaire, pas dans l'état final (π == -π).
-        var sign = _flipLeftNext ? -1f : 1f;
-        _flipLeftNext = !_flipLeftNext;
-        _lastFlipSign = sign;
-
-        var midBasis = frontBasis.Rotated(axis, sign * (Mathf.Pi * 0.5f));
-        var backBasis = frontBasis.Rotated(axis, sign * Mathf.Pi);
-
-        var liftT = WithBasisKeepingCardCenter(frontBasis, liftCenter, frontLocalOffset);
-        var midLiftT = WithBasisKeepingCardCenter(midBasis, liftCenter, frontLocalOffset);
-        var backLiftT = WithBasisKeepingCardCenter(backBasis, liftCenter, frontLocalOffset);
-        // Position finale identique (centre de carte conservé).
-        var backT = WithBasisKeepingCardCenter(backBasis, baseCenter, frontLocalOffset);
-
-        tween.TweenProperty(_cardRig, "global_transform", liftT, 0.10)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.Out);
-        // Souplesse: courbure au milieu du flip.
-        if (_cardFrontMat != null)
-            tween.Parallel().TweenProperty(_cardFrontMat, "shader_parameter/bend", sign * 1.0f, 0.20)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.Out);
-        if (_cardBackMat != null)
-            tween.Parallel().TweenProperty(_cardBackMat, "shader_parameter/bend", sign * 1.0f, 0.20)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.Out);
-
-        tween.TweenProperty(_cardRig, "global_transform", midLiftT, 0.20)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.InOut);
-        tween.TweenProperty(_cardRig, "global_transform", backLiftT, 0.18)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.InOut);
-
-        // Relâche la courbure en fin de flip.
-        if (_cardFrontMat != null)
-            tween.Parallel().TweenProperty(_cardFrontMat, "shader_parameter/bend", 0.0f, 0.18)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.InOut);
-        if (_cardBackMat != null)
-            tween.Parallel().TweenProperty(_cardBackMat, "shader_parameter/bend", 0.0f, 0.18)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.InOut);
-
-        tween.TweenProperty(_cardRig, "global_transform", backT, 0.10)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.In);
-
-        tween.TweenCallback(Callable.From(() => _cardTween = null));
-    }
-
-    private void AnimateCardReturnFront()
-    {
-        SuppressIdle(0.65);
-        
-        PlaySfx(_sfxFlip, pitch: 0.97f + (float)_rng.NextDouble() * 0.06f);
-        var tween = CreateTween();
-        _cardTween = tween;
-
-        var startT = _cardRig.GlobalTransform;
-        var startBasis = startT.Basis;
-        var baseCenter = GetCardVisibleCenterWorld();
-        var liftCenter = baseCenter + new Vector3(0, 0.02f, 0);
-
-        // Offset local correspondant au verso (état courant).
-        var backLocalOffset = IsInstanceValid(_cardBackMesh) ? _cardBackMesh.Position : (IsInstanceValid(_cardFrontMesh) ? _cardFrontMesh.Position : Vector3.Zero);
-
-        var focusT = GetFocusTransformGlobal();
-        var frontBasis = focusT.Basis;
-        var axis = frontBasis.Z; // flip sur le côté
-
-        // On revient par le même côté que l'aller, pour éviter les inversions étranges.
-        var sign = _lastFlipSign;
-        var midBasis = startBasis.Rotated(axis, -sign * (Mathf.Pi * 0.5f));
-
-        var liftT = WithBasisKeepingCardCenter(startBasis, liftCenter, backLocalOffset);
-        var midLiftT = WithBasisKeepingCardCenter(midBasis, liftCenter, backLocalOffset);
-        var frontLiftT = WithBasisKeepingCardCenter(frontBasis, liftCenter, backLocalOffset);
-        var frontT = WithBasisKeepingCardCenter(frontBasis, baseCenter, backLocalOffset);
-
-        _cardIsBackSide = false;
-
-        tween.TweenProperty(_cardRig, "global_transform", liftT, 0.10)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.Out);
-
-        // Ré-applique une petite courbure au milieu du retour.
-        if (_cardFrontMat != null)
-            tween.Parallel().TweenProperty(_cardFrontMat, "shader_parameter/bend", -sign * 1.0f, 0.20)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.Out);
-        if (_cardBackMat != null)
-            tween.Parallel().TweenProperty(_cardBackMat, "shader_parameter/bend", -sign * 1.0f, 0.20)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.Out);
-
-        tween.TweenProperty(_cardRig, "global_transform", midLiftT, 0.20)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.InOut);
-        tween.TweenProperty(_cardRig, "global_transform", frontLiftT, 0.18)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.InOut);
-
-        if (_cardFrontMat != null)
-            tween.Parallel().TweenProperty(_cardFrontMat, "shader_parameter/bend", 0.0f, 0.18)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.InOut);
-        if (_cardBackMat != null)
-            tween.Parallel().TweenProperty(_cardBackMat, "shader_parameter/bend", 0.0f, 0.18)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.InOut);
-
-        tween.TweenProperty(_cardRig, "global_transform", frontT, 0.10)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.In);
-
-        tween.TweenCallback(Callable.From(() => _cardTween = null));
-    }
-
-    private void AnimateCardIdle()
-    {
-        // Bobbing ultra léger, “chill”
-        if (!_idleAnchorValid)
-        {
-            _idleAnchorPos = _cardRig.Position;
-            _idleAnchorRot = _cardRig.Rotation;
-            _idleAnchorValid = true;
-        }
-
-        var t = (float)Time.GetTicksMsec() / 1000f;
-        _cardRig.Position = _idleAnchorPos + new Vector3(0, Mathf.Sin(t * 0.8f) * 0.01f, 0);
-        _cardRig.Rotation = _idleAnchorRot + new Vector3(Mathf.Sin(t * 0.6f) * 0.01f, Mathf.Sin(t * 0.4f) * 0.015f, 0);
-    }
-
-    private void LoadDeck()
-    {
-        _allQuestions.Clear();
-        _indicesByDomain.Clear();
-        _usedByDomain.Clear();
-
-        try
-        {
-            if (!ResourceLoader.Exists(DeckPath))
-            {
-                GD.PrintErr($"[MiniJeuCartesAWS] Deck missing: {DeckPath}");
-                BuildFallbackDeck();
-                IndexDeck();
-                return;
-            }
-
-            using var f = FileAccess.Open(DeckPath, FileAccess.ModeFlags.Read);
-            var json = f.GetAsText();
-
-            var deck = JsonSerializer.Deserialize<QuestionDeck>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            });
-
-            if (deck?.Questions == null || deck.Questions.Length == 0)
-            {
-                BuildFallbackDeck();
-                IndexDeck();
-                return;
-            }
-
-            foreach (var q in deck.Questions)
-            {
-                if (q.Answers == null || q.Answers.Length != 4)
-                    continue;
-                if (q.CorrectIndex < 0 || q.CorrectIndex > 3)
-                    continue;
-                if (string.IsNullOrWhiteSpace(q.Prompt))
-                    continue;
-                if (q.Answers.Any(string.IsNullOrWhiteSpace))
-                    continue;
-
-                var domain = NormalizeDomain(q.Domain, q.Category);
-                var difficulty = Math.Clamp(q.Difficulty <= 0 ? 1 : q.Difficulty, 1, 3);
-                var correctAnswer = q.Answers[q.CorrectIndex];
-
-                _allQuestions.Add(new Question(
-                    domain,
-                    difficulty,
-                    q.Prompt,
-                    q.Answers,
-                    correctAnswer,
-                    q.Explanation ?? ""));
-            }
-
-            if (_allQuestions.Count == 0)
-                BuildFallbackDeck();
-
-            IndexDeck();
-        }
-        catch (Exception e)
-        {
-            GD.PrintErr($"[MiniJeuCartesAWS] Deck load error: {e.Message}");
-            BuildFallbackDeck();
-            IndexDeck();
-        }
-    }
-
-    private bool TryDrawQuestionWeighted(out Question q)
-    {
-        q = null!;
-
-        // Si un domaine est épuisé (toutes questions marquées utilisées), on le recycle.
-        foreach (var kv in _indicesByDomain)
-        {
-            var domain = kv.Key;
-            var indices = kv.Value;
-            if (!_usedByDomain.TryGetValue(domain, out var used))
-                continue;
-            if (indices.Count > 0 && used.Count >= indices.Count)
-                used.Clear();
-        }
-
-        // Si tout est vide (deck minuscule), on recycle tout.
-        if (_indicesByDomain.Count > 0 && _usedByDomain.Values.All(u => u.Count == 0) == false)
-        {
-            // ok
-        }
-
-        // Tirage pondéré par domaine + biais difficulté
-        for (var attempt = 0; attempt < 50; attempt++)
-        {
-            var domain = ChooseDomainWeighted();
-            if (!_indicesByDomain.TryGetValue(domain, out var list) || list.Count == 0)
-                continue;
-
-            if (!_usedByDomain.TryGetValue(domain, out var used))
-            {
-                used = new HashSet<int>();
-                _usedByDomain[domain] = used;
-            }
-
-            var candidates = list.Where(i => !used.Contains(i)).ToList();
-            if (candidates.Count == 0)
-            {
-                used.Clear();
-                candidates = list.ToList();
-            }
-
-            // Pondération difficulté 1/2/3
-            var picked = PickByDifficulty(candidates);
-            used.Add(picked);
-            q = _allQuestions[picked];
-            return true;
-        }
-
-        return false;
-    }
-
-    private string ChooseDomainWeighted()
-    {
-        var total = 0f;
-        foreach (var d in DomainWeights)
-            total += d.Weight;
-
-        var r = (float)(_rng.NextDouble() * total);
-        foreach (var d in DomainWeights)
-        {
-            r -= d.Weight;
-            if (r <= 0)
-                return d.Domain;
-        }
-
-        return DomainWeights[0].Domain;
-    }
-
-    private int PickByDifficulty(List<int> candidates)
-    {
-        // Bias vers difficile (comme avant)
-        float WeightFor(int idx)
-        {
-            var d = _allQuestions[idx].Difficulty;
-            return d == 1 ? 1.0f : (d == 2 ? 1.3f : 1.6f);
-        }
-
-        var total = 0f;
-        foreach (var c in candidates)
-            total += WeightFor(c);
-
-        var r = (float)(_rng.NextDouble() * total);
-        foreach (var c in candidates)
-        {
-            r -= WeightFor(c);
-            if (r <= 0)
-                return c;
-        }
-
-        return candidates[0];
-    }
-
-    private void IndexDeck()
-    {
-        for (var i = 0; i < _allQuestions.Count; i++)
-        {
-            var d = _allQuestions[i].Domain;
-            if (!_indicesByDomain.TryGetValue(d, out var list))
-            {
-                list = new List<int>();
-                _indicesByDomain[d] = list;
-                _usedByDomain[d] = new HashSet<int>();
-            }
-
-            list.Add(i);
-        }
-    }
-
-    private void BuildFallbackDeck()
-    {
-        _allQuestions.Clear();
-        _allQuestions.Add(new Question(
-            "Technology",
-            1,
-            "Quel service AWS est un stockage d'objets ?",
-            new[] { "Amazon S3", "Amazon RDS", "AWS Lambda", "Amazon EC2" },
-            "Amazon S3",
-            "Amazon S3 est un service de stockage d'objets (buckets/objets)."));
-
-        _allQuestions.Add(new Question(
-            "Security",
-            1,
-            "Quel service gère des rôles et des politiques d'accès ?",
-            new[] { "AWS IAM", "Amazon VPC", "Amazon Route 53", "Amazon CloudFront" },
-            "AWS IAM",
-            "IAM (Identity and Access Management) permet de gérer utilisateurs, rôles et politiques."));
-
-        _allQuestions.Add(new Question(
-            "Billing",
-            1,
-            "Quel outil aide à optimiser les coûts AWS ?",
-            new[] { "AWS Cost Explorer", "AWS Shield", "AWS Snowball", "AWS WAF" },
-            "AWS Cost Explorer",
-            "Cost Explorer sert à analyser l'usage et les coûts pour détecter des optimisations."));
-
-    }
-
-    private static string NormalizeDomain(string domain, string category)
-    {
-        var d = (domain ?? string.Empty).Trim();
-        if (d.Length > 0)
-            return d;
-
-        // Compat: si l'ancien deck n'a que `category`
-        var c = (category ?? string.Empty).Trim();
-        if (c.Equals("Security", StringComparison.OrdinalIgnoreCase) || c.Equals("Compliance", StringComparison.OrdinalIgnoreCase))
-            return "Security";
-        if (c.Equals("Billing", StringComparison.OrdinalIgnoreCase))
-            return "Billing";
-
-        // Tout le reste: services/tech
-        return "Technology";
-    }
-
-    private AnswerOption[] BuildShuffledOptions(Question q)
-    {
-        var opts = q.Answers
-            .Select(a => new AnswerOption(a, a == q.CorrectAnswer))
-            .ToList();
-
-        // Shuffle
-        for (var i = opts.Count - 1; i > 0; i--)
-        {
-            var j = _rng.Next(i + 1);
-            (opts[i], opts[j]) = (opts[j], opts[i]);
-        }
-
-        return opts.ToArray();
-    }
-
-    private readonly record struct AnswerOption(string Text, bool IsCorrect);
-
-    private sealed record Question(
-        string Domain,
-        int Difficulty,
-        string Prompt,
-        string[] Answers,
-        string CorrectAnswer,
-        string Explanation);
-
-    private sealed class QuestionDeck
-    {
-        public string DeckId { get; set; } = string.Empty;
-        public string Title { get; set; } = string.Empty;
-        public QuestionItem[] Questions { get; set; } = Array.Empty<QuestionItem>();
-    }
-
-    private sealed class QuestionItem
-    {
-        public string Category { get; set; } = string.Empty;
-        public string Domain { get; set; } = string.Empty;
-        public int Difficulty { get; set; } = 1;
-
-        public string Prompt { get; set; } = string.Empty;
-        public string[] Answers { get; set; } = Array.Empty<string>();
-        public int CorrectIndex { get; set; }
-        public string Explanation { get; set; } = string.Empty;
-    }
 }

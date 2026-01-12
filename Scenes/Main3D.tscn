@@ -1,9 +1,13 @@
-[gd_scene load_steps=36 format=3 uid="uid://c6ermvsdoabeh"]
+[gd_scene load_steps=47 format=3 uid="uid://c6ermvsdoabeh"]
 
 [ext_resource type="Script" uid="uid://3evg2a3lhjsp" path="res://Scripts/TimedRunUI.cs" id="1"]
+[ext_resource type="AudioStream" uid="uid://d0oftun5ps1a1" path="res://Assets/Audio/SFX/card-flip.mp3" id="1_c2h2b"]
 [ext_resource type="PackedScene" uid="uid://bcd25lstfoqq4" path="res://Scenes/CardUI/CardFrontUI.tscn" id="2"]
+[ext_resource type="AudioStream" uid="uid://ispxxh37oppj" path="res://Assets/Audio/SFX/keyswipe-card-103918-Rework.mp3" id="2_1y7wl"]
 [ext_resource type="PackedScene" uid="uid://0jmbpdifu1j5" path="res://Scenes/CardUI/CardBackUI.tscn" id="3"]
+[ext_resource type="AudioStream" uid="uid://bkbefkab8lc6m" path="res://Assets/Audio/Ambience/35-snowfall-music-box-449840.mp3" id="3_bbhl4"]
 [ext_resource type="PackedScene" uid="uid://bcgp8fxvsckpv" path="res://Assets/3D/Flower Pot/FlowerPot2.fbx" id="3_qbgkv"]
+[ext_resource type="Shader" uid="uid://cp4mduw7b1x03" path="res://Assets/Shaders/card_collector.gdshader" id="4"]
 [ext_resource type="ArrayMesh" uid="uid://bdt1ybrlfu5dt" path="res://Assets/3D/Desk Lamp/model.obj" id="4_d7535"]
 [ext_resource type="FontFile" uid="uid://c2bnen2fa56p5" path="res://Assets/Fonts/Cinzel/Cinzel[wght].ttf" id="5"]
 [ext_resource type="ArrayMesh" uid="uid://dun1u22urd3po" path="res://Assets/3D/Coffee Mug/coffeeMug.obj" id="5_ryluv"]
@@ -26,26 +30,149 @@ background_color = Color(0.03, 0.04, 0.06, 1)
 ambient_light_source = 1
 ambient_light_color = Color(0.35, 0.4, 0.55, 1)
 
+[sub_resource type="Animation" id="Animation_c2h2b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:transform")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Transform3D(4.3711385e-08, -6.6002357e-15, 0.99999994, -1.5099579e-07, -0.99999994, 0, 0.99999994, -1.5099579e-07, -4.3711385e-08, 0.5702423, 0.157, 0.47910237)]
+}
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.70710677, -5.3385076e-08, 0.70710677, -5.3385076e-08)
+
+[sub_resource type="Animation" id="Animation_1y7wl"]
+resource_name = "card_draw"
+length = 1.045
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:transform")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Transform3D(0.0077142715, 0, -0.99997026, 0, 1, 0, 0.99997026, 0, 0.0077142715, -0.7073308, -0.0047642887, 0.4049413), Transform3D(-0.028968377, 0, 0.9995803, 0, 1, 0, -0.9995803, 0, -0.028968377, -0.7073308, -0.0047642887, 0.6007947), Transform3D(1, 0, 0, 0, 0.49290958, -0.87008053, 0, 0.87008053, 0.49290958, -1.1920929e-07, 0.67903703, 1.2670246)]
+}
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.0010849535, 1, 0, 0.71727556, 0, 0.6967896, 0.099999994, 1, 0, 0.71727556, 0, 0.6967896, 0.7, 1, 0.5092067, 0, 0, 0.8606442)
+tracks/2/type = "scale_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array()
+
+[sub_resource type="Animation" id="Animation_card_flip_fallback_left"]
+resource_name = "card_flip_fallback_left"
+length = 0.8531
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:transform")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.15, 0.4, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Transform3D(1, 0, 0, 0, 0.49290958, -0.87008053, 0, 0.87008053, 0.49290958, -1.1920929e-07, 0.67903703, 1.2670246), Transform3D(1, 0, 0, 0, 0.4814171, -0.8764916, 0, 0.8764916, 0.4814171, 0.050305314, 0.679037, 1.2670248), Transform3D(-0.99974716, -0.022451207, 0.001412479, 0.002541902, -0.17513111, -0.98454195, 0.022351522, -0.9842893, 0.17514384, 2.3841858e-07, 0.73174375, 1.420707)]
+}
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.15, 1, 0.5092067, 0, 0, 0.8606442, 0.55, 1, -0.0062697874, -0.6733591, 0.7388325, -0.025980655, 0.75, 1, 0.0077509265, -0.642159, 0.7664891, 0.008151815)
+
+[sub_resource type="Animation" id="Animation_card_send_away"]
+resource_name = "card_send_away"
+length = 0.7334
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:transform")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.09, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Transform3D(-0.99974716, -0.022451207, 0.001412479, 0.002541902, -0.17513111, -0.98454195, 0.022351522, -0.9842893, 0.17514384, 2.3841858e-07, 0.73174375, 1.420707), Transform3D(4.3711385e-08, -6.6002357e-15, 0.99999994, -1.5099579e-07, -0.99999994, 0, 0.99999994, -1.5099579e-07, -4.3711385e-08, 0.5702423, 0.157, 0.47910237)]
+}
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.09, 1, 0.0077509265, -0.642159, 0.7664891, 0.008151815, 0.5500001, 1, 0.70710677, -5.3385076e-08, 0.70710677, -5.3385076e-08)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bbhl4"]
+_data = {
+&"RESET": SubResource("Animation_c2h2b"),
+&"card_draw": SubResource("Animation_1y7wl"),
+&"card_flip_fallback_left": SubResource("Animation_card_flip_fallback_left"),
+&"card_send_away": SubResource("Animation_card_send_away")
+}
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6"]
 albedo_color = Color(0.09, 0.1, 0.14, 1)
 metallic = 0.08
 roughness = 0.35
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_CardFront"]
+render_priority = 0
+shader = ExtResource("4")
+shader_parameter/bg_color = Vector3(0.12, 0.13, 0.18)
+shader_parameter/base_tint = Vector3(1, 1, 1)
+shader_parameter/grain_strength = 0.1
+shader_parameter/grain_scale = 10.0
+shader_parameter/contrast = 1.0
+shader_parameter/flip_uv = false
+shader_parameter/bend = 0.16507904098693849
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_3"]
 size = Vector2(1.344, 0.96)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_CardBack"]
+render_priority = 0
+shader = ExtResource("4")
+shader_parameter/bg_color = Vector3(0.12, 0.13, 0.18)
+shader_parameter/base_tint = Vector3(1, 1, 1)
+shader_parameter/grain_strength = 0.1
+shader_parameter/grain_scale = 10.0
+shader_parameter/contrast = 1.0
+shader_parameter/flip_uv = true
+shader_parameter/bend = 0.16507904098693849
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1"]
 size = Vector3(0.1344, 0.01, 0.096)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1"]
-emission_shape = 2
-emission_sphere_radius = 0.15
-initial_velocity_min = 0.7
-initial_velocity_max = 1.3
-gravity = Vector3(0, -1.6, 0)
-scale_min = 0.8
-scale_max = 1.2
-color = Color(0.35, 0.8, 0.6, 1)
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_Deck"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
 albedo_color = Color(0.12, 0.1, 0.09, 1)
@@ -117,22 +244,63 @@ corner_radius_bottom_left = 14
 
 [node name="Main3D" type="Node3D"]
 
+[node name="Audio3D" type="Node3D" parent="."]
+
+[node name="SfxFlip" type="AudioStreamPlayer3D" parent="Audio3D"]
+stream = ExtResource("1_c2h2b")
+volume_db = -7.0
+max_distance = 50.0
+bus = &"SFX"
+
+[node name="SfxDraw" type="AudioStreamPlayer3D" parent="Audio3D"]
+stream = ExtResource("2_1y7wl")
+volume_db = -7.0
+max_distance = 50.0
+bus = &"SFX"
+
+[node name="SfxShuffle" type="AudioStreamPlayer3D" parent="Audio3D"]
+stream = ExtResource("2_1y7wl")
+volume_db = -7.0
+max_distance = 50.0
+bus = &"SFX"
+
+[node name="SfxCorrect" type="AudioStreamPlayer3D" parent="Audio3D"]
+volume_db = -7.0
+max_distance = 50.0
+bus = &"SFX"
+
+[node name="SfxWrong" type="AudioStreamPlayer3D" parent="Audio3D"]
+volume_db = -7.0
+max_distance = 50.0
+bus = &"SFX"
+
+[node name="Ambience" type="AudioStreamPlayer3D" parent="Audio3D"]
+stream = ExtResource("3_bbhl4")
+volume_db = -18.0
+max_distance = 100.0
+bus = &"Ambience"
+parameters/looping = true
+
 [node name="CardFocus" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0.05, 0.62, 0.95)
+gizmo_extents = 0.14
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1")
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.955336, 0.208964, -0.208964, 0, 0.707107, 0.707107, 0.29552, -0.67559, 0.67559, 0, 2.2, 0)
-light_energy = 1.2
-shadow_enabled = true
-
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881898, 0, -0.25881898, 0.9659259, 0, 0.780505, 1.4604902)
 
+[node name="AudioListener" type="AudioListener3D" parent="Camera"]
+
 [node name="CardRig" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.49290958, -0.87008053, 0, 0.87008053, 0.49290958, -1.1920929e-07, 0.67903703, 1.2670246)
+transform = Transform3D(4.3711385e-08, -6.6002357e-15, 0.99999994, -1.5099579e-07, -0.99999994, 0, 0.99999994, -1.5099579e-07, -4.3711385e-08, 0.5702423, 0.157, 0.47910237)
+
+[node name="CardAnim" type="AnimationPlayer" parent="CardRig"]
+root_node = NodePath(".")
+libraries = {
+&"": SubResource("AnimationLibrary_bbhl4")
+}
 
 [node name="CardBody" type="CSGBox3D" parent="CardRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
@@ -141,10 +309,12 @@ material = SubResource("StandardMaterial3D_6")
 
 [node name="CardFace" type="MeshInstance3D" parent="CardRig"]
 transform = Transform3D(0.1, 0, 0, 0, 0.099999994, 0, 0, 0, 0.099999994, 0, 0.10052798, 0.00058436394)
+material_override = SubResource("ShaderMaterial_CardFront")
 mesh = SubResource("PlaneMesh_3")
 
 [node name="CardBack" type="MeshInstance3D" parent="CardRig"]
 transform = Transform3D(0.1, 0, 0, 0, -0.1, -1.8626451e-08, 0, 1.8626451e-08, -0.1, 0, 0.09922848, 0.00029963255)
+material_override = SubResource("ShaderMaterial_CardBack")
 mesh = SubResource("PlaneMesh_3")
 
 [node name="CardClickArea" type="StaticBody3D" parent="CardRig"]
@@ -170,13 +340,6 @@ render_target_update_mode = 4
 
 [node name="Back" parent="CardRig/CardBackViewport" instance=ExtResource("3")]
 
-[node name="Sparkles" type="GPUParticles3D" parent="CardRig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0.18)
-emitting = false
-amount = 40
-one_shot = true
-process_material = SubResource("ParticleProcessMaterial_1")
-
 [node name="Set" type="Node3D" parent="."]
 
 [node name="FlowerPot2" parent="Set" instance=ExtResource("3_qbgkv")]
@@ -185,13 +348,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8118976, 0.86269724, -2.013
 [node name="DeckRig" type="Node3D" parent="Set"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85, 0.08, 0.25)
 
+[node name="DeckAnim" type="AnimationPlayer" parent="Set/DeckRig"]
+root_node = NodePath(".")
+libraries = {
+&"": SubResource("AnimationLibrary_Deck")
+}
+
 [node name="DeckStack" type="CSGBox3D" parent="Set/DeckRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14363843, 0.00072062016, 0.1551651)
 size = Vector3(0.1, 0.035, 0.14)
 material = SubResource("StandardMaterial3D_6")
 
 [node name="DeckSpawn" type="Marker3D" parent="Set/DeckRig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12917626, 0.023715898, 0.15954992)
 
 [node name="Table" type="MeshInstance3D" parent="Set"]
 material_override = SubResource("StandardMaterial3D_1")
@@ -263,7 +432,7 @@ transform = Transform3D(0.0085942, 0, 0.002672024, 0, 0.008999999, 0, -0.0026720
 mesh = ExtResource("5_ryluv")
 
 [node name="Houseplant" type="MeshInstance3D" parent="Set"]
-transform = Transform3D(0.117, 0, 0, 0, 0.117, 0, 0, 0, 0.117, -1.4065808, 0, -0.27824342)
+transform = Transform3D(0.117, 0, 0, 0, 0.117, 0, 0, 0, 0.117, -1.4065808, 0.052479506, -0.27824342)
 mesh = ExtResource("6_0dgp6")
 
 [node name="Model2" type="MeshInstance3D" parent="Set"]
@@ -279,7 +448,13 @@ spot_range = 11.848374
 spot_angle = 24.44
 
 [node name="DiscardTarget" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 0.11, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.56874686, 0.053713024, 0.47833306)
+
+[node name="DiscardStack" type="CSGBox3D" parent="DiscardTarget"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00072062016, 0)
+visible = false
+size = Vector3(0.1, 0.001, 0.14)
+material = SubResource("StandardMaterial3D_6")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -291,6 +466,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
+
+[node name="Audio" type="Node" parent="HUD/Root"]
+
+[node name="Sfx0" type="AudioStreamPlayer" parent="HUD/Root/Audio"]
+volume_db = -7.0
+bus = &"SFX"
+
+[node name="Sfx1" type="AudioStreamPlayer" parent="HUD/Root/Audio"]
+volume_db = -7.0
+bus = &"SFX"
+
+[node name="Sfx2" type="AudioStreamPlayer" parent="HUD/Root/Audio"]
+volume_db = -7.0
+bus = &"SFX"
+
+[node name="Sfx3" type="AudioStreamPlayer" parent="HUD/Root/Audio"]
+volume_db = -7.0
+bus = &"SFX"
+
+[node name="Ambience" type="AudioStreamPlayer" parent="HUD/Root/Audio"]
+volume_db = -18.0
+bus = &"Ambience"
 
 [node name="TopHUD" type="Control" parent="HUD/Root"]
 anchors_preset = 0
@@ -434,8 +631,113 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "Rejouer"
 
+[node name="MenuRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Settings" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/MenuRow"]
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "Paramètres"
+
+[node name="Quit" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/MenuRow"]
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "Quitter"
+
+[node name="SettingsPanel" type="PanelContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2")
+
+[node name="SettingsMargin" type="MarginContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="SettingsVBox" type="VBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Paramètres"
+horizontal_alignment = 1
+
+[node name="EnableAudio" type="CheckButton" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+text = "Activer les sons"
+
+[node name="EnableAmbience" type="CheckButton" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+text = "Activer l'ambiance"
+
+[node name="SfxRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SfxLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/SfxRow"]
+layout_mode = 2
+text = "SFX"
+
+[node name="SfxVolume" type="HSlider" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/SfxRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -40.0
+max_value = 6.0
+step = 0.5
+value = -7.0
+
+[node name="AmbienceRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AmbienceLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/AmbienceRow"]
+layout_mode = 2
+text = "Ambiance"
+
+[node name="AmbienceVolume" type="HSlider" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/AmbienceRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -40.0
+max_value = 6.0
+step = 0.5
+value = -18.0
+
+[node name="TimeRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TimeLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/TimeRow"]
+layout_mode = 2
+text = "Durée (s)"
+
+[node name="TimeLimit" type="SpinBox" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/TimeRow"]
+layout_mode = 2
+min_value = 30.0
+max_value = 600.0
+step = 10.0
+value = 120.0
+
+[node name="Close" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
+custom_minimum_size = Vector2(200, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "Fermer"
+
 [node name="Model" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34254915, 1.059881, -2.7724154)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34254915, 1.059881, -2.9967992)
 mesh = ExtResource("11_cp1uk")
 
 [node name="Monitor" parent="." instance=ExtResource("12_f0usu")]

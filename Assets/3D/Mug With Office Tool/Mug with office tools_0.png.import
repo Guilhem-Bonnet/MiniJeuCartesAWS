@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://lpk5ssf3d1a3"
 path.s3tc="res://.godot/imported/Mug with office tools_0.png-8d40d2c377f0fc83c3722dfcbb9afa25.s3tc.ctex"
+path.etc2="res://.godot/imported/Mug with office tools_0.png-8d40d2c377f0fc83c3722dfcbb9afa25.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Assets/3D/Mug With Office Tool/Mug with office tools_0.png"
-dest_files=["res://.godot/imported/Mug with office tools_0.png-8d40d2c377f0fc83c3722dfcbb9afa25.s3tc.ctex"]
+dest_files=["res://.godot/imported/Mug with office tools_0.png-8d40d2c377f0fc83c3722dfcbb9afa25.s3tc.ctex", "res://.godot/imported/Mug with office tools_0.png-8d40d2c377f0fc83c3722dfcbb9afa25.etc2.ctex"]
 
 [params]
 

@@ -3,11 +3,11 @@
 [ext_resource type="LabelSettings" uid="uid://bvu46dc06vq7c" path="res://Resources/CardUI/LabelSettings_Domain.tres" id="1"]
 [ext_resource type="FontFile" uid="uid://c2bnen2fa56p5" path="res://Assets/Fonts/Cinzel/Cinzel[wght].ttf" id="2_2jdbr"]
 [ext_resource type="LabelSettings" uid="uid://bck6l0wewgemr" path="res://Resources/CardUI/LabelSettings_Answer.tres" id="4"]
-[ext_resource type="StyleBox" path="res://Resources/CardUI/StyleBoxFlat_AnswerBar.tres" id="5"]
+[ext_resource type="StyleBox" uid="uid://bglundh7t0s8m" path="res://Resources/CardUI/StyleBoxFlat_AnswerBar.tres" id="5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2jdbr"]
 font = ExtResource("2_2jdbr")
-font_size = 149
+font_size = 100
 outline_size = 7
 outline_color = Color(0, 0, 0, 1)
 
