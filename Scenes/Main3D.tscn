@@ -1,14 +1,11 @@
-[gd_scene load_steps=50 format=3 uid="uid://c6ermvsdoabeh"]
+[gd_scene load_steps=47 format=3 uid="uid://c6ermvsdoabeh"]
 
 [ext_resource type="Script" uid="uid://3evg2a3lhjsp" path="res://Scripts/TimedRunUI.cs" id="1"]
-[ext_resource type="AudioStream" uid="uid://7ajfh8stdw8e" path="res://Assets/Audio/SFX/card_flip.wav" id="1_c2h2b"]
+[ext_resource type="AudioStream" uid="uid://divq8tiwuth63" path="res://Assets/Audio/SFX/card-flip.mp3" id="1_c2h2b"]
 [ext_resource type="PackedScene" uid="uid://bcd25lstfoqq4" path="res://Scenes/CardUI/CardFrontUI.tscn" id="2"]
-[ext_resource type="AudioStream" uid="uid://dxr00gt1b5kk7" path="res://Assets/Audio/SFX/card_draw.wav" id="2_1y7wl"]
+[ext_resource type="AudioStream" uid="uid://se7mkbghy8j4" path="res://Assets/Audio/SFX/keyswipe-card-103918-Rework.mp3" id="2_1y7wl"]
 [ext_resource type="PackedScene" uid="uid://0jmbpdifu1j5" path="res://Scenes/CardUI/CardBackUI.tscn" id="3"]
-[ext_resource type="AudioStream" uid="uid://dqineu7p5magt" path="res://Assets/Audio/Ambience/ambience_loop.wav" id="3_bbhl4"]
-[ext_resource type="AudioStream" uid="uid://ixxfa7v50imo" path="res://Assets/Audio/SFX/card_shuffle.wav" id="20_shuffle"]
-[ext_resource type="AudioStream" uid="uid://da6gfpxa34bcv" path="res://Assets/Audio/SFX/correct.wav" id="21_correct"]
-[ext_resource type="AudioStream" uid="uid://ckkucji77a6jg" path="res://Assets/Audio/SFX/wrong.wav" id="22_wrong"]
+[ext_resource type="AudioStream" uid="uid://bia3hn1igqnvc" path="res://Assets/Audio/Ambience/35-snowfall-music-box-449840.mp3" id="3_bbhl4"]
 [ext_resource type="PackedScene" uid="uid://bcgp8fxvsckpv" path="res://Assets/3D/Flower Pot/FlowerPot2.fbx" id="3_qbgkv"]
 [ext_resource type="Shader" uid="uid://cp4mduw7b1x03" path="res://Assets/Shaders/card_collector.gdshader" id="4"]
 [ext_resource type="ArrayMesh" uid="uid://bdt1ybrlfu5dt" path="res://Assets/3D/Desk Lamp/model.obj" id="4_d7535"]
@@ -262,19 +259,7 @@ max_distance = 50.0
 bus = &"SFX"
 
 [node name="SfxShuffle" type="AudioStreamPlayer3D" parent="Audio3D"]
-stream = ExtResource("20_shuffle")
-volume_db = -7.0
-max_distance = 50.0
-bus = &"SFX"
-
-[node name="SfxCorrect" type="AudioStreamPlayer3D" parent="Audio3D"]
-stream = ExtResource("21_correct")
-volume_db = -7.0
-max_distance = 50.0
-bus = &"SFX"
-
-[node name="SfxWrong" type="AudioStreamPlayer3D" parent="Audio3D"]
-stream = ExtResource("22_wrong")
+stream = ExtResource("2_1y7wl")
 volume_db = -7.0
 max_distance = 50.0
 bus = &"SFX"
@@ -284,7 +269,6 @@ stream = ExtResource("3_bbhl4")
 volume_db = -18.0
 max_distance = 100.0
 bus = &"Ambience"
-parameters/looping = true
 
 [node name="CardFocus" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0.05, 0.62, 0.95)
@@ -297,6 +281,7 @@ environment = SubResource("Environment_1")
 transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881898, 0, -0.25881898, 0.9659259, 0, 0.780505, 1.4604902)
 
 [node name="AudioListener" type="AudioListener3D" parent="Camera"]
+current = true
 
 [node name="CardRig" type="Node3D" parent="."]
 transform = Transform3D(4.3711385e-08, -6.6002357e-15, 0.99999994, -1.5099579e-07, -0.99999994, 0, 0.99999994, -1.5099579e-07, -4.3711385e-08, 0.5702423, 0.157, 0.47910237)
@@ -453,7 +438,7 @@ spot_range = 11.848374
 spot_angle = 24.44
 
 [node name="DiscardTarget" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.56874686, 0.053713024, 0.47833306)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5704219, 0.058043167, 0.47911537)
 
 [node name="DiscardStack" type="CSGBox3D" parent="DiscardTarget"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00072062016, 0)

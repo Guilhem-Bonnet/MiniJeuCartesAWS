@@ -22,14 +22,22 @@ public partial class TimedRunUI : Control
         _menuSettingsButton = GetNodeOrNull<Button>("Margin/Center/CardPanel/CardMargin/VBox/MenuRow/Settings");
         _menuQuitButton = GetNodeOrNull<Button>("Margin/Center/CardPanel/CardMargin/VBox/MenuRow/Quit");
 
+        if (!IsInstanceValid(_menuSettingsButton) || !IsInstanceValid(_menuQuitButton))
+        {
+            GD.PushWarning("[MiniJeuCartesAWS] Boutons menu introuvables (attendu: Margin/Center/CardPanel/.../MenuRow/Settings et Quit)");
+        }
+
         if (IsInstanceValid(_menuSettingsButton))
         {
-            SafeConnectNoDup(_menuSettingsButton, SignalPressed, Callable.From(ToggleSettingsPanel));
+            // Events C# (sûrs): retirer puis ré-ajouter évite les doublons sans dépendre des signaux.
+            _menuSettingsButton!.Pressed -= ToggleSettingsPanel;
+            _menuSettingsButton.Pressed += ToggleSettingsPanel;
         }
 
         if (IsInstanceValid(_menuQuitButton))
         {
-            SafeConnectNoDup(_menuQuitButton, SignalPressed, Callable.From(QuitGame));
+            _menuQuitButton!.Pressed -= QuitGame;
+            _menuQuitButton.Pressed += QuitGame;
         }
 
         // Settings panel
@@ -43,32 +51,38 @@ public partial class TimedRunUI : Control
 
         if (IsInstanceValid(_settingsCloseButton))
         {
-            SafeConnectNoDup(_settingsCloseButton, SignalPressed, Callable.From(HideSettingsPanel));
+            _settingsCloseButton!.Pressed -= HideSettingsPanel;
+            _settingsCloseButton.Pressed += HideSettingsPanel;
         }
 
         if (IsInstanceValid(_settingsEnableAudio))
         {
-            SafeConnectNoDup(_settingsEnableAudio, SignalToggled, Callable.From<bool>(OnEnableAudioToggled));
+            _settingsEnableAudio!.Toggled -= OnEnableAudioToggled;
+            _settingsEnableAudio.Toggled += OnEnableAudioToggled;
         }
 
         if (IsInstanceValid(_settingsEnableAmbience))
         {
-            SafeConnectNoDup(_settingsEnableAmbience, SignalToggled, Callable.From<bool>(OnEnableAmbienceToggled));
+            _settingsEnableAmbience!.Toggled -= OnEnableAmbienceToggled;
+            _settingsEnableAmbience.Toggled += OnEnableAmbienceToggled;
         }
 
         if (IsInstanceValid(_settingsSfxVolume))
         {
-            SafeConnectNoDup(_settingsSfxVolume, SignalValueChanged, Callable.From<double>(OnSfxVolumeChanged));
+            _settingsSfxVolume!.ValueChanged -= OnSfxVolumeChanged;
+            _settingsSfxVolume.ValueChanged += OnSfxVolumeChanged;
         }
 
         if (IsInstanceValid(_settingsAmbienceVolume))
         {
-            SafeConnectNoDup(_settingsAmbienceVolume, SignalValueChanged, Callable.From<double>(OnAmbienceVolumeChanged));
+            _settingsAmbienceVolume!.ValueChanged -= OnAmbienceVolumeChanged;
+            _settingsAmbienceVolume.ValueChanged += OnAmbienceVolumeChanged;
         }
 
         if (IsInstanceValid(_settingsTimeLimit))
         {
-            SafeConnectNoDup(_settingsTimeLimit, SignalValueChanged, Callable.From<double>(OnTimeLimitChanged));
+            _settingsTimeLimit!.ValueChanged -= OnTimeLimitChanged;
+            _settingsTimeLimit.ValueChanged += OnTimeLimitChanged;
         }
 
         ApplyRuntimeToSettingsUI();

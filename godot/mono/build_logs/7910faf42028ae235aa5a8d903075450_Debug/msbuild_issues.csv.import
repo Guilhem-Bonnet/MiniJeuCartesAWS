@@ -1,0 +1,15 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cnpj6kit3ql5r"
+valid=false
+
+[deps]
+
+source_file="res://godot/mono/build_logs/7910faf42028ae235aa5a8d903075450_Debug/msbuild_issues.csv"
+
+[params]
+
+compress=true
+delimiter=0

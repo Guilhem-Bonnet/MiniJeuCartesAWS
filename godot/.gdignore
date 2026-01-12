@@ -1,0 +1,2 @@
+# Godot ignore marker: prevents this directory from being imported as project resources.
+# This folder contains local/editor artifacts (settings, build logs, templates).

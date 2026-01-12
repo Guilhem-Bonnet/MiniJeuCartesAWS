@@ -93,7 +93,7 @@ public partial class TimedRunUI : Control
     private AudioStreamPlayer3D? _ambience;
 
     private Node3D _cardRig = null!;
-    private GpuParticles3D? _sparkles;
+    private GpuParticles3D _sparkles = null!;
     private MeshInstance3D _cardFrontMesh = null!;
     private MeshInstance3D _cardBackMesh = null!;
     private SubViewport _cardFrontViewport = null!;
@@ -263,10 +263,12 @@ public partial class TimedRunUI : Control
         _cardAnim = GetNodeOrNull<AnimationPlayer>("../../CardRig/CardAnim");
         if (IsInstanceValid(_cardAnim))
         {
-            // Evite les doublons en hot-reload, sans générer d'erreur si aucune connexion n'existe.
-            SafeReconnect(_cardAnim, SignalAnimationFinished, Callable.From<StringName>(OnCardAnimationFinished));
+            // Evite les doublons en hot-reload.
+            _cardAnim!.AnimationFinished -= OnCardAnimationFinished;
+            _cardAnim!.AnimationFinished += OnCardAnimationFinished;
         }
-        _sparkles = GetNodeOrNull<GpuParticles3D>("../../CardRig/Sparkles");
+        _cardRigOffset = EnsureOffsetParent(_cardRig, "CardRigOffset");
+        _sparkles = GetNode<GpuParticles3D>("../../CardRig/Sparkles");
         _cardFrontMesh = GetNode<MeshInstance3D>("../../CardRig/CardFace");
         _cardBackMesh = GetNode<MeshInstance3D>("../../CardRig/CardBack");
         _cardClickArea = GetNodeOrNull<StaticBody3D>("../../CardRig/CardClickArea");
@@ -334,12 +336,11 @@ public partial class TimedRunUI : Control
         _deckAnim = GetNodeOrNull<AnimationPlayer>("../../Set/DeckRig/DeckAnim");
         if (IsInstanceValid(_deckAnim))
         {
-            SafeReconnect(_deckAnim, SignalAnimationFinished, Callable.From<StringName>(OnDeckAnimationFinished));
+            _deckAnim!.AnimationFinished -= OnDeckAnimationFinished;
+            _deckAnim!.AnimationFinished += OnDeckAnimationFinished;
         }
-
-        // Le reparenting (offset parents) pendant _Ready peut échouer si le parent est en train
-        // de construire ses enfants. On le décale à la fin du frame.
-        CallDeferred(nameof(DeferredWorldRigSetup));
+        if (IsInstanceValid(_deckRig))
+            _deckRigOffset = EnsureOffsetParent(_deckRig!, "DeckRigOffset");
 
         _tableMesh = GetNode<MeshInstance3D>("../../Set/Table");
         _wallMesh = GetNode<MeshInstance3D>("../../Set/BackWall");
@@ -360,15 +361,6 @@ public partial class TimedRunUI : Control
 
         LoadDeck();
         ShowReadyScreen();
-    }
-
-    private void DeferredWorldRigSetup()
-    {
-        if (IsInstanceValid(_cardRig))
-            _cardRigOffset = EnsureOffsetParent(_cardRig!, "CardRigOffset");
-
-        if (IsInstanceValid(_deckRig))
-            _deckRigOffset = EnsureOffsetParent(_deckRig!, "DeckRigOffset");
     }
 
     private void BuildAnswerBarStyles()
