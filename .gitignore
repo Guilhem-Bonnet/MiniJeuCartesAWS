@@ -11,6 +11,9 @@ export.cfg
 # Artefacts locaux (éditeur / logs)
 godot/
 
+# Outils locaux (Godot téléchargé, etc.)
+.tools/
+
 # Build outputs (ne pas versionner)
 builds/
 
