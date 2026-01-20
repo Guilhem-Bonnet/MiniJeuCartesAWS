@@ -11,6 +11,35 @@ public partial class TimedRunUI : Control
         if (@event is not InputEventKey key || !key.Pressed)
             return;
 
+        if (key.Keycode == Key.F3)
+        {
+            ToggleDebugOverlay();
+            return;
+        }
+
+        if (key.Keycode == Key.Escape)
+        {
+            // Toujours: overlays menu (Cours) / popup Options.
+            if (IsCourseOverlayVisible())
+            {
+                CloseCourseOverlay();
+                return;
+            }
+
+            if (IsInstanceValid(_optionsPopup) && _optionsPopup!.Visible)
+            {
+                CloseOptionsPopup();
+                return;
+            }
+
+            // En jeu: pause.
+            if (_runActive)
+            {
+                TogglePauseMenu();
+                return;
+            }
+        }
+
         if (!_runActive)
         {
             if (key.Keycode == Key.Enter || key.Keycode == Key.KpEnter || key.Keycode == Key.Space)
@@ -21,6 +50,9 @@ public partial class TimedRunUI : Control
             return;
         }
 
+        if (_isPaused)
+            return;
+
         if (key.Keycode == Key.Key1) Choose(0);
         else if (key.Keycode == Key.Key2) Choose(1);
         else if (key.Keycode == Key.Key3) Choose(2);
@@ -30,6 +62,9 @@ public partial class TimedRunUI : Control
     public override void _Input(InputEvent @event)
     {
         if (!_runActive)
+            return;
+
+        if (_isPaused)
             return;
 
         // Clic gauche sur la carte => choisir une réponse (sans UI overlay).

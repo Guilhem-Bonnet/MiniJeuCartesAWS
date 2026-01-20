@@ -34,8 +34,6 @@ Mini-jeu offline de cartes pour réviser AWS Cloud Practitioner.
 - `Data/questions_practitioner.json`
   - deck CCP
 
-- Legacy (V1) : `Scenes/Main.tscn`, `Scripts/MainUI.cs`
-
 ## Arborescence de scène (Main3D)
 
 Les NodePaths sont importants car `TimedRunUI.cs` fait des `GetNode<>()`.
@@ -118,6 +116,7 @@ Validation runtime actuelle (dans `LoadDeck()`):
 ## Pièges fréquents
 
 - Godot C# peut lancer une DLL non à jour si l’éditeur n’a pas rebuild.
+
   - Action : `Project > Tools > C# > Build`.
 
 - Warnings Vulkan/RADV : souvent non bloquants.

@@ -37,4 +37,4 @@ Si tu ne vois pas les derniers changements côté scripts C#, fais :
 
 - Scène 3D principale : `Scenes/Main3D.tscn`
 - Script principal (timed run) : `Scripts/TimedRunUI.cs`
-- Ancienne scène 2D (V1, conservée) : `Scenes/Main.tscn` + `Scripts/MainUI.cs`
+

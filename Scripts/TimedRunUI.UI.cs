@@ -147,10 +147,6 @@ public partial class TimedRunUI : Control
     {
         var score = $"Score: {_correct}/{_answered}";
         var timer = $"{BuildMarker} ⏱️ {FormatTime(_timeRemaining)}";
-        if (IsInstanceValid(_scoreLabel))
-            _scoreLabel.Text = score;
-        if (IsInstanceValid(_timerLabel))
-            _timerLabel.Text = timer;
 
         // Défensif: si la scène HUD a été modifiée (ex: suppression du post-it),
         // on évite un crash et on re-résout les refs si besoin.
@@ -185,6 +181,9 @@ public partial class TimedRunUI : Control
 
     private static string FormatTime(double seconds)
     {
+        if (double.IsPositiveInfinity(seconds))
+            return "∞";
+
         var s = Math.Max(0, (int)Math.Ceiling(seconds));
         var m = s / 60;
         var r = s % 60;

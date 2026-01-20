@@ -4,7 +4,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text;
 
 public partial class TimedRunUI : Control
 {
@@ -21,17 +23,19 @@ public partial class TimedRunUI : Control
         _indicesByDomain.Clear();
         _usedByDomain.Clear();
 
+        var deckPath = GetActiveDeckPath();
+
         try
         {
-            if (!ResourceLoader.Exists(DeckPath))
+            if (!ResourceLoader.Exists(deckPath))
             {
-                GD.PrintErr($"[MiniJeuCartesAWS] Deck missing: {DeckPath}");
+                GD.PrintErr($"[MiniJeuCartesAWS] Deck missing: {deckPath}");
                 BuildFallbackDeck();
                 IndexDeck();
                 return;
             }
 
-            using var f = FileAccess.Open(DeckPath, FileAccess.ModeFlags.Read);
+            using var f = FileAccess.Open(deckPath, FileAccess.ModeFlags.Read);
             var json = f.GetAsText();
 
             var deck = JsonSerializer.Deserialize<QuestionDeck>(json, new JsonSerializerOptions
@@ -60,9 +64,21 @@ public partial class TimedRunUI : Control
                 var domain = NormalizeDomain(q.Domain, q.Category);
                 var difficulty = Math.Clamp(q.Difficulty <= 0 ? 1 : q.Difficulty, 1, 3);
                 var correctAnswer = q.Answers[q.CorrectIndex];
+                var category = (q.Category ?? string.Empty).Trim();
+                var problem = (q.Problem ?? string.Empty).Trim();
+                var services = (q.Services ?? Array.Empty<string>()).Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).ToArray();
+                var tags = (q.Tags ?? Array.Empty<string>()).Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()).ToArray();
+                var id = string.IsNullOrWhiteSpace(q.Id)
+                    ? ComputeQuestionId(deck.DeckId, domain, category, q.Prompt)
+                    : q.Id.Trim();
 
                 _allQuestions.Add(new Question(
+                    id,
                     domain,
+                    category,
+                    problem,
+                    services,
+                    tags,
                     difficulty,
                     q.Prompt,
                     q.Answers,
@@ -87,6 +103,12 @@ public partial class TimedRunUI : Control
     {
         q = null!;
 
+        // Profil courant: base de l'adaptatif.
+        var profile = GetCurrentProfile();
+
+        // Anti-répétition courte (tous domaines confondus).
+        _recentQuestionIds ??= new Queue<string>();
+
         // Si un domaine est épuisé (toutes questions marquées utilisées), on le recycle.
         foreach (var kv in _indicesByDomain)
         {
@@ -104,9 +126,11 @@ public partial class TimedRunUI : Control
             // ok
         }
 
-        // Tirage pondéré par domaine + biais difficulté
+        // Tirage adaptatif: score par question (profil) puis weighted random.
         for (var attempt = 0; attempt < 50; attempt++)
         {
+            // On conserve l'équilibre par domaines via un choix pondéré,
+            // puis on score finement les questions de ce domaine.
             var domain = ChooseDomainWeighted();
             if (!_indicesByDomain.TryGetValue(domain, out var list) || list.Count == 0)
                 continue;
@@ -124,31 +148,287 @@ public partial class TimedRunUI : Control
                 candidates = list.ToList();
             }
 
-            // Pondération difficulté 1/2/3
-            var picked = PickByDifficulty(candidates);
+            if (!TryPickAdaptive(candidates, profile, out var picked))
+                continue;
+
             used.Add(picked);
             q = _allQuestions[picked];
+
+            RememberRecentQuestion(q.Id);
             return true;
         }
 
         return false;
     }
 
-    private string ChooseDomainWeighted()
-    {
-        var total = 0f;
-        foreach (var d in DomainWeights)
-            total += d.Weight;
+    private Queue<string>? _recentQuestionIds;
+    private const int RecentQuestionWindow = 10;
 
-        var r = (float)(_rng.NextDouble() * total);
-        foreach (var d in DomainWeights)
+    private void RememberRecentQuestion(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return;
+        _recentQuestionIds ??= new Queue<string>();
+
+        // Empêche les répétitions immédiates (même si le deck est petit).
+        if (_recentQuestionIds.Count > 0 && string.Equals(_recentQuestionIds.Last(), id, StringComparison.OrdinalIgnoreCase))
+            return;
+
+        _recentQuestionIds.Enqueue(id);
+        while (_recentQuestionIds.Count > RecentQuestionWindow)
+            _recentQuestionIds.Dequeue();
+    }
+
+    private bool IsRecent(string id)
+    {
+        if (string.IsNullOrWhiteSpace(id) || _recentQuestionIds == null)
+            return false;
+        return _recentQuestionIds.Contains(id, StringComparer.OrdinalIgnoreCase);
+    }
+
+    private bool TryPickAdaptive(List<int> candidates, PlayerProfile profile, out int picked)
+    {
+        picked = -1;
+        if (candidates.Count == 0)
+            return false;
+
+        // Mode "Renforcement": cible agressivement les difficultés.
+        var reinforcement = _selectedGameMode == GameMode.Reinforcement;
+
+        // Soft-filter: en mode normal, on évite de repiocher trop souvent des questions maîtrisées
+        // si on a suffisamment de variété restante. (Ne doit jamais bloquer un petit deck.)
+        if (!reinforcement && candidates.Count >= 10)
         {
-            r -= d.Weight;
-            if (r <= 0)
-                return d.Domain;
+            profile.QuestionStatsById ??= new Dictionary<string, QuestionStats>(StringComparer.OrdinalIgnoreCase);
+
+            bool IsMastered(Question q)
+            {
+                if (!profile.QuestionStatsById.TryGetValue(q.Id, out var qs) || qs == null)
+                    return false;
+
+                var asked = qs.Asked;
+                if (asked < 4)
+                    return false;
+
+                var acc = asked <= 0 ? 0.0f : (float)qs.Correct / asked;
+                return acc >= 0.90f;
+            }
+
+            var mastered = candidates.Where(i => IsMastered(_allQuestions[i])).ToList();
+            // On ne filtre que si au moins ~40% de candidates restent.
+            if (mastered.Count > 0 && mastered.Count <= (int)(candidates.Count * 0.60f))
+            {
+                var filtered = candidates.Where(i => !mastered.Contains(i)).ToList();
+                if (filtered.Count >= 3)
+                    candidates = filtered;
+            }
         }
 
-        return DomainWeights[0].Domain;
+        float Score(int idx)
+        {
+            var q = _allQuestions[idx];
+
+            // Poids domaine (équilibre global).
+            var domainWeight = 1.0f;
+            foreach (var d in DomainWeights)
+            {
+                if (string.Equals(d.Domain, q.Domain, StringComparison.OrdinalIgnoreCase))
+                {
+                    domainWeight = d.Weight;
+                    break;
+                }
+            }
+            domainWeight = Math.Max(0.05f, domainWeight);
+
+            // Difficulté
+            var difficultyWeight = q.Difficulty == 1 ? 1.0f : (q.Difficulty == 2 ? 1.25f : 1.55f);
+
+            // Difficulté d'entraînement (menu): on biaise le tirage sans filtrer dur.
+            // - Débutant: favorise les questions simples et évite les pièges.
+            // - Expert: mix, légère préférence pour scénarios.
+            // - Maître: favorise les questions difficiles et les questions "pièges"/"à ne pas confondre".
+            bool HasTag(string t)
+            {
+                if (q.Tags == null) return false;
+                foreach (var x in q.Tags)
+                {
+                    if (string.Equals(x, t, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+                return false;
+            }
+
+            var isTrap = HasTag("trap") || HasTag("confusable") || HasTag("best-solution") || HasTag("best-practice");
+            var isScenario = HasTag("scenario") || HasTag("case") || HasTag("course");
+
+            var trainingBias = 1.0f;
+            switch (_selectedTrainingDifficulty)
+            {
+                case TrainingDifficulty.Beginner:
+                    trainingBias *= q.Difficulty == 1 ? 1.35f : (q.Difficulty == 2 ? 0.80f : 0.45f);
+                    if (isTrap) trainingBias *= 0.55f;
+                    if (isScenario && q.Difficulty >= 2) trainingBias *= 0.80f;
+                    break;
+
+                case TrainingDifficulty.Expert:
+                    trainingBias *= q.Difficulty == 1 ? 0.95f : (q.Difficulty == 2 ? 1.15f : 1.25f);
+                    if (isScenario) trainingBias *= 1.10f;
+                    if (isTrap) trainingBias *= 1.05f;
+                    break;
+
+                case TrainingDifficulty.Master:
+                    trainingBias *= q.Difficulty == 1 ? 0.55f : (q.Difficulty == 2 ? 1.20f : 1.55f);
+                    if (isScenario) trainingBias *= 1.20f;
+                    if (isTrap) trainingBias *= 1.45f;
+                    break;
+            }
+
+            profile.QuestionStatsById ??= new Dictionary<string, QuestionStats>(StringComparer.OrdinalIgnoreCase);
+            profile.TopicStatsByKey ??= new Dictionary<string, TopicStats>(StringComparer.OrdinalIgnoreCase);
+
+            profile.QuestionStatsById.TryGetValue(q.Id, out var qs);
+            var asked = qs?.Asked ?? 0;
+            var correct = qs?.Correct ?? 0;
+            var acc = asked <= 0 ? 0.0f : (float)correct / asked;
+
+            // Favorise fort les jamais vues.
+            var novelty = asked == 0 ? 3.4f : 1.0f;
+
+            // Évite les cartes "maîtrisées" (beaucoup de bonnes réponses).
+            var masteryPenalty = (asked >= 3 && acc >= 0.85f) ? 0.30f : 1.0f;
+
+            // Cible l'échec et la difficulté.
+            var weaknessBoost = asked == 0 ? 1.0f : (1.0f + (1.0f - acc) * 1.8f);
+            var streakBoost = 1.0f + Math.Clamp(qs?.WrongStreak ?? 0, 0, 6) * 0.55f;
+
+            // Anti-récence (au sein d'une session).
+            var recentPenalty = IsRecent(q.Id) ? 0.10f : 1.0f;
+
+            // Ciblage par thèmes/problématiques/services (si stats suffisantes)
+            float TopicWeakness(string key)
+            {
+                if (!profile.TopicStatsByKey.TryGetValue(key, out var ts))
+                    return 1.0f;
+                if (ts.Asked < 4)
+                    return 1.0f;
+                var tacc = ts.Asked <= 0 ? 0.0f : (float)ts.Correct / ts.Asked;
+                if (tacc < 0.55f) return 1.65f;
+                if (tacc < 0.70f) return 1.35f;
+                if (tacc < 0.82f) return 1.10f;
+                return 0.95f;
+            }
+
+            // IMPORTANT: éviter de multiplier 8–10 facteurs (services/tags) => score instable.
+            // On utilise une moyenne géométrique, puis on clippe.
+            static float ClampMul(float v) => Math.Clamp(v, 0.60f, 1.80f);
+
+            var topicMultipliers = new List<float>(12);
+            if (!string.IsNullOrWhiteSpace(q.Category)) topicMultipliers.Add(ClampMul(TopicWeakness($"cat:{q.Category}")));
+            if (!string.IsNullOrWhiteSpace(q.Problem)) topicMultipliers.Add(ClampMul(TopicWeakness($"prob:{q.Problem}")));
+            if (q.Services != null)
+            {
+                foreach (var s in q.Services)
+                {
+                    if (!string.IsNullOrWhiteSpace(s))
+                        topicMultipliers.Add(ClampMul(TopicWeakness($"svc:{s}")));
+                }
+            }
+            if (q.Tags != null)
+            {
+                foreach (var t in q.Tags)
+                {
+                    if (!string.IsNullOrWhiteSpace(t))
+                        topicMultipliers.Add(ClampMul(TopicWeakness($"tag:{t}")));
+                }
+            }
+
+            var theme = 1.0f;
+            if (topicMultipliers.Count > 0)
+            {
+                var g = 1.0f;
+                foreach (var m in topicMultipliers)
+                    g *= m;
+                theme = MathF.Pow(g, 1.0f / topicMultipliers.Count);
+                theme = Math.Clamp(theme, 0.70f, 1.60f);
+            }
+
+            // Mode renforcement: on pousse encore les cartes "à travailler" et on réduit les maîtrisées.
+            if (reinforcement)
+            {
+                if (asked == 0)
+                    novelty *= 1.25f;
+
+                // Si maîtrisé, on la met quasiment de côté.
+                if (asked >= 3 && acc >= 0.85f)
+                    masteryPenalty *= 0.15f;
+
+                // Si déjà ratée, on insiste.
+                if (asked > 0 && acc <= 0.70f)
+                    weaknessBoost *= 1.35f;
+            }
+
+            var score = domainWeight * difficultyWeight * trainingBias * novelty * masteryPenalty * weaknessBoost * streakBoost * theme * recentPenalty;
+
+            // Plancher pour éviter zéro (et garder un tirage possible).
+            return Math.Max(0.0001f, score);
+        }
+
+        var total = 0.0f;
+        foreach (var idx in candidates)
+            total += Score(idx);
+
+        if (total <= 0.0f)
+            return false;
+
+        var r = (float)(_rng.NextDouble() * total);
+        foreach (var idx in candidates)
+        {
+            r -= Score(idx);
+            if (r <= 0)
+            {
+                picked = idx;
+                return true;
+            }
+        }
+
+        picked = candidates[0];
+        return true;
+    }
+
+    private string ChooseDomainWeighted()
+    {
+        // On ne doit jamais choisir un domaine absent du deck, sinon le tirage peut échouer
+        // (et faire terminer la partie instantanément). On pondère donc uniquement les domaines
+        // effectivement présents, en utilisant DomainWeights quand disponible.
+
+        if (_indicesByDomain.Count == 0)
+            return DomainWeights[0].Domain;
+
+        var weightByDomain = new Dictionary<string, float>(StringComparer.OrdinalIgnoreCase);
+        foreach (var d in DomainWeights)
+            weightByDomain[d.Domain] = d.Weight;
+
+        var domains = _indicesByDomain
+            .Where(kv => kv.Value.Count > 0)
+            .Select(kv => kv.Key)
+            .ToList();
+
+        if (domains.Count == 0)
+            return _indicesByDomain.Keys.First();
+
+        var total = 0f;
+        foreach (var domain in domains)
+            total += weightByDomain.TryGetValue(domain, out var w) ? w : 1.0f;
+
+        var r = (float)(_rng.NextDouble() * total);
+        foreach (var domain in domains)
+        {
+            r -= weightByDomain.TryGetValue(domain, out var w) ? w : 1.0f;
+            if (r <= 0)
+                return domain;
+        }
+
+        return domains[0];
     }
 
     private int PickByDifficulty(List<int> candidates)
@@ -195,7 +475,12 @@ public partial class TimedRunUI : Control
     {
         _allQuestions.Clear();
         _allQuestions.Add(new Question(
+            ComputeQuestionId("fallback", "Technology", "Storage", "Quel service AWS est un stockage d'objets ?"),
             "Technology",
+            "Storage",
+            "Identifier le service adapté",
+            new[] { "Amazon S3" },
+            Array.Empty<string>(),
             1,
             "Quel service AWS est un stockage d'objets ?",
             new[] { "Amazon S3", "Amazon RDS", "AWS Lambda", "Amazon EC2" },
@@ -203,7 +488,12 @@ public partial class TimedRunUI : Control
             "Amazon S3 est un service de stockage d'objets (buckets/objets)."));
 
         _allQuestions.Add(new Question(
+            ComputeQuestionId("fallback", "Security", "IAM", "Quel service gère des rôles et des politiques d'accès ?"),
             "Security",
+            "IAM",
+            "Gouvernance des accès",
+            new[] { "AWS IAM" },
+            Array.Empty<string>(),
             1,
             "Quel service gère des rôles et des politiques d'accès ?",
             new[] { "AWS IAM", "Amazon VPC", "Amazon Route 53", "Amazon CloudFront" },
@@ -211,7 +501,12 @@ public partial class TimedRunUI : Control
             "IAM (Identity and Access Management) permet de gérer utilisateurs, rôles et politiques."));
 
         _allQuestions.Add(new Question(
+            ComputeQuestionId("fallback", "Billing", "CostManagement", "Quel outil aide à optimiser les coûts AWS ?"),
             "Billing",
+            "CostManagement",
+            "Optimisation coûts",
+            new[] { "AWS Cost Explorer" },
+            Array.Empty<string>(),
             1,
             "Quel outil aide à optimiser les coûts AWS ?",
             new[] { "AWS Cost Explorer", "AWS Shield", "AWS Snowball", "AWS WAF" },
@@ -220,7 +515,7 @@ public partial class TimedRunUI : Control
 
     }
 
-    private static string NormalizeDomain(string domain, string category)
+    private static string NormalizeDomain(string? domain, string? category)
     {
         var d = (domain ?? string.Empty).Trim();
         if (d.Length > 0)
@@ -256,12 +551,27 @@ public partial class TimedRunUI : Control
     private readonly record struct AnswerOption(string Text, bool IsCorrect);
 
     private sealed record Question(
+        string Id,
         string Domain,
+        string Category,
+        string Problem,
+        string[] Services,
+        string[] Tags,
         int Difficulty,
         string Prompt,
         string[] Answers,
         string CorrectAnswer,
         string Explanation);
+
+    private static string ComputeQuestionId(string deckId, string domain, string category, string prompt)
+    {
+        // Id stable et indépendant des index: utile pour les stats par profil.
+        // (On garde volontairement court pour rester lisible dans les fichiers JSON.)
+        var seed = $"{deckId}|{domain}|{category}|{prompt}";
+        var bytes = Encoding.UTF8.GetBytes(seed);
+        var hash = SHA1.HashData(bytes);
+        return Convert.ToHexString(hash).Substring(0, 12).ToLowerInvariant();
+    }
 
     private sealed class QuestionDeck
     {
@@ -272,7 +582,11 @@ public partial class TimedRunUI : Control
 
     private sealed class QuestionItem
     {
+        public string Id { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
+        public string Problem { get; set; } = string.Empty;
+        public string[] Services { get; set; } = Array.Empty<string>();
+        public string[] Tags { get; set; } = Array.Empty<string>();
         public string Domain { get; set; } = string.Empty;
         public int Difficulty { get; set; } = 1;
 

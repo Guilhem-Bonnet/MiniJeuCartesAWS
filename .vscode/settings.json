@@ -1,0 +1,24 @@
+{
+  "files.watcherExclude": {
+    "**/.godot/**": true,
+    "**/.import/**": true,
+    "**/godot/app_userdata/**": true,
+    "**/godot/mono/build_logs/**": true,
+    "**/.venv/**": true,
+    "**/bin/**": true,
+    "**/obj/**": true
+  },
+  "search.exclude": {
+    "**/.godot/**": true,
+    "**/.import/**": true,
+    "**/godot/app_userdata/**": true,
+    "**/godot/mono/build_logs/**": true,
+    "**/.venv/**": true,
+    "**/bin/**": true,
+    "**/obj/**": true
+  },
+  "files.exclude": {
+    "**/.godot": true,
+    "**/.import": true
+  }
+}

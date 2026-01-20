@@ -26,10 +26,28 @@ public partial class TimedRunUI : Control
             _deckAnim!.Stop();
 
         _cardMotionAnchorValid = false;
+        _postDrawMouseBlendActive = false;
 
         _pendingAnimAction = PendingAnimAction.None;
         _pendingAnimName = "";
         _idleAnchorValid = false;
+    }
+
+    private void StartPostDrawMouseBlend()
+    {
+        // IMPORTANT: conserver strictement la dernière pose du clip comme base.
+        // Ensuite seulement, faire rentrer progressivement la micro-motion souris.
+        if (IsInstanceValid(_cardRig))
+        {
+            _cardMotionAnchorValid = true;
+            _cardMotionAnchorGlobal = _cardRig!.GlobalTransform;
+        }
+
+        // Démarrer depuis l'état actuel de la souris évite une accélération perçue
+        // (0 -> target) au moment où l'influence commence à remonter.
+        _mouseMotion = TryGetNormalizedMouse(out var now) ? now : Vector2.Zero;
+        _postDrawMouseBlendActive = true;
+        _postDrawMouseBlendT = 0.0;
     }
 
     internal static Node3D EnsureOffsetParent(Node3D node, string offsetName)
@@ -104,7 +122,13 @@ public partial class TimedRunUI : Control
 
         if (TryGetAnimTransformSample(anim, fromEnd ? anim.Length : 0.0, out var animStartLocal))
         {
+            // On veut: rigOffsetGlobal * animStartLocal == desiredRigStartGlobal
+            // Donc: rigOffsetGlobal == desiredRigStartGlobal * inverse(animStartLocal)
             rigOffset!.GlobalTransform = desiredRigStartGlobal * animStartLocal.AffineInverse();
+
+            // IMPORTANT: le clip anime `rig.transform` (local). On force la pose de départ
+            // pour éviter une frame où `rig` serait encore à Identity alors que l'offset
+            // est déjà positionné (ça donne exactement l'effet "téléport" après/pendant l'anim).
             rig!.Transform = animStartLocal;
         }
 
@@ -123,8 +147,7 @@ public partial class TimedRunUI : Control
         // pour éviter tout snap au moment où l'utilisateur peut choisir.
         if (string.Equals(animName.ToString(), AnimCardDraw, StringComparison.Ordinal))
         {
-            _cardMotionAnchorValid = true;
-            _cardMotionAnchorGlobal = _cardRig.GlobalTransform;
+            StartPostDrawMouseBlend();
         }
 
         if (_pendingAnimAction == PendingAnimAction.None)
@@ -186,15 +209,12 @@ public partial class TimedRunUI : Control
 
         PlaySfx(_sfxDraw, pitch: 0.98f + (float)_rng.NextDouble() * 0.06f);
 
-        if (!IsInstanceValid(_deckSpawn) || !IsInstanceValid(_cardFocus))
-        {
-            _cardRig.GlobalTransform = GetFocusTransformGlobal();
-            _cardMotionAnchorValid = true;
-            _cardMotionAnchorGlobal = _cardRig.GlobalTransform;
-            return;
-        }
+        // Si DeckSpawn/CardFocus sont introuvables, on tente quand même de jouer le clip
+        // en l'alignant sur la pose courante (fallback visuel) plutôt que de ne rien animer.
+        var startT = IsInstanceValid(_deckSpawn)
+            ? _deckSpawn!.GlobalTransform
+            : _cardRig.GlobalTransform;
 
-        var startT = _deckSpawn!.GlobalTransform;
         if (TryPlayAlignedTransformAnim(_cardAnim, _cardRig, _cardRigOffset, AnimCardDraw, startT, speed: 1.0f, fromEnd: false))
             return;
 

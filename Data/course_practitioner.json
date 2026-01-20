@@ -1,0 +1,1406 @@
+{
+  "courseId": "aws-practitioner-services-fr-v1",
+  "title": "Cours — Services AWS (Cloud Practitioner)",
+  "lessons": [
+    {
+      "id": "compute-ec2",
+      "title": "Amazon EC2 — serveurs virtuels (VM)",
+      "summary": "Quand tu veux contrôler l'OS et l'environnement (comme un serveur classique).",
+      "body": "À quoi ça sert : exécuter des applications sur des instances (VM) dans le cloud.\n\nQuand le choisir :\n- Appli web classique, besoin d'accès OS (packages, agents).\n- Workloads longue durée, personnalisés.\n\nÀ ne pas confondre :\n- Lambda (tu ne gères pas de serveur).\n- Lightsail (plus simple, moins flexible).\n- Elastic Beanstalk (déploiement géré au-dessus de services AWS).",
+      "services": [
+        "Amazon EC2"
+      ],
+      "tags": [
+        "compute",
+        "ec2",
+        "ccp"
+      ]
+    },
+    {
+      "id": "compute-lambda",
+      "title": "AWS Lambda — exécution de code serverless",
+      "summary": "Idéal pour des traitements déclenchés par événements, sans gérer d'infra.",
+      "body": "À quoi ça sert : exécuter une fonction en réponse à un événement (API, fichier S3, cron, etc.).\n\nQuand le choisir :\n- Tâches ponctuelles, event-driven, scaling automatique.\n- Payer uniquement le temps d'exécution.\n\nÀ ne pas confondre :\n- EC2 (serveurs permanents).\n- Batch (surtout pour gros jobs batch/compute planifié).\n- Beanstalk (déploiement appli complète).",
+      "services": [
+        "AWS Lambda"
+      ],
+      "tags": [
+        "compute",
+        "serverless",
+        "lambda",
+        "ccp"
+      ]
+    },
+    {
+      "id": "compute-beanstalk",
+      "title": "AWS Elastic Beanstalk — déployer une appli web rapidement",
+      "summary": "Plateforme de déploiement (PaaS) qui simplifie la mise en prod.",
+      "body": "À quoi ça sert : déployer une application (Java/.NET/Node/Python, etc.) en laissant Beanstalk gérer l'infra sous-jacente.\n\nQuand le choisir :\n- Tu veux un déploiement simple (environnement géré) et scaler sans tout câbler toi-même.\n\nÀ ne pas confondre :\n- EC2 (gestion plus manuelle).\n- Lambda (serverless, fonctions).\n- CloudFormation (IaC générique).",
+      "services": [
+        "Elastic Beanstalk"
+      ],
+      "tags": [
+        "compute",
+        "deployment",
+        "paas",
+        "ccp"
+      ]
+    },
+    {
+      "id": "compute-lightsail",
+      "title": "Amazon Lightsail — serveurs simplifiés",
+      "summary": "Pour héberger rapidement un site/app simple avec une offre packagée (prix, VM, réseau).",
+      "body": "À quoi ça sert : lancer une VM + stockage + réseau de façon très simplifiée (style VPS).\n\nQuand le choisir :\n- Petits projets, POC, site simple, besoin de simplicité plutôt que d'options avancées.\n\nÀ ne pas confondre :\n- EC2 (plus flexible et intégration AWS plus large).\n- Beanstalk (déploiement appli géré).",
+      "services": [
+        "Lightsail"
+      ],
+      "tags": [
+        "compute",
+        "lightsail",
+        "ccp"
+      ]
+    },
+    {
+      "id": "compute-batch",
+      "title": "AWS Batch — jobs par lots",
+      "summary": "Pour lancer des traitements batch (calculs) en gérant la file, la planification et la capacité.",
+      "body": "À quoi ça sert : exécuter des jobs batch (rendu, calcul scientifique, ETL) à grande échelle.\n\nQuand le choisir :\n- Beaucoup de jobs à exécuter, besoin de queue, priorités, scheduling.\n\nÀ ne pas confondre :\n- Lambda (plutôt court/événementiel).\n- EC2 (tu gères l'ordonnancement toi-même).",
+      "services": [
+        "Batch"
+      ],
+      "tags": [
+        "compute",
+        "batch",
+        "ccp"
+      ]
+    },
+    {
+      "id": "storage-s3",
+      "title": "Amazon S3 — stockage d'objets",
+      "summary": "Pour stocker des fichiers/objets (backups, contenu statique, data lake).",
+      "body": "À quoi ça sert : stockage d'objets dans des buckets. Très scalable.\n\nQuand le choisir :\n- Fichiers, sauvegardes, logs, assets web, données analytiques.\n\nÀ ne pas confondre :\n- EBS (disque bloc pour EC2).\n- EFS (système de fichiers partagé).",
+      "services": [
+        "Amazon S3"
+      ],
+      "tags": [
+        "storage",
+        "s3",
+        "ccp"
+      ]
+    },
+    {
+      "id": "storage-ebs",
+      "title": "Amazon EBS — stockage en bloc pour EC2",
+      "summary": "Comme un disque dur/SSD attaché à une instance.",
+      "body": "À quoi ça sert : fournir des volumes bloc persistants à EC2.\n\nQuand le choisir :\n- Besoin d'un disque système ou data disk pour une instance.\n\nÀ ne pas confondre :\n- S3 (objets, pas un disque).\n- EFS (partagé entre plusieurs instances).",
+      "services": [
+        "EBS",
+        "Amazon EC2"
+      ],
+      "tags": [
+        "storage",
+        "ebs",
+        "compute",
+        "ccp"
+      ]
+    },
+    {
+      "id": "storage-efs",
+      "title": "Amazon EFS — système de fichiers partagé",
+      "summary": "Un stockage de type fichiers (NFS) montable par plusieurs EC2.",
+      "body": "À quoi ça sert : partager un même système de fichiers entre plusieurs instances.\n\nQuand le choisir :\n- Plusieurs serveurs doivent lire/écrire les mêmes fichiers (uploads, contenus partagés).\n\nÀ ne pas confondre :\n- EBS (attaché à une instance).\n- S3 (objets).",
+      "services": [
+        "EFS",
+        "Amazon EC2"
+      ],
+      "tags": [
+        "storage",
+        "efs",
+        "file",
+        "ccp"
+      ]
+    },
+    {
+      "id": "storage-storage-gateway",
+      "title": "AWS Storage Gateway — stockage hybride",
+      "summary": "Relie un environnement on-premises à AWS pour du stockage hybride.",
+      "body": "À quoi ça sert : intégrer du stockage on-premises avec AWS (cache, fichiers, volumes, tape selon mode).\n\nQuand le choisir :\n- Migration progressive, contraintes réseau, besoin d'un pont hybride.\n\nÀ ne pas confondre :\n- S3/EBS/EFS (stockage cloud natif).",
+      "services": [
+        "Storage Gateway"
+      ],
+      "tags": [
+        "storage",
+        "hybrid",
+        "migration",
+        "ccp"
+      ]
+    },
+    {
+      "id": "db-rds",
+      "title": "Amazon RDS — bases relationnelles gérées (SQL)",
+      "summary": "Pour MySQL/PostgreSQL/MariaDB/SQL Server/Oracle managés.",
+      "body": "À quoi ça sert : héberger une base relationnelle sans gérer l'infra bas niveau.\n\nQuand le choisir :\n- Besoin de SQL, transactions, schéma relationnel.\n\nÀ ne pas confondre :\n- DynamoDB (NoSQL).\n- Redshift (entrepôt de données, analytique).\n- Aurora (moteur relationnel compatible MySQL/PostgreSQL, souvent plus perf/scalable).",
+      "services": [
+        "RDS"
+      ],
+      "tags": [
+        "database",
+        "rds",
+        "sql",
+        "ccp"
+      ]
+    },
+    {
+      "id": "db-dynamodb",
+      "title": "Amazon DynamoDB — NoSQL managé",
+      "summary": "Base NoSQL clé/valeur et document, très scalable et faible latence.",
+      "body": "À quoi ça sert : stocker des données NoSQL à grande échelle, sans gérer de serveurs.\n\nQuand le choisir :\n- Accès très fréquent, latence faible, scaling automatique, modèle NoSQL.\n\nÀ ne pas confondre :\n- RDS/Aurora (relationnel/SQL).\n- Redshift (analytique).",
+      "services": [
+        "DynamoDB"
+      ],
+      "tags": [
+        "database",
+        "nosql",
+        "dynamodb",
+        "ccp"
+      ]
+    },
+    {
+      "id": "db-aurora",
+      "title": "Amazon Aurora — relationnel compatible MySQL/PostgreSQL",
+      "summary": "Moteur relationnel managé optimisé (famille RDS).",
+      "body": "À quoi ça sert : base SQL compatible MySQL/PostgreSQL, avec des options de performance/HA/scaling.\n\nQuand le choisir :\n- Tu veux SQL, mais avec un moteur orienté performance/scalabilité dans l'écosystème RDS.\n\nÀ ne pas confondre :\n- RDS 'standard' (autres moteurs).\n- DynamoDB (NoSQL).",
+      "services": [
+        "Aurora",
+        "RDS"
+      ],
+      "tags": [
+        "database",
+        "sql",
+        "aurora",
+        "ccp"
+      ]
+    },
+    {
+      "id": "db-redshift",
+      "title": "Amazon Redshift — Data Warehouse",
+      "summary": "Conçu pour l'analytique (requêtes lourdes) plutôt que le transactionnel.",
+      "body": "À quoi ça sert : entrepôt de données pour BI/analytique (OLAP).\n\nQuand le choisir :\n- Requêtes analytiques sur gros volumes, reporting, agrégations.\n\nÀ ne pas confondre :\n- RDS/Aurora (transactionnel/OLTP).\n- Athena (SQL directement sur S3, sans entrepôt provisionné).",
+      "services": [
+        "Redshift"
+      ],
+      "tags": [
+        "database",
+        "analytics",
+        "redshift",
+        "ccp"
+      ]
+    },
+    {
+      "id": "net-vpc",
+      "title": "Amazon VPC — réseau virtuel isolé",
+      "summary": "Définit ton réseau (CIDR, subnets, routage) et isole tes ressources.",
+      "body": "À quoi ça sert : contrôler l'adressage IP, subnets publics/privés, routes et sécurité réseau.\n\nÀ ne pas confondre :\n- Route 53 (DNS).\n- ELB (répartition de trafic).\n- CloudFront (CDN).",
+      "services": [
+        "VPC"
+      ],
+      "tags": [
+        "network",
+        "vpc",
+        "ccp"
+      ]
+    },
+    {
+      "id": "net-route53",
+      "title": "Amazon Route 53 — DNS managé",
+      "summary": "Pour gérer des domaines et router les requêtes DNS.",
+      "body": "À quoi ça sert : zones DNS, enregistrements, politiques de routage (latency, failover…).\n\nÀ ne pas confondre :\n- ELB (répartit le trafic applicatif).\n- CloudFront (CDN en edge).",
+      "services": [
+        "Route 53"
+      ],
+      "tags": [
+        "network",
+        "dns",
+        "route53",
+        "ccp"
+      ]
+    },
+    {
+      "id": "net-cloudfront",
+      "title": "Amazon CloudFront — CDN mondial",
+      "summary": "Accélère la livraison de contenu en le servant depuis des points de présence.",
+      "body": "À quoi ça sert : réduire la latence et absorber du trafic via le cache en edge.\n\nQuand le choisir :\n- Contenu statique, médias, API accélérées (selon config).\n\nÀ ne pas confondre :\n- ELB (répartit vers des backends).\n- S3 (stockage).",
+      "services": [
+        "CloudFront"
+      ],
+      "tags": [
+        "network",
+        "cdn",
+        "cloudfront",
+        "ccp"
+      ]
+    },
+    {
+      "id": "net-elb",
+      "title": "Elastic Load Balancing (ELB) — répartir le trafic",
+      "summary": "Distribue automatiquement le trafic entrant sur plusieurs cibles.",
+      "body": "À quoi ça sert : haute dispo et scalabilité en répartissant le trafic vers plusieurs instances/services.\n\nÀ ne pas confondre :\n- Route 53 (DNS).\n- CloudFront (cache/edge).",
+      "services": [
+        "Elastic Load Balancing"
+      ],
+      "tags": [
+        "network",
+        "load-balancing",
+        "elb",
+        "ccp"
+      ]
+    },
+    {
+      "id": "sec-iam",
+      "title": "AWS IAM — identités et permissions",
+      "summary": "Définit qui peut faire quoi sur AWS.",
+      "body": "À quoi ça sert : utilisateurs, rôles, policies, MFA, moindre privilège.\n\nÀ ne pas confondre :\n- KMS (chiffrement/clefs).\n- WAF/Shield (protection trafic).",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ]
+    },
+    {
+      "id": "sec-kms",
+      "title": "AWS KMS — gestion de clés de chiffrement",
+      "summary": "Gère des clés et contrôle leur usage pour chiffrer des données.",
+      "body": "À quoi ça sert : chiffrer (S3, EBS, RDS, etc.) via des clés gérées et des policies.\n\nÀ ne pas confondre :\n- IAM (autorisation). KMS est souvent utilisé AVEC IAM.\n- Secrets Manager (stocke des secrets applicatifs).",
+      "services": [
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "kms",
+        "ccp"
+      ]
+    },
+    {
+      "id": "sec-waf",
+      "title": "AWS WAF — pare-feu applicatif web",
+      "summary": "Filtre le trafic HTTP(S) avec des règles L7.",
+      "body": "À quoi ça sert : bloquer des patterns (SQLi, XSS), IPs, bots (selon config).\n\nÀ ne pas confondre :\n- Shield (DDoS).\n- Security Groups (niveau réseau/instance).",
+      "services": [
+        "WAF"
+      ],
+      "tags": [
+        "security",
+        "waf",
+        "web",
+        "ccp"
+      ]
+    },
+    {
+      "id": "sec-inspector",
+      "title": "Amazon Inspector — évaluation sécurité",
+      "summary": "Détecte des vulnérabilités/expositions (selon périmètre).",
+      "body": "À quoi ça sert : analyser des ressources (ex: images, instances) pour remonter des vulnérabilités et mauvaises pratiques.\n\nÀ ne pas confondre :\n- GuardDuty (détection de menaces via logs).\n- WAF (filtrage trafic web).",
+      "services": [
+        "Inspector"
+      ],
+      "tags": [
+        "security",
+        "vulnerability",
+        "inspector",
+        "ccp"
+      ]
+    },
+    {
+      "id": "sec-shield",
+      "title": "AWS Shield — protection DDoS",
+      "summary": "Protège contre des attaques DDoS (Standard inclus, Advanced en option).",
+      "body": "À quoi ça sert : réduire l'impact des attaques DDoS sur les services exposés.\n\nÀ ne pas confondre :\n- WAF (règles applicatives). Shield est plutôt 'volumétrique' DDoS.\n- ELB/CloudFront (peuvent aider, mais ne remplacent pas Shield).",
+      "services": [
+        "Shield"
+      ],
+      "tags": [
+        "security",
+        "ddos",
+        "shield",
+        "ccp"
+      ]
+    },
+    {
+      "id": "mgmt-cloudwatch",
+      "title": "AWS CloudWatch — monitoring/observabilité",
+      "summary": "Métriques, logs, dashboards, alarmes.",
+      "body": "À quoi ça sert : surveiller la santé/perf, centraliser logs, déclencher des alarmes.\n\nÀ ne pas confondre :\n- CloudTrail (audit des appels API).",
+      "services": [
+        "CloudWatch"
+      ],
+      "tags": [
+        "management",
+        "observability",
+        "cloudwatch",
+        "ccp"
+      ]
+    },
+    {
+      "id": "mgmt-cloudtrail",
+      "title": "AWS CloudTrail — traçabilité/audit",
+      "summary": "Enregistre qui a fait quel appel API, quand et depuis où.",
+      "body": "À quoi ça sert : audit, investigations sécurité, conformité.\n\nÀ ne pas confondre :\n- CloudWatch (métriques/logs applicatifs).",
+      "services": [
+        "CloudTrail"
+      ],
+      "tags": [
+        "management",
+        "audit",
+        "cloudtrail",
+        "ccp"
+      ]
+    },
+    {
+      "id": "mgmt-trusted-advisor",
+      "title": "AWS Trusted Advisor — recommandations",
+      "summary": "Conseils pour coûts, performance, sécurité, limites.",
+      "body": "À quoi ça sert : trouver des optimisations (ex: ressources sous-utilisées, checks sécurité).\n\nÀ ne pas confondre :\n- Budgets/Cost Explorer (mesure/alertes sur les coûts). Trusted Advisor recommande des améliorations.",
+      "services": [
+        "Trusted Advisor"
+      ],
+      "tags": [
+        "management",
+        "optimization",
+        "cost",
+        "ccp"
+      ]
+    },
+    {
+      "id": "mgmt-organizations",
+      "title": "AWS Organizations — multi-comptes",
+      "summary": "Gérer plusieurs comptes AWS avec gouvernance centralisée.",
+      "body": "À quoi ça sert : facturation consolidée, structurer en OU, appliquer des garde-fous (SCP).\n\nÀ ne pas confondre :\n- IAM (permissions dans un compte). Organizations gère l'échelle multi-comptes.",
+      "services": [
+        "Organizations"
+      ],
+      "tags": [
+        "management",
+        "governance",
+        "organizations",
+        "ccp"
+      ]
+    },
+    {
+      "id": "analytics-athena",
+      "title": "Amazon Athena — SQL sur S3",
+      "summary": "Requêter des fichiers dans S3 avec du SQL, sans serveur à gérer.",
+      "body": "À quoi ça sert : analyses ad-hoc, exploration de logs/données sur S3.\n\nÀ ne pas confondre :\n- Redshift (entrepôt de données provisionné).\n- RDS (transactionnel).",
+      "services": [
+        "Athena",
+        "Amazon S3"
+      ],
+      "tags": [
+        "analytics",
+        "athena",
+        "s3",
+        "ccp"
+      ]
+    },
+    {
+      "id": "analytics-quicksight",
+      "title": "Amazon QuickSight — BI / dashboards",
+      "summary": "Créer des dashboards et visualisations à partir de données.",
+      "body": "À quoi ça sert : BI, reporting, partage de tableaux de bord.\n\nÀ ne pas confondre :\n- Athena/Redshift (stockage+requêtes). QuickSight est la couche visualisation.",
+      "services": [
+        "QuickSight"
+      ],
+      "tags": [
+        "analytics",
+        "bi",
+        "quicksight",
+        "ccp"
+      ]
+    },
+    {
+      "id": "integration-sns",
+      "title": "Amazon SNS — notifications (pub/sub)",
+      "summary": "Envoyer un message à plusieurs abonnés (fan-out).",
+      "body": "À quoi ça sert : notifications et pub/sub (topic), diffusion à plusieurs cibles.\n\nÀ ne pas confondre :\n- SQS (file, consommation par un worker). SNS diffuse, SQS met en file.\nAstuce : SNS → SQS est un pattern courant.",
+      "services": [
+        "SNS"
+      ],
+      "tags": [
+        "integration",
+        "sns",
+        "messaging",
+        "ccp"
+      ]
+    },
+    {
+      "id": "integration-sqs",
+      "title": "Amazon SQS — file de messages",
+      "summary": "Découpler des composants via une queue.",
+      "body": "À quoi ça sert : bufferiser et fiabiliser le traitement asynchrone.\n\nÀ ne pas confondre :\n- SNS (diffusion). SQS = file, généralement consommée par des workers.",
+      "services": [
+        "SQS"
+      ],
+      "tags": [
+        "integration",
+        "sqs",
+        "messaging",
+        "ccp"
+      ]
+    },
+    {
+      "id": "network-nacl",
+      "title": "Network ACL — pare-feu au niveau subnet",
+      "summary": "Règles stateless de filtrage au niveau du sous-réseau (VPC).",
+      "body": "À quoi ça sert : filtrer le trafic entrant/sortant au niveau subnet (règles allow/deny, évaluées dans l'ordre).\n\nQuand le choisir :\n- Besoin de bloquer explicitement des IPs ou ports au niveau réseau.\n- Compléter les Security Groups (qui sont stateful et par instance).\n\nÀ ne pas confondre :\n- Security Groups (stateful, s'appliquent aux ENI/instances).\n- WAF (filtrage L7 HTTP).",
+      "services": [
+        "VPC",
+        "Network ACL"
+      ],
+      "tags": [
+        "network",
+        "security",
+        "nacl",
+        "ccp"
+      ]
+    },
+    {
+      "id": "iac-cloudformation",
+      "title": "AWS CloudFormation — Infrastructure as Code",
+      "summary": "Déployer et gérer des ressources AWS via des templates (JSON/YAML).",
+      "body": "À quoi ça sert : modéliser toute ton infra AWS dans un fichier (stack) et la déployer de façon reproductible.\n\nQuand le choisir :\n- Tu veux du versioning de ton infra, rollback, automatisation.\n- Conformité et reproductibilité.\n\nÀ ne pas confondre :\n- Elastic Beanstalk (PaaS, déploiement appli).\n- CDK (code TypeScript/Python → génère du CloudFormation).\n- Terraform (IaC multi-cloud, pas AWS-natif).",
+      "services": [
+        "CloudFormation"
+      ],
+      "tags": [
+        "iac",
+        "devops",
+        "cloudformation",
+        "ccp"
+      ]
+    },
+    {
+      "id": "devops-codebuild",
+      "title": "AWS CodeBuild — compilation et tests",
+      "summary": "Service de build managé (CI) pour compiler, tester et packager du code.",
+      "body": "À quoi ça sert : exécuter des builds (compilation, tests unitaires) sans gérer de serveurs Jenkins.\n\nQuand le choisir :\n- Tu veux un service de CI intégré à AWS.\n- Builds ponctuels déclenchés par CodePipeline ou manuellement.\n\nÀ ne pas confondre :\n- CodePipeline (orchestrateur CI/CD, utilise CodeBuild comme étape).\n- CodeDeploy (déploiement applicatif, pas build).",
+      "services": [
+        "CodeBuild"
+      ],
+      "tags": [
+        "devops",
+        "ci",
+        "codebuild",
+        "ccp"
+      ]
+    },
+    {
+      "id": "devops-codepipeline",
+      "title": "AWS CodePipeline — orchestration CI/CD",
+      "summary": "Pipeline automatisé pour livrer du code (source → build → deploy).",
+      "body": "À quoi ça sert : chaîner des étapes (récupérer code, builder, déployer) de façon automatisée.\n\nQuand le choisir :\n- Tu veux un pipeline CI/CD complet, intégré aux services AWS.\n\nÀ ne pas confondre :\n- CodeBuild (juste le build).\n- CodeDeploy (juste le déploiement).\n- CodeCommit (juste le repo Git).",
+      "services": [
+        "CodePipeline"
+      ],
+      "tags": [
+        "devops",
+        "cicd",
+        "codepipeline",
+        "ccp"
+      ]
+    },
+    {
+      "id": "mgmt-config",
+      "title": "AWS Config — conformité et historique des ressources",
+      "summary": "Suivre l'état des ressources et vérifier leur conformité à des règles.",
+      "body": "À quoi ça sert : enregistrer l'historique de configuration des ressources AWS et évaluer des règles (ex: tout bucket S3 doit être chiffré).\n\nQuand le choisir :\n- Audit de conformité, détection de drift, gouvernance.\n\nÀ ne pas confondre :\n- CloudTrail (qui a fait quoi = API calls).\n- CloudWatch (métriques/logs). Config = état des ressources.",
+      "services": [
+        "AWS Config"
+      ],
+      "tags": [
+        "management",
+        "compliance",
+        "config",
+        "ccp"
+      ]
+    },
+    {
+      "id": "cache-elasticache",
+      "title": "Amazon ElastiCache — cache en mémoire (Redis/Memcached)",
+      "summary": "Réduire la latence en mettant des données en cache (in-memory).",
+      "body": "À quoi ça sert : stocker des données fréquemment lues en mémoire (sessions, résultats de requêtes).\n\nQuand le choisir :\n- Besoin de latence très faible (sub-milliseconde).\n- Offload de lecture sur une base.\n\nÀ ne pas confondre :\n- DynamoDB (base NoSQL persistante).\n- CloudFront (cache CDN HTTP). ElastiCache = cache applicatif.",
+      "services": [
+        "ElastiCache"
+      ],
+      "tags": [
+        "database",
+        "cache",
+        "elasticache",
+        "ccp"
+      ]
+    },
+    {
+      "id": "analytics-kinesis",
+      "title": "Amazon Kinesis — streaming de données en temps réel",
+      "summary": "Collecter, traiter et analyser des flux de données en continu.",
+      "body": "À quoi ça sert : ingérer des millions d'événements/seconde et les traiter en temps réel (logs, IoT, clickstream).\n\nQuand le choisir :\n- Besoin de traitement temps réel (pas batch).\n- Flux continus de données.\n\nÀ ne pas confondre :\n- SQS (messages ponctuels, pas streaming).\n- S3 + Athena (analytique batch). Kinesis = streaming.",
+      "services": [
+        "Kinesis"
+      ],
+      "tags": [
+        "analytics",
+        "streaming",
+        "kinesis",
+        "ccp"
+      ]
+    },
+    {
+      "id": "migration-discovery",
+      "title": "AWS Application Discovery Service — inventaire pour migration",
+      "summary": "Découvrir et inventorier les serveurs on-premises avant migration.",
+      "body": "À quoi ça sert : collecter des infos (config, dépendances, utilisation) sur tes serveurs locaux pour planifier la migration.\n\nQuand le choisir :\n- Tu prépares une migration vers AWS et tu veux un inventaire précis.\n\nÀ ne pas confondre :\n- Migration Hub (tableau de bord de suivi de migration).\n- DMS (migration de bases de données).",
+      "services": [
+        "Application Discovery Service"
+      ],
+      "tags": [
+        "migration",
+        "discovery",
+        "ccp"
+      ]
+    },
+    {
+      "id": "db-neptune",
+      "title": "Amazon Neptune — base de données graphe",
+      "summary": "Pour stocker et interroger des données fortement connectées (graphes).",
+      "body": "À quoi ça sert : modéliser des relations complexes (réseaux sociaux, recommandations, fraud detection).\n\nQuand le choisir :\n- Tu as besoin de requêtes sur des relations (chemins, voisins, patterns).\n\nÀ ne pas confondre :\n- DynamoDB (clé/valeur).\n- RDS (relationnel SQL). Neptune = graphe.",
+      "services": [
+        "Neptune"
+      ],
+      "tags": [
+        "database",
+        "graph",
+        "neptune",
+        "ccp"
+      ]
+    },
+    {
+      "id": "hybrid-outposts",
+      "title": "AWS Outposts — AWS dans ton datacenter",
+      "summary": "Exécuter des services AWS sur du matériel installé chez toi.",
+      "body": "À quoi ça sert : étendre AWS dans ton propre datacenter (latence locale, contraintes de données).\n\nQuand le choisir :\n- Tu dois garder certains workloads on-prem mais veux une expérience AWS.\n\nÀ ne pas confondre :\n- Local Zones (extension régionale AWS).\n- Wavelength (edge 5G). Outposts = rack AWS chez toi.",
+      "services": [
+        "Outposts"
+      ],
+      "tags": [
+        "hybrid",
+        "outposts",
+        "ccp"
+      ]
+    },
+    {
+      "id": "migration-snowball",
+      "title": "AWS Snowball / Snowball Edge — migration physique de données",
+      "summary": "Transférer de gros volumes de données via un appareil physique.",
+      "body": "À quoi ça sert : migrer des To/Po de données quand le réseau ne suffit pas (envoyer un disque plutôt que tout uploader).\n\nQuand le choisir :\n- Migration massive, bande passante limitée, délais serrés.\n- Snowball Edge ajoute du compute embarqué.\n\nÀ ne pas confondre :\n- DataSync (synchronisation réseau).\n- Storage Gateway (pont hybride temps réel).",
+      "services": [
+        "Snowball",
+        "Snowball Edge"
+      ],
+      "tags": [
+        "migration",
+        "snowball",
+        "data-transfer",
+        "ccp"
+      ]
+    },
+    {
+      "id": "compute-fargate",
+      "title": "AWS Fargate — conteneurs serverless",
+      "summary": "Exécuter des conteneurs (ECS/EKS) sans gérer de serveurs.",
+      "body": "À quoi ça sert : déployer des conteneurs Docker sans provisionner ni gérer d'instances EC2.\n\nQuand le choisir :\n- Tu veux du conteneur mais pas la gestion d'un cluster.\n- Scaling automatique.\n\nÀ ne pas confondre :\n- ECS/EKS sur EC2 (tu gères les instances).\n- Lambda (fonctions, pas conteneurs longs).",
+      "services": [
+        "Fargate",
+        "ECS",
+        "EKS"
+      ],
+      "tags": [
+        "compute",
+        "containers",
+        "fargate",
+        "serverless",
+        "ccp"
+      ]
+    },
+    {
+      "id": "framework-caf",
+      "title": "AWS CAF — Cloud Adoption Framework",
+      "summary": "Cadre de bonnes pratiques pour adopter le cloud (perspectives et capacités).",
+      "body": "À quoi ça sert : guider la transformation cloud de ton organisation avec 6 perspectives (Business, People, Governance, Platform, Security, Operations).\n\nQuand le choisir :\n- Tu planifies une migration ou transformation cloud à l'échelle de l'entreprise.\n\nÀ ne pas confondre :\n- Well-Architected Framework (bonnes pratiques techniques/archi).\n- Migration Hub (outil de suivi). CAF = cadre stratégique.",
+      "services": [
+        "AWS CAF"
+      ],
+      "tags": [
+        "framework",
+        "caf",
+        "adoption",
+        "ccp"
+      ]
+    },
+    {
+      "id": "framework-well-architected",
+      "title": "AWS Well-Architected Framework — piliers d'architecture",
+      "summary": "Bonnes pratiques pour concevoir des workloads fiables, sécurisés, performants et économiques.",
+      "body": "À quoi ça sert : évaluer et améliorer ton architecture selon 6 piliers (Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, Sustainability).\n\nQuand le choisir :\n- Tu veux auditer ou concevoir une architecture solide.\n\nÀ ne pas confondre :\n- CAF (cadre d'adoption organisationnel).\n- Trusted Advisor (recommandations automatisées). Well-Architected = revue d'architecture.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "framework",
+        "well-architected",
+        "ccp"
+      ]
+    },
+    {
+      "id": "ml-rekognition",
+      "title": "Amazon Rekognition — analyse d'images et vidéos",
+      "summary": "Détecter objets, visages, texte et contenus inappropriés dans des images/vidéos.",
+      "body": "À quoi ça sert : analyser des images et vidéos avec du ML (reconnaissance faciale, détection d'objets, modération de contenu).\n\nQuand le choisir :\n- Vérification d'identité, détection de célébrités, modération.\n- Pas besoin de coder un modèle ML.\n\nÀ ne pas confondre :\n- Comprehend (analyse de texte NLP).\n- Textract (extraction de texte/formulaires). Rekognition = vision par ordinateur.",
+      "services": [
+        "Rekognition"
+      ],
+      "tags": [
+        "ml",
+        "ai",
+        "rekognition",
+        "vision",
+        "ccp"
+      ]
+    },
+    {
+      "id": "ml-comprehend",
+      "title": "Amazon Comprehend — analyse de texte (NLP)",
+      "summary": "Extraire des insights de textes : sentiment, entités, langue, sujets.",
+      "body": "À quoi ça sert : analyser du texte avec le NLP (sentiment analysis, extraction d'entités, détection de langue).\n\nQuand le choisir :\n- Analyser des avis clients, extraire des infos de documents textuels.\n\nÀ ne pas confondre :\n- Rekognition (images/vidéos).\n- Textract (extraction de texte depuis images/PDF). Comprehend = NLP sur du texte déjà extrait.",
+      "services": [
+        "Comprehend"
+      ],
+      "tags": [
+        "ml",
+        "ai",
+        "nlp",
+        "comprehend",
+        "ccp"
+      ]
+    },
+    {
+      "id": "devops-xray",
+      "title": "AWS X-Ray — traçage distribué",
+      "summary": "Analyser et déboguer des applications distribuées (microservices, serverless).",
+      "body": "À quoi ça sert : tracer les requêtes à travers tes services pour identifier les goulots d'étranglement et erreurs.\n\nQuand le choisir :\n- Tu as une architecture microservices ou serverless.\n- Tu veux visualiser le flux des requêtes et les latences.\n\nÀ ne pas confondre :\n- CloudWatch (métriques, logs, alertes).\n- CloudTrail (audit API). X-Ray = traçage applicatif distribué.",
+      "services": [
+        "X-Ray"
+      ],
+      "tags": [
+        "devops",
+        "monitoring",
+        "tracing",
+        "xray",
+        "ccp"
+      ]
+    },
+    {
+      "id": "compliance-artifact",
+      "title": "AWS Artifact — rapports de conformité",
+      "summary": "Accéder aux rapports d'audit et accords de conformité AWS.",
+      "body": "À quoi ça sert : télécharger les certifications AWS (SOC, PCI, ISO) et signer des accords (BAA pour HIPAA).\n\nQuand le choisir :\n- Tu dois prouver la conformité d'AWS à ton auditeur.\n- Tu as besoin d'un BAA (Business Associate Agreement).\n\nÀ ne pas confondre :\n- AWS Config (conformité de TES ressources).\n- Trusted Advisor (recommandations). Artifact = conformité d'AWS lui-même.",
+      "services": [
+        "Artifact"
+      ],
+      "tags": [
+        "compliance",
+        "security",
+        "artifact",
+        "audit",
+        "ccp"
+      ]
+    },
+    {
+      "id": "network-route-table",
+      "title": "Tables de routage VPC — diriger le trafic",
+      "summary": "Définir où le trafic réseau doit être acheminé dans un VPC.",
+      "body": "À quoi ça sert : router le trafic entre subnets, vers Internet (IGW), vers un VPN, ou vers un NAT Gateway.\n\nQuand le choisir :\n- Chaque subnet doit être associé à une route table.\n- Tu veux contrôler le flux réseau (public vs privé).\n\nÀ ne pas confondre :\n- Security Groups (filtrage stateful par instance).\n- Network ACL (filtrage stateless par subnet). Route Table = direction du trafic.",
+      "services": [
+        "VPC",
+        "Route Table"
+      ],
+      "tags": [
+        "network",
+        "vpc",
+        "routing",
+        "ccp"
+      ]
+    },
+    {
+      "id": "network-vpc",
+      "title": "Amazon VPC — réseau privé virtuel",
+      "summary": "Créer un réseau isolé dans le cloud AWS avec contrôle total.",
+      "body": "À quoi ça sert : définir ton propre espace réseau (CIDR), avec subnets, route tables, gateways, et règles de sécurité.\n\nQuand le choisir :\n- Toute ressource AWS (EC2, RDS, Lambda) vit dans un VPC.\n- Tu veux isoler des environnements (prod/dev) ou connecter à ton datacenter.\n\nComposants clés :\n- Subnets (public/privé), Internet Gateway, NAT Gateway, Route Tables, Security Groups, Network ACL.",
+      "services": [
+        "VPC"
+      ],
+      "tags": [
+        "network",
+        "vpc",
+        "ccp"
+      ]
+    },
+    {
+      "id": "compute-autoscaling",
+      "title": "AWS Auto Scaling — ajustement automatique de capacité",
+      "summary": "Adapter automatiquement le nombre d'instances selon la charge.",
+      "body": "À quoi ça sert : augmenter ou réduire automatiquement le nombre d'instances EC2 (ou autres ressources) selon des métriques (CPU, requêtes).\n\nQuand le choisir :\n- Charge variable (pics de trafic).\n- Optimiser les coûts (moins de ressources quand inutile).\n\nTypes :\n- Target Tracking (maintenir une métrique à X%)\n- Step Scaling (règles par paliers)\n- Scheduled (planifié)\n\nÀ ne pas confondre :\n- ELB (répartit la charge, ne crée pas d'instances).",
+      "services": [
+        "Auto Scaling",
+        "EC2"
+      ],
+      "tags": [
+        "compute",
+        "scaling",
+        "autoscaling",
+        "ccp"
+      ]
+    },
+    {
+      "id": "cost-explorer",
+      "title": "AWS Cost Explorer — analyser ses dépenses",
+      "summary": "Visualiser, comprendre et prévoir ses coûts AWS.",
+      "body": "À quoi ça sert : voir l'historique des coûts, identifier les postes de dépense, et prévoir les coûts futurs.\n\nQuand le choisir :\n- Analyser les tendances de facturation.\n- Identifier les ressources coûteuses.\n\nÀ ne pas confondre :\n- Budgets (alertes sur seuils).\n- Cost Allocation Tags (catégoriser les coûts). Cost Explorer = visualisation/analyse.",
+      "services": [
+        "Cost Explorer"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "finops",
+        "ccp"
+      ]
+    },
+    {
+      "id": "cost-budgets",
+      "title": "AWS Budgets — alertes sur les dépenses",
+      "summary": "Définir des budgets et recevoir des alertes quand on les dépasse.",
+      "body": "À quoi ça sert : créer des budgets (coût, utilisation, RI coverage) et être alerté par email/SNS si on approche ou dépasse le seuil.\n\nQuand le choisir :\n- Contrôler les dépenses, éviter les surprises.\n- Alerter les équipes en cas de dépassement.\n\nÀ ne pas confondre :\n- Cost Explorer (analyse historique). Budgets = alertes proactives.",
+      "services": [
+        "Budgets"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "finops",
+        "ccp"
+      ]
+    },
+    {
+      "id": "security-guardduty",
+      "title": "Amazon GuardDuty — détection de menaces",
+      "summary": "Détecter automatiquement les activités malveillantes et les comportements anormaux.",
+      "body": "À quoi ça sert : analyser les logs (VPC Flow, CloudTrail, DNS) avec du ML pour détecter des menaces (cryptomining, accès suspects, exfiltration).\n\nQuand le choisir :\n- Détection de menaces sans effort (managed).\n- Sécurité proactive.\n\nÀ ne pas confondre :\n- Inspector (vulnérabilités dans les instances).\n- Macie (données sensibles dans S3). GuardDuty = détection de comportements malveillants.",
+      "services": [
+        "GuardDuty"
+      ],
+      "tags": [
+        "security",
+        "threat-detection",
+        "guardduty",
+        "ccp"
+      ]
+    },
+    {
+      "id": "security-macie",
+      "title": "Amazon Macie — découverte de données sensibles",
+      "summary": "Identifier et protéger les données sensibles (PII, secrets) dans S3.",
+      "body": "À quoi ça sert : scanner automatiquement tes buckets S3 pour trouver des données sensibles (numéros de carte, SSN, clés API) avec du ML.\n\nQuand le choisir :\n- Conformité (GDPR, PCI-DSS).\n- Identifier les fuites de données potentielles.\n\nÀ ne pas confondre :\n- GuardDuty (menaces/comportements). Macie = données sensibles dans S3.",
+      "services": [
+        "Macie"
+      ],
+      "tags": [
+        "security",
+        "data-protection",
+        "macie",
+        "ccp"
+      ]
+    },
+    {
+      "id": "security-secrets-manager",
+      "title": "AWS Secrets Manager — gestion des secrets",
+      "summary": "Stocker et rotationner automatiquement les secrets (mots de passe, clés API).",
+      "body": "À quoi ça sert : stocker des secrets de façon sécurisée et les rotationner automatiquement (ex: mots de passe RDS).\n\nQuand le choisir :\n- Tu ne veux pas mettre de mots de passe en dur dans le code.\n- Tu veux une rotation automatique.\n\nÀ ne pas confondre :\n- Parameter Store (config + secrets basiques, moins cher).\n- KMS (chiffrement). Secrets Manager = gestion de secrets avec rotation.",
+      "services": [
+        "Secrets Manager"
+      ],
+      "tags": [
+        "security",
+        "secrets",
+        "ccp"
+      ]
+    },
+    {
+      "id": "hybrid-direct-connect",
+      "title": "AWS Direct Connect — connexion dédiée au datacenter",
+      "summary": "Liaison réseau privée et dédiée entre ton datacenter et AWS.",
+      "body": "À quoi ça sert : connecter ton datacenter à AWS via une fibre dédiée (pas Internet), pour plus de bande passante et moins de latence.\n\nQuand le choisir :\n- Besoin de débit élevé et stable.\n- Données sensibles (pas sur Internet public).\n\nÀ ne pas confondre :\n- VPN (chiffré sur Internet, moins cher).\n- Transit Gateway (hub pour connecter plusieurs VPCs). Direct Connect = liaison physique dédiée.",
+      "services": [
+        "Direct Connect"
+      ],
+      "tags": [
+        "hybrid",
+        "networking",
+        "direct-connect",
+        "ccp"
+      ]
+    },
+    {
+      "id": "messaging-eventbridge",
+      "title": "Amazon EventBridge — bus d'événements serverless",
+      "summary": "Router des événements entre services AWS, SaaS et applications custom.",
+      "body": "À quoi ça sert : créer des architectures event-driven en routant des événements vers des cibles (Lambda, SQS, Step Functions) selon des règles.\n\nQuand le choisir :\n- Intégration entre services AWS et SaaS.\n- Architectures découplées et event-driven.\n\nÀ ne pas confondre :\n- SNS (pub/sub simple).\n- SQS (file de messages). EventBridge = routage intelligent d'événements.",
+      "services": [
+        "EventBridge"
+      ],
+      "tags": [
+        "integration",
+        "serverless",
+        "eventbridge",
+        "ccp"
+      ]
+    },
+    {
+      "id": "ml-lex",
+      "title": "Amazon Lex — chatbots et voicebots",
+      "summary": "Créer des interfaces conversationnelles (texte et voix).",
+      "body": "À quoi ça sert : construire des chatbots/voicebots qui comprennent le langage naturel (intentions, slots) — même technologie qu'Alexa.\n\nQuand le choisir :\n- Support client automatisé.\n- Assistants vocaux.\n\nÀ ne pas confondre :\n- Comprehend (analyse de texte, pas conversation).\n- Polly (text-to-speech).\n- Transcribe (speech-to-text). Lex = conversation interactive.",
+      "services": [
+        "Lex"
+      ],
+      "tags": [
+        "ml",
+        "ai",
+        "chatbot",
+        "lex",
+        "ccp"
+      ]
+    },
+    {
+      "id": "ml-textract",
+      "title": "Amazon Textract — extraction de texte et formulaires",
+      "summary": "Extraire du texte, des tableaux et des données de formulaires depuis des documents.",
+      "body": "À quoi ça sert : lire des documents scannés/PDF et en extraire le texte, les tableaux, les champs de formulaires.\n\nQuand le choisir :\n- Automatiser le traitement de factures, formulaires, contrats.\n- OCR avancé avec compréhension de la structure.\n\nÀ ne pas confondre :\n- Rekognition (visages, objets dans images).\n- Comprehend (analyse de texte déjà extrait). Textract = extraction depuis documents.",
+      "services": [
+        "Textract"
+      ],
+      "tags": [
+        "ml",
+        "ai",
+        "ocr",
+        "textract",
+        "ccp"
+      ]
+    },
+    {
+      "id": "ml-polly",
+      "title": "Amazon Polly — text-to-speech",
+      "summary": "Convertir du texte en parole réaliste.",
+      "body": "À quoi ça sert : générer de l'audio à partir de texte (voix synthétique réaliste, plusieurs langues).\n\nQuand le choisir :\n- Accessibilité (lecture d'articles).\n- Assistants vocaux, annonces.\n\nÀ ne pas confondre :\n- Transcribe (speech-to-text, inverse).\n- Lex (conversations). Polly = synthèse vocale.",
+      "services": [
+        "Polly"
+      ],
+      "tags": [
+        "ml",
+        "ai",
+        "tts",
+        "polly",
+        "ccp"
+      ]
+    },
+    {
+      "id": "ml-transcribe",
+      "title": "Amazon Transcribe — speech-to-text",
+      "summary": "Convertir de l'audio en texte (transcription automatique).",
+      "body": "À quoi ça sert : transcrire des enregistrements audio/vidéo en texte (sous-titres, analyse de calls).\n\nQuand le choisir :\n- Sous-titrage automatique.\n- Analyse de conversations (call centers).\n\nÀ ne pas confondre :\n- Polly (text-to-speech, inverse).\n- Comprehend (analyse du texte une fois transcrit). Transcribe = reconnaissance vocale.",
+      "services": [
+        "Transcribe"
+      ],
+      "tags": [
+        "ml",
+        "ai",
+        "stt",
+        "transcribe",
+        "ccp"
+      ]
+    },
+    {
+      "id": "ml-translate",
+      "title": "Amazon Translate — traduction automatique",
+      "summary": "Traduire du texte entre langues avec du ML.",
+      "body": "À quoi ça sert : traduire du texte d'une langue à une autre (neural machine translation).\n\nQuand le choisir :\n- Localisation d'applications.\n- Traduction de contenus utilisateurs.\n\nÀ ne pas confondre :\n- Comprehend (analyse, pas traduction). Translate = traduction multilingue.",
+      "services": [
+        "Translate"
+      ],
+      "tags": [
+        "ml",
+        "ai",
+        "translation",
+        "translate",
+        "ccp"
+      ]
+    },
+    {
+      "id": "containers-ecr",
+      "title": "Amazon ECR — registre d'images Docker",
+      "summary": "Stocker, gérer et déployer des images de conteneurs Docker.",
+      "body": "À quoi ça sert : héberger tes images Docker privées (comme Docker Hub mais managé et intégré à AWS).\n\nQuand le choisir :\n- Tu utilises ECS, EKS ou Fargate.\n- Tu veux un registre privé sécurisé.\n\nÀ ne pas confondre :\n- ECS/EKS (orchestration de conteneurs).\n- Fargate (compute serverless). ECR = stockage d'images.",
+      "services": [
+        "ECR"
+      ],
+      "tags": [
+        "containers",
+        "docker",
+        "ecr",
+        "ccp"
+      ]
+    },
+    {
+      "id": "support-plans",
+      "title": "AWS Support Plans — niveaux de support",
+      "summary": "Choisir le bon niveau de support (Basic, Developer, Business, Enterprise).",
+      "body": "Les plans de support AWS :\n\n- Basic (gratuit) : documentation, forums, Service Health Dashboard, Trusted Advisor limité.\n- Developer (~29$/mois) : email support, réponse <24h (business hours).\n- Business (~100$/mois+) : 24/7, chat, téléphone, réponse <1h (urgent), full Trusted Advisor, API Support.\n- Enterprise (~15k$/mois+) : TAM dédié, réponse <15min (critique), revues d'architecture.\n\nÀ retenir : Business = premier plan avec support 24/7 téléphone.",
+      "services": [
+        "Support"
+      ],
+      "tags": [
+        "support",
+        "ccp"
+      ]
+    },
+    {
+      "id": "pricing-savings-plans",
+      "title": "Savings Plans — engagement pour économiser",
+      "summary": "S'engager sur une utilisation ($/h) pour réduire les coûts compute.",
+      "body": "À quoi ça sert : réduire les coûts EC2/Lambda/Fargate en s'engageant sur un montant horaire (1 ou 3 ans).\n\nTypes :\n- Compute Savings Plans (flexible : EC2, Lambda, Fargate)\n- EC2 Instance Savings Plans (moins flexible, plus de réduction)\n\nÀ ne pas confondre :\n- Reserved Instances (engagement sur instance spécifique).\n- Spot Instances (pas d'engagement, interruptible). Savings Plans = engagement flexible.",
+      "services": [
+        "Savings Plans"
+      ],
+      "tags": [
+        "pricing",
+        "cost",
+        "savings-plans",
+        "ccp"
+      ]
+    },
+    {
+      "id": "security-shared-responsibility",
+      "title": "Modèle de responsabilité partagée",
+      "summary": "Qui est responsable de quoi : AWS vs le client.",
+      "body": "AWS est responsable de :\n- Sécurité DU cloud (hardware, réseau global, datacenters, hyperviseur).\n\nLe client est responsable de :\n- Sécurité DANS le cloud (données, chiffrement, IAM, config réseau, OS patching sur EC2).\n\nExemples :\n- AWS : sécurité physique, patching de l'hyperviseur.\n- Client : configuration des Security Groups, chiffrement des données, gestion des accès IAM.\n\nÀ retenir : plus le service est managé, moins le client a de responsabilités (Lambda < EC2).",
+      "services": [
+        "Shared Responsibility"
+      ],
+      "tags": [
+        "security",
+        "shared-responsibility",
+        "ccp"
+      ]
+    },
+    {
+      "id": "global-infrastructure",
+      "title": "Infrastructure mondiale AWS — Régions, AZ, Edge",
+      "summary": "Comprendre les Régions, Zones de disponibilité et Points de présence.",
+      "body": "Régions : zones géographiques indépendantes (ex: eu-west-1, us-east-1). Choix basé sur latence, conformité, coût.\n\nZones de disponibilité (AZ) : datacenters isolés dans une région (ex: eu-west-1a, eu-west-1b). Multi-AZ = haute disponibilité.\n\nEdge Locations : points de présence pour CloudFront (CDN) et Route 53.\n\nLocal Zones : extensions de régions plus proches des utilisateurs.\n\nWavelength : intégration avec réseaux 5G.",
+      "services": [
+        "Global Infrastructure"
+      ],
+      "tags": [
+        "infrastructure",
+        "regions",
+        "az",
+        "ccp"
+      ]
+    },
+    {
+      "id": "ml-sagemaker",
+      "title": "Amazon SageMaker — ML de bout en bout",
+      "summary": "Construire, entraîner et déployer des modèles de machine learning.",
+      "body": "À quoi ça sert : plateforme complète pour le ML (notebooks, entraînement, déploiement, MLOps).\n\nQuand le choisir :\n- Tu veux créer tes propres modèles ML personnalisés.\n- Besoin de contrôle sur l'entraînement et le déploiement.\n\nÀ ne pas confondre :\n- Rekognition, Comprehend, etc. (services ML pré-entraînés).\n- SageMaker = plateforme pour construire des modèles custom.",
+      "services": [
+        "SageMaker"
+      ],
+      "tags": [
+        "ml",
+        "ai",
+        "sagemaker",
+        "ccp"
+      ]
+    },
+    {
+      "id": "integration-step-functions",
+      "title": "AWS Step Functions — orchestration de workflows",
+      "summary": "Coordonner plusieurs services AWS dans des workflows visuels.",
+      "body": "À quoi ça sert : orchestrer des workflows complexes (séquences, branches, parallélisme) entre Lambda, ECS, etc.\n\nQuand le choisir :\n- Tu as plusieurs étapes à coordonner avec de la logique.\n- Tu veux visualiser le flux.\n\nÀ ne pas confondre :\n- EventBridge (routage d'événements).\n- SQS (file de messages). Step Functions = orchestration avec état.",
+      "services": [
+        "Step Functions"
+      ],
+      "tags": [
+        "integration",
+        "serverless",
+        "step-functions",
+        "ccp"
+      ]
+    },
+    {
+      "id": "end-user-workspaces",
+      "title": "Amazon WorkSpaces — bureaux virtuels (VDI)",
+      "summary": "Fournir des postes de travail Windows/Linux dans le cloud.",
+      "body": "À quoi ça sert : donner un bureau virtuel à tes utilisateurs (télétravail, BYOD, sécurité).\n\nQuand le choisir :\n- Tu veux centraliser les postes de travail.\n- Accès sécurisé depuis n'importe où.\n\nÀ ne pas confondre :\n- AppStream (streaming d'applications).\n- EC2 (serveurs, pas postes de travail). WorkSpaces = VDI.",
+      "services": [
+        "WorkSpaces"
+      ],
+      "tags": [
+        "end-user",
+        "vdi",
+        "workspaces",
+        "ccp"
+      ]
+    },
+    {
+      "id": "storage-glacier",
+      "title": "Amazon S3 Glacier — archivage long terme",
+      "summary": "Stocker des données rarement accédées à très faible coût.",
+      "body": "À quoi ça sert : archiver des données (backups, compliance) avec un coût très bas mais un temps de récupération plus long.\n\nClasses :\n- Glacier Instant Retrieval (millisecondes)\n- Glacier Flexible Retrieval (minutes à heures)\n- Glacier Deep Archive (12-48h, le moins cher)\n\nÀ ne pas confondre :\n- S3 Standard/IA (accès plus rapide). Glacier = archivage froid.",
+      "services": [
+        "S3 Glacier"
+      ],
+      "tags": [
+        "storage",
+        "archive",
+        "glacier",
+        "ccp"
+      ]
+    },
+    {
+      "id": "storage-backup",
+      "title": "AWS Backup — sauvegarde centralisée",
+      "summary": "Centraliser et automatiser les sauvegardes de plusieurs services AWS.",
+      "body": "À quoi ça sert : gérer les backups de EC2, EBS, RDS, DynamoDB, EFS, etc. depuis un seul endroit avec des politiques.\n\nQuand le choisir :\n- Tu veux une stratégie de backup unifiée.\n- Conformité et rétention automatisées.\n\nÀ ne pas confondre :\n- Snapshots EBS (manuels ou via script).\n- AWS Backup = orchestration centralisée des backups.",
+      "services": [
+        "AWS Backup"
+      ],
+      "tags": [
+        "storage",
+        "backup",
+        "disaster-recovery",
+        "ccp"
+      ]
+    },
+    {
+      "id": "migration-dms",
+      "title": "AWS DMS — migration de bases de données",
+      "summary": "Migrer des bases de données vers AWS avec un minimum de downtime.",
+      "body": "À quoi ça sert : migrer des BDD (Oracle, MySQL, SQL Server, etc.) vers RDS, Aurora, DynamoDB avec réplication continue.\n\nQuand le choisir :\n- Migration de BDD on-prem vers AWS.\n- Migration entre moteurs différents (hétérogène) avec SCT.\n\nÀ ne pas confondre :\n- DataSync (fichiers).\n- Snowball (données massives physiques). DMS = migration de BDD.",
+      "services": [
+        "DMS"
+      ],
+      "tags": [
+        "migration",
+        "database",
+        "dms",
+        "ccp"
+      ]
+    },
+    {
+      "id": "mgmt-systems-manager",
+      "title": "AWS Systems Manager — gestion opérationnelle",
+      "summary": "Gérer et automatiser les opérations sur tes ressources AWS et on-prem.",
+      "body": "À quoi ça sert : inventaire, patching, exécution de commandes, Parameter Store, Session Manager (SSH sans port 22).\n\nQuand le choisir :\n- Tu veux gérer tes instances sans SSH direct.\n- Automatiser le patching, stocker des configs.\n\nÀ ne pas confondre :\n- Secrets Manager (secrets avec rotation). Systems Manager = gestion opérationnelle large.",
+      "services": [
+        "Systems Manager"
+      ],
+      "tags": [
+        "management",
+        "operations",
+        "ssm",
+        "ccp"
+      ]
+    },
+    {
+      "id": "devops-codecommit",
+      "title": "AWS CodeCommit — dépôt Git managé",
+      "summary": "Héberger des repositories Git privés dans AWS.",
+      "body": "À quoi ça sert : stocker ton code source dans Git, intégré à IAM et aux autres services AWS.\n\nQuand le choisir :\n- Tu veux un Git privé dans AWS.\n- Intégration native avec CodePipeline/CodeBuild.\n\nÀ ne pas confondre :\n- GitHub (externe). CodeCommit = Git AWS-natif.",
+      "services": [
+        "CodeCommit"
+      ],
+      "tags": [
+        "devops",
+        "git",
+        "codecommit",
+        "ccp"
+      ]
+    },
+    {
+      "id": "devops-codedeploy",
+      "title": "AWS CodeDeploy — déploiement automatisé",
+      "summary": "Automatiser le déploiement d'applications sur EC2, Lambda, ECS.",
+      "body": "À quoi ça sert : déployer du code automatiquement avec des stratégies (rolling, blue/green, canary).\n\nQuand le choisir :\n- Tu veux automatiser les déploiements avec rollback.\n- Intégration dans un pipeline CI/CD.\n\nÀ ne pas confondre :\n- CodeBuild (compilation). CodeDeploy = déploiement.",
+      "services": [
+        "CodeDeploy"
+      ],
+      "tags": [
+        "devops",
+        "deployment",
+        "codedeploy",
+        "ccp"
+      ]
+    },
+    {
+      "id": "api-gateway",
+      "title": "Amazon API Gateway — créer des APIs REST/WebSocket",
+      "summary": "Créer, publier et gérer des APIs à grande échelle.",
+      "body": "À quoi ça sert : exposer des APIs (REST, HTTP, WebSocket) avec authentification, throttling, caching.\n\nQuand le choisir :\n- Tu veux exposer des Lambda ou services backend via API.\n- Besoin de gestion du trafic API.\n\nÀ ne pas confondre :\n- ALB (load balancer HTTP).\n- AppSync (GraphQL). API Gateway = APIs REST/HTTP.",
+      "services": [
+        "API Gateway"
+      ],
+      "tags": [
+        "serverless",
+        "api",
+        "api-gateway",
+        "ccp"
+      ]
+    },
+    {
+      "id": "security-cognito",
+      "title": "Amazon Cognito — authentification utilisateurs",
+      "summary": "Ajouter inscription, connexion et contrôle d'accès à tes apps.",
+      "body": "À quoi ça sert : gérer l'authentification des utilisateurs de ton application (sign-up, sign-in, MFA, federation).\n\nComposants :\n- User Pools (annuaire d'utilisateurs)\n- Identity Pools (accès temporaire AWS)\n\nÀ ne pas confondre :\n- IAM (identités AWS).\n- Cognito = identités utilisateurs d'applications.",
+      "services": [
+        "Cognito"
+      ],
+      "tags": [
+        "security",
+        "identity",
+        "cognito",
+        "ccp"
+      ]
+    },
+    {
+      "id": "messaging-ses",
+      "title": "Amazon SES — envoi d'emails",
+      "summary": "Envoyer des emails transactionnels et marketing à grande échelle.",
+      "body": "À quoi ça sert : envoyer des emails (confirmations, notifications, newsletters) de façon fiable et économique.\n\nQuand le choisir :\n- Tu as besoin d'envoyer des emails depuis ton application.\n- Alternative à SendGrid, Mailgun.\n\nÀ ne pas confondre :\n- SNS (notifications push/SMS/email simple).\n- SES = emails riches et transactionnels.",
+      "services": [
+        "SES"
+      ],
+      "tags": [
+        "messaging",
+        "email",
+        "ses",
+        "ccp"
+      ]
+    },
+    {
+      "id": "analytics-glue",
+      "title": "AWS Glue — ETL serverless",
+      "summary": "Préparer et transformer des données pour l'analytique (ETL).",
+      "body": "À quoi ça sert : découvrir, cataloguer et transformer des données (Extract, Transform, Load) sans gérer de serveurs.\n\nComposants :\n- Glue Data Catalog (métadonnées)\n- Glue Jobs (transformations Spark/Python)\n- Glue Crawlers (découverte de schémas)\n\nÀ ne pas confondre :\n- Athena (requêtes SQL). Glue = transformation ETL + catalogue.",
+      "services": [
+        "Glue"
+      ],
+      "tags": [
+        "analytics",
+        "etl",
+        "glue",
+        "ccp"
+      ]
+    },
+    {
+      "id": "analytics-emr",
+      "title": "Amazon EMR — big data (Spark, Hadoop)",
+      "summary": "Traiter de gros volumes de données avec des frameworks open source.",
+      "body": "À quoi ça sert : exécuter des jobs Spark, Hadoop, Hive, Presto sur des clusters managés.\n\nQuand le choisir :\n- Tu as des workloads big data existants.\n- Besoin de frameworks open source.\n\nÀ ne pas confondre :\n- Athena (SQL simple sur S3).\n- Glue (ETL serverless). EMR = clusters big data.",
+      "services": [
+        "EMR"
+      ],
+      "tags": [
+        "analytics",
+        "bigdata",
+        "emr",
+        "spark",
+        "ccp"
+      ]
+    },
+    {
+      "id": "security-acm",
+      "title": "AWS Certificate Manager — certificats SSL/TLS",
+      "summary": "Provisionner et gérer des certificats SSL/TLS gratuits.",
+      "body": "À quoi ça sert : obtenir des certificats HTTPS gratuits pour tes domaines, renouvelés automatiquement.\n\nQuand le choisir :\n- Tu veux HTTPS sur CloudFront, ALB, API Gateway.\n- Pas besoin d'acheter des certificats.\n\nÀ ne pas confondre :\n- KMS (chiffrement de données). ACM = certificats SSL/TLS.",
+      "services": [
+        "ACM"
+      ],
+      "tags": [
+        "security",
+        "certificates",
+        "acm",
+        "ccp"
+      ]
+    },
+    {
+      "id": "security-security-hub",
+      "title": "AWS Security Hub — vue centralisée de la sécurité",
+      "summary": "Agréger les alertes de sécurité et vérifier la conformité.",
+      "body": "À quoi ça sert : centraliser les findings de GuardDuty, Inspector, Macie, Config et vérifier des standards (CIS, PCI-DSS).\n\nQuand le choisir :\n- Tu veux une vue unifiée de la sécurité.\n- Vérifier la conformité automatiquement.\n\nÀ ne pas confondre :\n- GuardDuty (détection menaces).\n- Security Hub = agrégation + standards.",
+      "services": [
+        "Security Hub"
+      ],
+      "tags": [
+        "security",
+        "compliance",
+        "security-hub",
+        "ccp"
+      ]
+    },
+    {
+      "id": "mgmt-control-tower",
+      "title": "AWS Control Tower — gouvernance multi-comptes",
+      "summary": "Configurer et gouverner un environnement AWS multi-comptes.",
+      "body": "À quoi ça sert : créer une landing zone sécurisée avec des guardrails (règles de conformité) pour plusieurs comptes.\n\nQuand le choisir :\n- Tu gères plusieurs comptes AWS.\n- Tu veux imposer des règles de gouvernance.\n\nÀ ne pas confondre :\n- Organizations (structure de comptes).\n- Control Tower = automatisation + guardrails.",
+      "services": [
+        "Control Tower"
+      ],
+      "tags": [
+        "management",
+        "governance",
+        "control-tower",
+        "ccp"
+      ]
+    },
+    {
+      "id": "storage-fsx",
+      "title": "Amazon FSx — systèmes de fichiers managés",
+      "summary": "Systèmes de fichiers Windows, Lustre, NetApp, OpenZFS managés.",
+      "body": "À quoi ça sert : fournir des file systems spécialisés (Windows File Server, Lustre pour HPC, etc.).\n\nTypes :\n- FSx for Windows File Server (SMB, Active Directory)\n- FSx for Lustre (HPC, ML)\n- FSx for NetApp ONTAP, OpenZFS\n\nÀ ne pas confondre :\n- EFS (NFS Linux). FSx = file systems spécialisés.",
+      "services": [
+        "FSx"
+      ],
+      "tags": [
+        "storage",
+        "filesystem",
+        "fsx",
+        "ccp"
+      ]
+    },
+    {
+      "id": "storage-datasync",
+      "title": "AWS DataSync — transfert de données automatisé",
+      "summary": "Transférer des données entre on-prem et AWS automatiquement.",
+      "body": "À quoi ça sert : synchroniser des données entre NFS/SMB on-prem et S3/EFS/FSx avec scheduling.\n\nQuand le choisir :\n- Tu veux automatiser les transferts de fichiers.\n- Migration ou synchronisation régulière.\n\nÀ ne pas confondre :\n- Snowball (transfert physique massif).\n- Storage Gateway (accès hybride temps réel). DataSync = synchronisation réseau.",
+      "services": [
+        "DataSync"
+      ],
+      "tags": [
+        "storage",
+        "migration",
+        "datasync",
+        "ccp"
+      ]
+    },
+    {
+      "id": "db-documentdb",
+      "title": "Amazon DocumentDB — base document (MongoDB)",
+      "summary": "Base de données document compatible MongoDB.",
+      "body": "À quoi ça sert : stocker des documents JSON avec une API compatible MongoDB.\n\nQuand le choisir :\n- Tu as une application MongoDB existante.\n- Tu veux un service managé.\n\nÀ ne pas confondre :\n- DynamoDB (clé/valeur, pas compatible MongoDB).\n- DocumentDB = compatible MongoDB.",
+      "services": [
+        "DocumentDB"
+      ],
+      "tags": [
+        "database",
+        "document",
+        "mongodb",
+        "documentdb",
+        "ccp"
+      ]
+    },
+    {
+      "id": "compute-app-runner",
+      "title": "AWS App Runner — conteneurs simplifiés",
+      "summary": "Déployer des conteneurs web sans gérer l'infrastructure.",
+      "body": "À quoi ça sert : déployer une image Docker ou du code source directement, App Runner gère tout (build, deploy, scale, LB).\n\nQuand le choisir :\n- Tu veux la simplicité de Heroku dans AWS.\n- Pas besoin de gérer ECS/Fargate.\n\nÀ ne pas confondre :\n- Fargate (plus de contrôle).\n- App Runner = simplicité maximale.",
+      "services": [
+        "App Runner"
+      ],
+      "tags": [
+        "compute",
+        "containers",
+        "app-runner",
+        "ccp"
+      ]
+    },
+    {
+      "id": "mgmt-health-dashboard",
+      "title": "AWS Health Dashboard — état des services",
+      "summary": "Voir l'état des services AWS et les événements qui t'affectent.",
+      "body": "Service Health Dashboard : état global des services AWS par région.\n\nPersonal Health Dashboard : événements qui affectent TES ressources spécifiquement (maintenance, incidents).\n\nÀ ne pas confondre :\n- CloudWatch (métriques de TES ressources).\n- Health Dashboard = état des services AWS.",
+      "services": [
+        "Health Dashboard"
+      ],
+      "tags": [
+        "management",
+        "health",
+        "ccp"
+      ]
+    },
+    {
+      "id": "pricing-calculator",
+      "title": "AWS Pricing Calculator — estimer les coûts",
+      "summary": "Estimer le coût de ton architecture avant de la déployer.",
+      "body": "À quoi ça sert : modéliser ton architecture et obtenir une estimation de coût mensuel.\n\nQuand le choisir :\n- Tu planifies une nouvelle architecture.\n- Tu veux comparer des options.\n\nÀ ne pas confondre :\n- Cost Explorer (coûts réels passés).\n- Pricing Calculator = estimation future.",
+      "services": [
+        "Pricing Calculator"
+      ],
+      "tags": [
+        "billing",
+        "pricing",
+        "ccp"
+      ]
+    },
+    {
+      "id": "iot-core",
+      "title": "AWS IoT Core — connecter des objets",
+      "summary": "Connecter et gérer des milliards d'appareils IoT.",
+      "body": "À quoi ça sert : connecter des capteurs/devices via MQTT, gérer leur authentification, router leurs messages.\n\nQuand le choisir :\n- Tu as des appareils IoT à connecter au cloud.\n- Besoin de communication bi-directionnelle.\n\nÀ ne pas confondre :\n- Kinesis (streaming de données).\n- IoT Core = connectivité d'appareils.",
+      "services": [
+        "IoT Core"
+      ],
+      "tags": [
+        "iot",
+        "iot-core",
+        "ccp"
+      ]
+    },
+    {
+      "id": "connect-contact-center",
+      "title": "Amazon Connect — centre de contact cloud",
+      "summary": "Créer un centre d'appels cloud avec IVR et chatbots.",
+      "body": "À quoi ça sert : mettre en place un call center avec routage d'appels, IVR, intégration Lex pour chatbots.\n\nQuand le choisir :\n- Tu veux un centre de contact sans infrastructure téléphonique.\n- Intégration facile avec d'autres services AWS.\n\nÀ ne pas confondre :\n- Lex (chatbot seul).\n- Connect = centre de contact complet.",
+      "services": [
+        "Connect"
+      ],
+      "tags": [
+        "customer-engagement",
+        "contact-center",
+        "connect",
+        "ccp"
+      ]
+    }
+  ]
+}

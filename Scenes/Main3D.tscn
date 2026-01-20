@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://3evg2a3lhjsp" path="res://Scripts/TimedRunUI.cs" id="1"]
 [ext_resource type="AudioStream" uid="uid://divq8tiwuth63" path="res://Assets/Audio/SFX/card-flip.mp3" id="1_c2h2b"]
-[ext_resource type="PackedScene" uid="uid://bcd25lstfoqq4" path="res://Scenes/CardUI/CardFrontUI.tscn" id="2"]
 [ext_resource type="AudioStream" uid="uid://se7mkbghy8j4" path="res://Assets/Audio/SFX/keyswipe-card-103918-Rework.mp3" id="2_1y7wl"]
-[ext_resource type="PackedScene" uid="uid://0jmbpdifu1j5" path="res://Scenes/CardUI/CardBackUI.tscn" id="3"]
 [ext_resource type="AudioStream" uid="uid://bia3hn1igqnvc" path="res://Assets/Audio/Ambience/35-snowfall-music-box-449840.mp3" id="3_bbhl4"]
 [ext_resource type="PackedScene" uid="uid://bcgp8fxvsckpv" path="res://Assets/3D/Flower Pot/FlowerPot2.fbx" id="3_qbgkv"]
 [ext_resource type="Shader" uid="uid://cp4mduw7b1x03" path="res://Assets/Shaders/card_collector.gdshader" id="4"]
+[ext_resource type="PackedScene" uid="uid://bcd25lstfoqq4" path="res://Scenes/CardUI/CardFrontUI.tscn" id="20_cardfront"]
+[ext_resource type="PackedScene" uid="uid://0jmbpdifu1j5" path="res://Scenes/CardUI/CardBackUI.tscn" id="21_cardback"]
 [ext_resource type="ArrayMesh" uid="uid://bdt1ybrlfu5dt" path="res://Assets/3D/Desk Lamp/model.obj" id="4_d7535"]
 [ext_resource type="FontFile" uid="uid://c2bnen2fa56p5" path="res://Assets/Fonts/Cinzel/Cinzel[wght].ttf" id="5"]
 [ext_resource type="ArrayMesh" uid="uid://dun1u22urd3po" path="res://Assets/3D/Coffee Mug/coffeeMug.obj" id="5_ryluv"]
@@ -307,28 +307,26 @@ transform = Transform3D(0.1, 0, 0, 0, -0.1, -1.8626451e-08, 0, 1.8626451e-08, -0
 material_override = SubResource("ShaderMaterial_CardBack")
 mesh = SubResource("PlaneMesh_3")
 
+[node name="CardFrontViewport" type="SubViewport" parent="CardRig"]
+transparent_bg = true
+render_target_update_mode = 2
+size = Vector2i(1536, 1024)
+
+[node name="Face" parent="CardRig/CardFrontViewport" instance=ExtResource("20_cardfront")]
+
+[node name="CardBackViewport" type="SubViewport" parent="CardRig"]
+transparent_bg = true
+render_target_update_mode = 2
+size = Vector2i(1536, 1024)
+
+[node name="Back" parent="CardRig/CardBackViewport" instance=ExtResource("21_cardback")]
+
 [node name="CardClickArea" type="StaticBody3D" parent="CardRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1005, 0.00055)
 collision_mask = 0
 
 [node name="Shape" type="CollisionShape3D" parent="CardRig/CardClickArea"]
 shape = SubResource("BoxShape3D_1")
-
-[node name="CardFrontViewport" type="SubViewport" parent="CardRig"]
-disable_3d = true
-transparent_bg = true
-size = Vector2i(1434, 1024)
-render_target_update_mode = 4
-
-[node name="Face" parent="CardRig/CardFrontViewport" instance=ExtResource("2")]
-
-[node name="CardBackViewport" type="SubViewport" parent="CardRig"]
-disable_3d = true
-transparent_bg = true
-size = Vector2i(1434, 1024)
-render_target_update_mode = 4
-
-[node name="Back" parent="CardRig/CardBackViewport" instance=ExtResource("3")]
 
 [node name="Set" type="Node3D" parent="."]
 
@@ -425,7 +423,7 @@ mesh = ExtResource("5_ryluv")
 transform = Transform3D(0.117, 0, 0, 0, 0.117, 0, 0, 0, 0.117, -1.4065808, 0.052479506, -0.27824342)
 mesh = ExtResource("6_0dgp6")
 
-[node name="Model2" type="MeshInstance3D" parent="Set"]
+[node name="plant stand" type="MeshInstance3D" parent="Set"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3318789, 0, -2.628012)
 mesh = ExtResource("7_4yk2m")
 
@@ -436,6 +434,63 @@ light_energy = 10.213
 light_indirect_energy = 5.307
 spot_range = 11.848374
 spot_angle = 24.44
+
+[node name="store" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34254915, 1.059881, -2.9967992)
+mesh = ExtResource("11_cp1uk")
+skeleton = NodePath("../..")
+
+[node name="Monitor" parent="Set" instance=ExtResource("12_f0usu")]
+transform = Transform3D(1.6480236, 0, -1.2902194, 0, 2.0929997, 0, 1.2902194, 0, 1.6480236, 0.5782461, 0.051951744, -0.36754298)
+
+[node name="books" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(0.290365, 0, 0.3721186, 0, 0.47200006, 0, -0.3721186, 0, 0.290365, -1.5004392, 0.20073774, 0.3177917)
+mesh = ExtResource("13_4yk2m")
+skeleton = NodePath("../..")
+
+[node name="window" parent="Set" instance=ExtResource("14_cp1uk")]
+transform = Transform3D(0.5896358, 0, 0, 0, 0.747497, 0, 0, 0, 0.53773123, -0.30901694, -0.8528265, -1.818056)
+
+[node name="Wall" parent="Set" instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -2.3569, -2.1384826, -1.2344716)
+
+[node name="Wall2" parent="Set" instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -4.603533, -2.1384826, -1.2344716)
+
+[node name="Wall3" parent="Set" instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -6.8128157, -2.1384826, -1.2344716)
+
+[node name="Wall4" parent="Set" instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 1.6061316, -2.1384826, -1.2344716)
+
+[node name="Wall5" parent="Set" instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 3.8594952, -2.1384826, -1.2344716)
+
+[node name="Wall6" parent="Set" instance=ExtResource("15_f0usu")]
+transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 6.128377, -2.1384826, -1.2344716)
+
+[node name="Mug with office tools" parent="Set" instance=ExtResource("16_bekxh")]
+transform = Transform3D(1.631, 0, 0, 0, 1.631, 0, 0, 0, 1.631, -0.7267091, 0.053308368, -0.72962844)
+
+[node name="Pens518" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(0.0029549298, 0, 0.004033409, 0, 0.005, 0, -0.004033409, 0, 0.0029549298, 0.40316558, 0.056742996, -0.23661578)
+mesh = ExtResource("17_bekxh")
+skeleton = NodePath("../..")
+
+[node name="plant stand2" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(-0.9980573, 0, -0.06230277, 0, 1, 0, 0.06230277, 0, -0.9980573, -2.0133946, 0, -2.4677873)
+mesh = ExtResource("7_4yk2m")
+skeleton = NodePath("../..")
+
+[node name="paper" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(-0.6312318, 0, 0.98392445, 0, 1.1689999, 0, -0.98392445, 0, -0.6312318, -1.110494, 0.06742811, 0.81369716)
+mesh = ExtResource("18_acp8f")
+skeleton = NodePath("../..")
+
+[node name="WallShelf" type="MeshInstance3D" parent="Set"]
+transform = Transform3D(-0.012469174, 0, -0.62387556, 0, 0.6240001, 0, 0.62387556, 0, -0.012469174, 1.6149335, 1.4182924, -2.5242624)
+mesh = ExtResource("19_mrh8s")
+skeleton = NodePath("../..")
 
 [node name="DiscardTarget" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5704219, 0.058043167, 0.47911537)
@@ -504,6 +559,154 @@ theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 40
 
+[node name="OptionsPopup" type="PopupPanel" parent="HUD/Root"]
+visible = false
+theme_override_styles/panel = SubResource("StyleBoxFlat_1")
+
+[node name="OptionsMargin" type="MarginContainer" parent="HUD/Root/OptionsPopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="OptionsVBox" type="VBoxContainer" parent="HUD/Root/OptionsPopup/OptionsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="OptionsTitle" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 34
+text = "Options"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="AudioHeader" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Audio"
+
+[node name="EnableAudio" type="CheckButton" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+text = "Activer les sons"
+
+[node name="EnableAmbience" type="CheckButton" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+text = "Activer l'ambiance"
+
+[node name="SfxRow" type="HBoxContainer" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SfxLabel" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/SfxRow"]
+layout_mode = 2
+text = "SFX"
+
+[node name="SfxVolume" type="HSlider" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/SfxRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -40.0
+max_value = 6.0
+step = 0.5
+value = -7.0
+
+[node name="AmbienceRow" type="HBoxContainer" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AmbienceLabel" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/AmbienceRow"]
+layout_mode = 2
+text = "Ambiance"
+
+[node name="AmbienceVolume" type="HSlider" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/AmbienceRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -40.0
+max_value = 6.0
+step = 0.5
+value = -18.0
+
+[node name="GameHeader" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Partie"
+
+[node name="TimeRow" type="HBoxContainer" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TimeLabel" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/TimeRow"]
+layout_mode = 2
+text = "Chrono (s)"
+
+[node name="TimeLimit" type="SpinBox" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/TimeRow"]
+layout_mode = 2
+min_value = 30.0
+max_value = 600.0
+step = 10.0
+value = 120.0
+
+[node name="ExamTimeRow" type="HBoxContainer" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ExamTimeLabel" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/ExamTimeRow"]
+layout_mode = 2
+text = "Examen (s)"
+
+[node name="ExamTimeLimit" type="SpinBox" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/ExamTimeRow"]
+layout_mode = 2
+min_value = 600.0
+max_value = 14400.0
+step = 60.0
+value = 3600.0
+
+[node name="DisplayHeader" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Affichage"
+
+[node name="Fullscreen" type="CheckButton" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+text = "Plein écran"
+
+[node name="Vsync" type="CheckButton" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+text = "VSync"
+
+[node name="ResolutionRow" type="HBoxContainer" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ResolutionLabel" type="Label" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/ResolutionRow"]
+layout_mode = 2
+text = "Résolution"
+
+[node name="Resolution" type="OptionButton" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/ResolutionRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OptionsButtons" type="HBoxContainer" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Apply" type="Button" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/OptionsButtons"]
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "Appliquer"
+
+[node name="Close" type="Button" parent="HUD/Root/OptionsPopup/OptionsMargin/OptionsVBox/OptionsButtons"]
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "Retour"
+
 [node name="Center" type="CenterContainer" parent="HUD/Root/Margin"]
 layout_mode = 2
 
@@ -523,81 +726,82 @@ theme_override_constants/margin_bottom = 26
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="TopRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+[node name="Title" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
 layout_mode = 2
-
-[node name="Domain" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/TopRow"]
-layout_mode = 2
-text = "Domaine: ☁️ CloudConcepts"
-
-[node name="Spacer" type="Control" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/TopRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Timer" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/TopRow"]
-layout_mode = 2
-text = "⏱️ 02:00"
-
-[node name="Score" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/TopRow"]
-layout_mode = 2
-text = "Score: 0/0"
-horizontal_alignment = 2
-
-[node name="Question" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Question…"
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 34
+text = ""
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Answers" type="VBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+[node name="Body" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7")
+theme_override_font_sizes/font_size = 18
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ProfileRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="A" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/Answers"]
-custom_minimum_size = Vector2(640, 96)
+[node name="ProfileLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/ProfileRow"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 34
-theme_override_styles/normal = SubResource("StyleBoxFlat_2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_3")
-text = "A"
+text = "Profil"
 
-[node name="B" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/Answers"]
-custom_minimum_size = Vector2(640, 96)
+[node name="Profile" type="OptionButton" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/ProfileRow"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 34
-theme_override_styles/normal = SubResource("StyleBoxFlat_2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_3")
-text = "B"
+size_flags_horizontal = 3
 
-[node name="C" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/Answers"]
-custom_minimum_size = Vector2(640, 96)
+[node name="NewProfile" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/ProfileRow"]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 34
-theme_override_styles/normal = SubResource("StyleBoxFlat_2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_3")
-text = "C"
+text = "Nouveau"
 
-[node name="D" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/Answers"]
-custom_minimum_size = Vector2(640, 96)
+[node name="ModeRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 34
-theme_override_styles/normal = SubResource("StyleBoxFlat_2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_3")
-text = "D"
+theme_override_constants/separation = 10
 
-[node name="Feedback" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+[node name="ModeLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/ModeRow"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-horizontal_alignment = 1
-autowrap_mode = 3
+text = "Certification"
+
+[node name="Mode" type="OptionButton" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/ModeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GameRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GameLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/GameRow"]
+layout_mode = 2
+text = "Type"
+
+[node name="GameMode" type="OptionButton" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/GameRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DifficultyRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DifficultyLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/DifficultyRow"]
+layout_mode = 2
+text = "Difficulté"
+
+[node name="Difficulty" type="OptionButton" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/DifficultyRow"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Restart" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
-visible = false
 custom_minimum_size = Vector2(200, 52)
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Rejouer"
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "Commencer"
 
 [node name="MenuRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
 layout_mode = 2
@@ -611,6 +815,22 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_2")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3")
 text = "Paramètres"
 
+[node name="Rules" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/MenuRow"]
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "Règles"
+
+[node name="Courses" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/MenuRow"]
+custom_minimum_size = Vector2(200, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3")
+text = "Cours"
+
 [node name="Quit" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/MenuRow"]
 custom_minimum_size = Vector2(200, 52)
 layout_mode = 2
@@ -618,139 +838,3 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_2")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3")
 text = "Quitter"
-
-[node name="SettingsPanel" type="PanelContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox"]
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2")
-
-[node name="SettingsMargin" type="MarginContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="SettingsVBox" type="VBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="Title" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "Paramètres"
-horizontal_alignment = 1
-
-[node name="EnableAudio" type="CheckButton" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
-layout_mode = 2
-text = "Activer les sons"
-
-[node name="EnableAmbience" type="CheckButton" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
-layout_mode = 2
-text = "Activer l'ambiance"
-
-[node name="SfxRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="SfxLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/SfxRow"]
-layout_mode = 2
-text = "SFX"
-
-[node name="SfxVolume" type="HSlider" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/SfxRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-min_value = -40.0
-max_value = 6.0
-step = 0.5
-value = -7.0
-
-[node name="AmbienceRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AmbienceLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/AmbienceRow"]
-layout_mode = 2
-text = "Ambiance"
-
-[node name="AmbienceVolume" type="HSlider" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/AmbienceRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-min_value = -40.0
-max_value = 6.0
-step = 0.5
-value = -18.0
-
-[node name="TimeRow" type="HBoxContainer" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="TimeLabel" type="Label" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/TimeRow"]
-layout_mode = 2
-text = "Durée (s)"
-
-[node name="TimeLimit" type="SpinBox" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox/TimeRow"]
-layout_mode = 2
-min_value = 30.0
-max_value = 600.0
-step = 10.0
-value = 120.0
-
-[node name="Close" type="Button" parent="HUD/Root/Margin/Center/CardPanel/CardMargin/VBox/SettingsPanel/SettingsMargin/SettingsVBox"]
-custom_minimum_size = Vector2(200, 46)
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxFlat_2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_3")
-text = "Fermer"
-
-[node name="Model" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34254915, 1.059881, -2.9967992)
-mesh = ExtResource("11_cp1uk")
-
-[node name="Monitor" parent="." instance=ExtResource("12_f0usu")]
-transform = Transform3D(1.6480236, 0, -1.2902194, 0, 2.0929997, 0, 1.2902194, 0, 1.6480236, 0.5782461, 0.051951744, -0.36754298)
-
-[node name="Model2" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.290365, 0, 0.3721186, 0, 0.47200006, 0, -0.3721186, 0, 0.290365, -1.5004392, 0.20073774, 0.3177917)
-mesh = ExtResource("13_4yk2m")
-
-[node name="Door (2)" parent="." instance=ExtResource("14_cp1uk")]
-transform = Transform3D(0.5896358, 0, 0, 0, 0.747497, 0, 0, 0, 0.53773123, -0.30901694, -0.8528265, -1.818056)
-
-[node name="Normal" parent="." instance=ExtResource("15_f0usu")]
-transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -2.3569, -2.1384826, -1.2344716)
-
-[node name="Normal2" parent="." instance=ExtResource("15_f0usu")]
-transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -4.603533, -2.1384826, -1.2344716)
-
-[node name="Normal3" parent="." instance=ExtResource("15_f0usu")]
-transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, -6.8128157, -2.1384826, -1.2344716)
-
-[node name="Normal4" parent="." instance=ExtResource("15_f0usu")]
-transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 1.6061316, -2.1384826, -1.2344716)
-
-[node name="Normal5" parent="." instance=ExtResource("15_f0usu")]
-transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 3.8594952, -2.1384826, -1.2344716)
-
-[node name="Normal6" parent="." instance=ExtResource("15_f0usu")]
-transform = Transform3D(0.568, 0, 0, 0, 1.213, 0, 0, 0, 0.839, 6.128377, -2.1384826, -1.2344716)
-
-[node name="Mug with office tools" parent="." instance=ExtResource("16_bekxh")]
-transform = Transform3D(1.631, 0, 0, 0, 1.631, 0, 0, 0, 1.631, -0.7267091, 0.053308368, -0.72962844)
-
-[node name="Pens518" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.0029549298, 0, 0.004033409, 0, 0.005, 0, -0.004033409, 0, 0.0029549298, 0.40316558, 0.056742996, -0.23661578)
-mesh = ExtResource("17_bekxh")
-
-[node name="Model3" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.9980573, 0, -0.06230277, 0, 1, 0, 0.06230277, 0, -0.9980573, -2.0133946, 0, -2.4677873)
-mesh = ExtResource("7_4yk2m")
-
-[node name="Model4" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.6312318, 0, 0.98392445, 0, 1.1689999, 0, -0.98392445, 0, -0.6312318, -1.110494, 0.06742811, 0.81369716)
-mesh = ExtResource("18_acp8f")
-
-[node name="WallShelf" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.012469174, 0, -0.62387556, 0, 0.6240001, 0, 0.62387556, 0, -0.012469174, 1.6149335, 1.4182924, -2.5242624)
-mesh = ExtResource("19_mrh8s")

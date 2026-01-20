@@ -8,6 +8,12 @@ using System.Text.Json;
 
 public partial class TimedRunUI : Control
 {
+    private enum EndRunReason
+    {
+        TimeExpired,
+        NoQuestions,
+    }
+
     private const string BuildMarker = "V3";
     private static readonly Color NeutralText = new(0.92f, 0.94f, 0.98f, 1f);
     private static readonly Color CorrectAccent = new(0.15f, 0.85f, 0.55f, 1f);
@@ -36,6 +42,7 @@ public partial class TimedRunUI : Control
     [Export] public float MouseMotionMaxYawDeg { get; set; } = 7.0f;
     [Export] public float MouseMotionMaxPitchDeg { get; set; } = 9.0f;
     [Export] public float MouseMotionSmoothing { get; set; } = 10.0f;
+    [Export(PropertyHint.Range, "0.05,1.0,0.01")] public float PostDrawMouseBlendDuration { get; set; } = 0.28f;
     [Export] public bool EnableIdleBobbing { get; set; } = false;
 
     // “Icônes” générées (mapping) — affichage style carte à collectionner
@@ -69,18 +76,14 @@ public partial class TimedRunUI : Control
     [Export] public bool EnableDiscardPile { get; set; } = true;
 
     private Control _panelRoot = null!;
-    private Label _domainLabel = null!;
-    private Label _timerLabel = null!;
-    private Label _scoreLabel = null!;
-    private Label _questionLabel = null!;
-    private Label _feedbackLabel = null!;
+    private Label _panelTitleLabel = null!;
+    private Label _panelBodyLabel = null!;
     private Button _restartButton = null!;
 
     private Label _topDomainLabel = null!;
     private Label _topTimerLabel = null!;
     private Label _topScoreLabel = null!;
 
-    private readonly List<Button> _answerButtons = new();
     private readonly Random _rng = new();
     
     // Audio: on utilise uniquement les AudioStreamPlayer3D placés dans la scène (Main3D.tscn / Audio3D).
@@ -125,6 +128,28 @@ public partial class TimedRunUI : Control
     private bool _cardMotionAnchorValid;
     private Transform3D _cardMotionAnchorGlobal;
     private Vector2 _mouseMotion;
+
+    // Transition douce: après `card_draw`, la micro-motion (tracking souris) ne doit pas
+    // prendre le dessus d'un coup. On fait monter son influence progressivement.
+    private bool _postDrawMouseBlendActive;
+    private double _postDrawMouseBlendT;
+
+    private bool TryGetNormalizedMouse(out Vector2 normalized)
+    {
+        normalized = Vector2.Zero;
+
+        var vp = GetViewport();
+        var rect = vp.GetVisibleRect();
+        var size = rect.Size;
+        if (size.X <= 1 || size.Y <= 1)
+            return false;
+
+        var mouse = vp.GetMousePosition();
+        var nx = Mathf.Clamp((float)((mouse.X / size.X) - 0.5) * 2.0f, -1.0f, 1.0f);
+        var ny = Mathf.Clamp((float)(0.5 - (mouse.Y / size.Y)) * 2.0f, -1.0f, 1.0f);
+        normalized = new Vector2(nx, ny);
+        return true;
+    }
 
     private Node3D? _deckRig;
     private CsgBox3D? _deckStack;
@@ -184,6 +209,8 @@ public partial class TimedRunUI : Control
     private bool _runActive;
     private bool _answeredCurrent;
     private double _timeRemaining;
+    private double _runInitialTime;
+    private double _runStartMonotonicSeconds;
 
     private bool _awaitingContinueClick;
     private int _continueRunToken;
@@ -224,38 +251,36 @@ public partial class TimedRunUI : Control
         // Sécurise l'input clavier + le tick (certains nodes peuvent avoir ces flags désactivés en scène).
         SetProcess(true);
         SetProcessInput(true);
+
+        LoadSettingsFromDiskAndApply();
+
+        LoadProfilesFromDisk();
         
         EnsureAudio();
         SetProcessUnhandledInput(true);
 
         // UI refs
         _panelRoot = GetNode<Control>("Margin/Center/CardPanel");
-        _domainLabel = GetNode<Label>("Margin/Center/CardPanel/CardMargin/VBox/TopRow/Domain");
-        _timerLabel = GetNode<Label>("Margin/Center/CardPanel/CardMargin/VBox/TopRow/Timer");
-        _scoreLabel = GetNode<Label>("Margin/Center/CardPanel/CardMargin/VBox/TopRow/Score");
-        _questionLabel = GetNode<Label>("Margin/Center/CardPanel/CardMargin/VBox/Question");
-        _feedbackLabel = GetNode<Label>("Margin/Center/CardPanel/CardMargin/VBox/Feedback");
+        _panelTitleLabel = GetNode<Label>("Margin/Center/CardPanel/CardMargin/VBox/Title");
+        _panelBodyLabel = GetNode<Label>("Margin/Center/CardPanel/CardMargin/VBox/Body");
         _restartButton = GetNode<Button>("Margin/Center/CardPanel/CardMargin/VBox/Restart");
 
         _topDomainLabel = GetNode<Label>("TopHUD/TopRow/Domain");
         _topTimerLabel = GetNode<Label>("TopHUD/TopRow/Timer");
         _topScoreLabel = GetNode<Label>("TopHUD/TopRow/Score");
 
-        _answerButtons.Add(GetNode<Button>("Margin/Center/CardPanel/CardMargin/VBox/Answers/A"));
-        _answerButtons.Add(GetNode<Button>("Margin/Center/CardPanel/CardMargin/VBox/Answers/B"));
-        _answerButtons.Add(GetNode<Button>("Margin/Center/CardPanel/CardMargin/VBox/Answers/C"));
-        _answerButtons.Add(GetNode<Button>("Margin/Center/CardPanel/CardMargin/VBox/Answers/D"));
-
-        for (var i = 0; i < _answerButtons.Count; i++)
-        {
-            var idx = i;
-            _answerButtons[i].Pressed += () => Choose(idx);
-        }
+        InitDebugOverlay();
 
         _restartButton.Pressed += StartRun;
 
         // Menu (Paramètres / Quitter)
         InitMenuAndSettingsUI();
+
+        // Cours (overlay de lecture depuis le menu)
+        InitCourseUI();
+
+        // Pause menu overlay (Échap en jeu)
+        InitPauseUI();
 
         // 3D refs
         _cardRig = GetNode<Node3D>("../../CardRig");
@@ -325,6 +350,10 @@ public partial class TimedRunUI : Control
         _cardReferenceGlobal = _cardRig.GlobalTransform;
         _cardReferenceCaptured = true;
 
+        // Base de micro-motion: on part de la pose réelle en scène.
+        _cardMotionAnchorValid = true;
+        _cardMotionAnchorGlobal = _cardReferenceGlobal;
+
         // Lisibilité: rendu 2D plus net sur la carte.
         ApplyCardViewportSizing();
 
@@ -381,9 +410,6 @@ public partial class TimedRunUI : Control
             var normal = (StyleBoxFlat)_answerBarStyleBase.Duplicate();
             var hover = (StyleBoxFlat)_answerBarHoverStyleBase.Duplicate();
             _answerBarStyles.Add(normal);
-        // Base de micro-motion: par défaut, on part de la pose réelle en scène.
-        _cardMotionAnchorValid = true;
-        _cardMotionAnchorGlobal = _cardReferenceGlobal;
             _answerBarHoverStyles.Add(hover);
 
             var normalNoBorder = (StyleBoxFlat)normal.Duplicate();
@@ -532,27 +558,44 @@ public partial class TimedRunUI : Control
 
     private void ShowReadyScreen()
     {
+        ForceExitPause();
         _runActive = false;
         _answeredCurrent = true;
         _hasCurrentQuestion = false;
 
+        // UX: retour au menu principal => fermer les sous-panneaux.
+        _rulesVisible = false;
+        HideSettingsPanel();
+        CloseCourseOverlay();
+
         CancelInFlightAnimations();
 
-        foreach (var b in _answerButtons)
-            b.Visible = false;
         _panelRoot.Visible = true;
 
-        _domainLabel.Text = "Domaine: —";
-        _timerLabel.Text = $"{BuildMarker} ⏱️ {FormatTime(TimeLimitSeconds)}";
-        _scoreLabel.Text = "Score: 0/0";
+        _timeRemaining = GetInitialTimeLimitForSelectedMode();
 
-        _questionLabel.Text =
-            "Prêt ?\n\n" +
-            "Timed run: réponds au maximum de questions avant la fin du chrono.\n\n" +
-            "Clavier: 1–4";
+        if (IsInstanceValid(_topDomainLabel))
+            _topDomainLabel.Text = "Domaine: —";
+        if (IsInstanceValid(_topTimerLabel))
+            _topTimerLabel.Text = $"{BuildMarker} ⏱️ {FormatTime(_timeRemaining)}";
+        if (IsInstanceValid(_topScoreLabel))
+            _topScoreLabel.Text = "Score: 0/0";
+        if (IsInstanceValid(_cardTimerFaceLabel))
+            _cardTimerFaceLabel.Text = $"⏱️ {FormatTime(_timeRemaining)}";
+        if (IsInstanceValid(_cardScoreFaceLabel))
+            _cardScoreFaceLabel.Text = "Score: 0/0";
 
-        _feedbackLabel.Text = "";
-        _feedbackLabel.SelfModulate = NeutralText;
+        _panelTitleLabel.Text = "Mini-jeu Cartes AWS\nPrêt à réviser ?";
+        var durationText = double.IsPositiveInfinity(_timeRemaining) ? "∞" : FormatTime(_timeRemaining);
+        _panelBodyLabel.Text =
+            $"Certification : {GetSelectedCertificationLabel()}.\n" +
+            $"Type : {GetSelectedGameModeLabel()}.\n" +
+            $"Durée : {durationText}.\n\n" +
+            "Objectif : répondre à un maximum de questions.\n\n" +
+            "Contrôles : 1–4 au clavier, ou clic sur la carte.\n" +
+            "Après une réponse, la carte se retourne (explication) — reclique pour continuer.\n\n" +
+            BuildProfileSummaryText();
+        _panelBodyLabel.SelfModulate = NeutralText;
 
         _restartButton.Text = "Commencer";
         _restartButton.Visible = true;
@@ -599,7 +642,25 @@ public partial class TimedRunUI : Control
 
             GD.PushWarning($"[MiniJeuCartesAWS] Deck nodes manquants: {string.Join(", ", missing)}");
             DumpSceneForDeckDebug(scene);
-            return;
+            // Fallback 1: chemins relatifs depuis HUD/Root (robuste si CurrentScene n'est pas le root attendu).
+            _deckRig ??= GetNodeOrNull<Node3D>("../../Set/DeckRig");
+            _deckStack ??= GetNodeOrNull<CsgBox3D>("../../Set/DeckRig/DeckStack");
+            _deckSpawn ??= GetNodeOrNull<Marker3D>("../../Set/DeckRig/DeckSpawn");
+            _cardFocus ??= GetNodeOrNull<Marker3D>("../../CardFocus");
+            _discardTarget ??= GetNodeOrNull<Marker3D>("../../DiscardTarget");
+
+            // Fallback 2: recherche par nom dans l'arbre (dernier recours).
+            _deckRig ??= scene.FindChild("DeckRig", recursive: true, owned: false) as Node3D;
+            _deckStack ??= scene.FindChild("DeckStack", recursive: true, owned: false) as CsgBox3D;
+            _deckSpawn ??= scene.FindChild("DeckSpawn", recursive: true, owned: false) as Marker3D;
+            _cardFocus ??= scene.FindChild("CardFocus", recursive: true, owned: false) as Marker3D;
+            _discardTarget ??= scene.FindChild("DiscardTarget", recursive: true, owned: false) as Marker3D;
+
+            if (!IsInstanceValid(_deckAnim) && IsInstanceValid(_deckRig))
+                _deckAnim = (_deckRig as Node)?.GetNodeOrNull<AnimationPlayer>("DeckAnim") ?? _deckAnim;
+
+            if (!IsInstanceValid(_deckRig) || !IsInstanceValid(_deckStack) || !IsInstanceValid(_deckSpawn) || !IsInstanceValid(_cardFocus) || !IsInstanceValid(_discardTarget))
+                return;
         }
 
         GD.Print("[MiniJeuCartesAWS] Deck nodes OK: DeckRig/DeckStack/DeckSpawn/CardFocus/DiscardTarget.");
@@ -656,11 +717,11 @@ public partial class TimedRunUI : Control
 
     private Transform3D GetFocusTransformGlobal()
     {
-        if (_cardReferenceCaptured)
-            return _cardReferenceGlobal;
-
         if (IsInstanceValid(_cardFocus))
             return _cardFocus!.GlobalTransform;
+
+        if (_cardReferenceCaptured)
+            return _cardReferenceGlobal;
 
         return _cardRig.GlobalTransform;
     }
@@ -702,23 +763,42 @@ public partial class TimedRunUI : Control
 
     public override void _Process(double delta)
     {
-        if (!_runActive)
-            return;
-
-        _timeRemaining -= delta;
-        if (_timeRemaining <= 0)
+        UpdateDebugOverlay(delta);
+        if (_runActive)
         {
-            _timeRemaining = 0;
-            EndRun();
-            return;
+            if (_isPaused)
+            {
+                // On garde l'ambiance, mais on gèle la logique du run (timer/input/hover).
+                AnimateAmbientLight();
+                return;
+            }
+
+            if (!double.IsPositiveInfinity(_runInitialTime))
+            {
+                var now = Time.GetTicksMsec() / 1000.0;
+                var elapsed = Math.Max(0.0, now - _runStartMonotonicSeconds);
+                _timeRemaining = _runInitialTime - elapsed;
+
+                if (_timeRemaining <= 0)
+                {
+                    _timeRemaining = 0;
+                    EndRun(EndRunReason.TimeExpired);
+                    return;
+                }
+            }
+
+            UpdateTopRow();
+            UpdateCardHover();
+
+            if (IsIdleAllowed())
+                ApplyCardMicroMotion(delta);
+        }
+        else
+        {
+            UpdateMenuMotion(delta);
         }
 
-        UpdateTopRow();
-
-        UpdateCardHover();
-
-        if (IsIdleAllowed())
-            ApplyCardMicroMotion(delta);
+        // Ambiance toujours active (menu ou run)
         AnimateAmbientLight();
     }
 
@@ -834,18 +914,27 @@ public partial class TimedRunUI : Control
 
         if (EnableMouseGuidedCardMotion)
         {
-            var vp = GetViewport();
-            var rect = vp.GetVisibleRect();
-            var size = rect.Size;
-            if (size.X <= 1 || size.Y <= 1)
+            var mouseBlend = 1.0f;
+            if (_postDrawMouseBlendActive)
+            {
+                _postDrawMouseBlendT += Math.Max(0.0, delta);
+                var duration = Math.Max(0.0001f, PostDrawMouseBlendDuration);
+                var t = (float)Math.Clamp(_postDrawMouseBlendT / duration, 0.0, 1.0);
+                // Smootherstep (plus doux que smoothstep)
+                t = t * t * t * (t * (t * 6f - 15f) + 10f);
+                mouseBlend = t;
+                if (t >= 1.0f)
+                    _postDrawMouseBlendActive = false;
+            }
+
+            if (!TryGetNormalizedMouse(out var target))
                 return;
 
-            var mouse = vp.GetMousePosition();
-            var nx = Mathf.Clamp((float)((mouse.X / size.X) - 0.5) * 2.0f, -1.0f, 1.0f);
-            var ny = Mathf.Clamp((float)(0.5 - (mouse.Y / size.Y)) * 2.0f, -1.0f, 1.0f);
-
-            var target = new Vector2(nx, ny);
-            var alpha = 1.0f - Mathf.Exp(-Mathf.Max(1.0f, MouseMotionSmoothing) * (float)delta);
+            // Pendant la transition, on garde un lissage effectif plus faible au début
+            // pour éviter un "coup" si la souris est loin.
+            var smoothingFactor = Mathf.Lerp(0.25f, 1.0f, mouseBlend);
+            var effectiveSmoothing = Mathf.Max(0.5f, MouseMotionSmoothing * smoothingFactor);
+            var alpha = 1.0f - Mathf.Exp(-effectiveSmoothing * (float)delta);
             _mouseMotion = _mouseMotion.Lerp(target, alpha);
 
             var baseT = GetCardMotionBaseTransformGlobal();
@@ -853,12 +942,12 @@ public partial class TimedRunUI : Control
 
             // Déplacement léger DANS le plan de la carte.
             // La PlaneMesh de la face a une normale locale ~Y, donc le plan est (X,Z).
-            var offset = (b.X * (_mouseMotion.X * MouseMotionMaxOffset)) + (b.Z * (_mouseMotion.Y * MouseMotionMaxOffset));
+            var offset = (b.X * (_mouseMotion.X * MouseMotionMaxOffset * mouseBlend)) + (b.Z * (_mouseMotion.Y * MouseMotionMaxOffset * mouseBlend));
 
             // Rotation: yaw avec la souris; pitch arrière surtout quand la souris est en haut.
-            var yaw = Mathf.DegToRad(MouseMotionMaxYawDeg) * -_mouseMotion.X;
+            var yaw = Mathf.DegToRad(MouseMotionMaxYawDeg) * -_mouseMotion.X * mouseBlend;
             var pitchFactor = Mathf.Clamp((_mouseMotion.Y - 0.25f) / 0.75f, 0.0f, 1.0f);
-            var pitch = Mathf.DegToRad(MouseMotionMaxPitchDeg) * -pitchFactor;
+            var pitch = Mathf.DegToRad(MouseMotionMaxPitchDeg) * -pitchFactor * mouseBlend;
 
             // yaw autour de l'axe vertical dans le plan (Z), pitch autour de l'axe horizontal (X)
             b = b.Rotated(baseT.Basis.Z, yaw);
@@ -912,9 +1001,23 @@ public partial class TimedRunUI : Control
 
     private void StartRun()
     {
-        _runToken++;
-        _questionToken = 0;
-        CancelInFlightAnimations();
+        try
+        {
+            ForceExitPause();
+            _runToken++;
+            _questionToken = 0;
+            CancelInFlightAnimations();
+
+            // Défensif: si la scène est instanciée/chargée différemment, les refs monde
+            // peuvent être null au moment du _Ready du HUD. On re-résout au start.
+            ResolveWorldNodesForDeck();
+            if (IsInstanceValid(_deckRig) && !IsInstanceValid(_deckRigOffset))
+                _deckRigOffset = EnsureOffsetParent(_deckRig!, "DeckRigOffset");
+            if (!IsInstanceValid(_deckAnim) && IsInstanceValid(_deckRig))
+                _deckAnim = (_deckRig as Node)?.GetNodeOrNull<AnimationPlayer>("DeckAnim") ?? _deckAnim;
+
+        _rulesVisible = false;
+        HideSettingsPanel();
 
         _awaitingContinueClick = false;
         _continueRunToken = 0;
@@ -923,11 +1026,18 @@ public partial class TimedRunUI : Control
         _runActive = true;
         _answeredCurrent = false;
         _hasCurrentQuestion = false;
-        _timeRemaining = Math.Max(10, TimeLimitSeconds);
+        _runInitialTime = GetInitialTimeLimitForSelectedMode();
+        _timeRemaining = _runInitialTime;
+        _runStartMonotonicSeconds = Time.GetTicksMsec() / 1000.0;
 
         _answered = 0;
         _correct = 0;
         _domainStats.Clear();
+
+        // Défensif: si _Ready a été interrompu (node manquant) ou si le deck n'est pas chargé,
+        // on recharge ici pour éviter un EndRun immédiat.
+        if (_allQuestions.Count == 0 || _indicesByDomain.Count == 0)
+            LoadDeck();
 
         _visualDeckRemaining = _visualDeckCapacity;
         UpdateDeckVisual();
@@ -942,20 +1052,27 @@ public partial class TimedRunUI : Control
 
         // Immersion: pendant le run, tout se passe sur la carte 3D.
         _panelRoot.Visible = false;
-        _feedbackLabel.Text = "";
-        _feedbackLabel.SelfModulate = NeutralText;
+        _panelTitleLabel.Text = "";
+        _panelBodyLabel.Text = "";
 
-        foreach (var b in _answerButtons)
+        if (_allQuestions.Count == 0 || _indicesByDomain.Count == 0)
         {
-            b.Visible = false;
-            b.Disabled = false;
+            EndRun(EndRunReason.NoQuestions);
+            return;
         }
 
-        NextQuestion(first: true);
+            NextQuestion(first: true);
+        }
+        catch (Exception ex)
+        {
+            SetLastRuntimeError("StartRun", ex);
+            EndRun(EndRunReason.NoQuestions);
+        }
     }
 
-    private void EndRun()
+    private void EndRun(EndRunReason reason)
     {
+        ForceExitPause();
         CancelInFlightAnimations();
 
         _awaitingContinueClick = false;
@@ -967,28 +1084,39 @@ public partial class TimedRunUI : Control
         _visualDiscardCount = 0;
         UpdateDiscardVisual();
 
-        foreach (var b in _answerButtons)
-            b.Visible = false;
-
         // On ré-affiche le panneau uniquement pour le résumé / rejouer.
         _panelRoot.Visible = true;
 
-        _domainLabel.Text = "Domaine: —";
-        _timerLabel.Text = "⏱️ 00:00";
-        _scoreLabel.Text = $"Score: {_correct}/{_answered}";
+        if (IsInstanceValid(_topDomainLabel))
+            _topDomainLabel.Text = "Domaine: —";
+        if (IsInstanceValid(_topTimerLabel))
+            _topTimerLabel.Text = "⏱️ 00:00";
+        if (IsInstanceValid(_topScoreLabel))
+            _topScoreLabel.Text = $"Score: {_correct}/{_answered}";
+
+        RecordRunToCurrentProfile();
 
         var accuracy = _answered <= 0 ? 0 : (int)Math.Round(100.0 * _correct / _answered);
-        _questionLabel.Text = $"⏳ Temps écoulé !\n\nScore: {_correct}/{_answered} ({accuracy}%)\n\nRejouer pour un nouveau tirage aléatoire.";
 
-        _feedbackLabel.Text = BuildDomainBreakdown();
-        _feedbackLabel.SelfModulate = NeutralText;
+        _panelTitleLabel.Text = reason switch
+        {
+            EndRunReason.NoQuestions => $"📦 Plus de questions disponibles\n\nScore: {_correct}/{_answered} ({accuracy}%)",
+            _ => $"⏳ Temps écoulé !\n\nScore: {_correct}/{_answered} ({accuracy}%)",
+        };
+
+        _panelBodyLabel.Text = (reason switch
+        {
+            EndRunReason.NoQuestions => "Impossible de tirer une nouvelle question (deck vide/incompatible).\n" +
+                                        "Change de certification ou vérifie le deck JSON.\n\n",
+            _ => "Rejouer pour un nouveau tirage aléatoire.\n\n",
+        }) + BuildDomainBreakdown();
+        _panelBodyLabel.SelfModulate = NeutralText;
 
         _restartButton.Text = "Rejouer";
         _restartButton.Visible = true;
         _restartButton.Disabled = false;
         _restartButton.GrabFocus();
     }
-
     private string BuildDomainBreakdown()
     {
         if (_domainStats.Count == 0)
@@ -1012,7 +1140,9 @@ public partial class TimedRunUI : Control
 
     private void NextQuestion(bool first = false)
     {
-        _questionToken++;
+        try
+        {
+            _questionToken++;
 
         _cardIsBackSide = false;
         _awaitingContinueClick = false;
@@ -1020,13 +1150,6 @@ public partial class TimedRunUI : Control
         _answeredCurrent = false;
         _chosenAnswerIndex = -1;
         _correctAnswerIndex = -1;
-        _feedbackLabel.Text = "";
-        _feedbackLabel.SelfModulate = NeutralText;
-
-        foreach (var b in _answerButtons)
-        {
-            b.Disabled = false;
-        }
 
         if (!TryDrawQuestionWeighted(out var q))
         {
@@ -1036,8 +1159,7 @@ public partial class TimedRunUI : Control
 
             if (!TryDrawQuestionWeighted(out q))
             {
-                _questionLabel.Text = "Aucune question disponible.";
-                EndRun();
+                EndRun(EndRunReason.NoQuestions);
                 return;
             }
         }
@@ -1050,15 +1172,61 @@ public partial class TimedRunUI : Control
 
         _currentOptions = BuildShuffledOptions(_currentQuestion);
 
-        // Texte UI (overlay) + face de carte
-        _questionLabel.Text = _currentQuestion.Prompt;
-        _cardQuestionLabel.Text = _currentQuestion.Prompt;
-        for (var i = 0; i < _answerButtons.Count; i++)
-            _answerButtons[i].Text = _currentOptions[i].Text;
+            // Défensif: les UI de SubViewport peuvent être recréées/rechargées;
+            // on re-résout au besoin avant d'écrire dessus.
+            if (!IsInstanceValid(_cardQuestionLabel) || !IsInstanceValid(_cardDomainLabel) || _cardAnswerLabels.Count != 4 || _cardAnswerResultLabels.Count != 4)
+            {
+                var faceUi = GetNodeOrNull<Control>("../../CardRig/CardFrontViewport/Face");
+                if (IsInstanceValid(faceUi))
+                {
+                    _cardDomainLabel = faceUi!.GetNodeOrNull<Label>("%FaceDomain") ?? _cardDomainLabel;
+                    _cardQuestionLabel = faceUi.GetNodeOrNull<Label>("%FaceQuestion") ?? _cardQuestionLabel;
+
+                    if (_cardAnswerLabels.Count != 4)
+                    {
+                        var a = faceUi.GetNodeOrNull<Label>("%FaceA");
+                        var b = faceUi.GetNodeOrNull<Label>("%FaceB");
+                        var c = faceUi.GetNodeOrNull<Label>("%FaceC");
+                        var d = faceUi.GetNodeOrNull<Label>("%FaceD");
+                        if (IsInstanceValid(a) && IsInstanceValid(b) && IsInstanceValid(c) && IsInstanceValid(d))
+                        {
+                            _cardAnswerLabels.Clear();
+                            _cardAnswerLabels.Add(a!);
+                            _cardAnswerLabels.Add(b!);
+                            _cardAnswerLabels.Add(c!);
+                            _cardAnswerLabels.Add(d!);
+                        }
+                    }
+
+                    if (_cardAnswerResultLabels.Count != 4)
+                    {
+                        var ar = faceUi.GetNodeOrNull<Label>("%FaceAResult");
+                        var br = faceUi.GetNodeOrNull<Label>("%FaceBResult");
+                        var cr = faceUi.GetNodeOrNull<Label>("%FaceCResult");
+                        var dr = faceUi.GetNodeOrNull<Label>("%FaceDResult");
+                        if (IsInstanceValid(ar) && IsInstanceValid(br) && IsInstanceValid(cr) && IsInstanceValid(dr))
+                        {
+                            _cardAnswerResultLabels.Clear();
+                            _cardAnswerResultLabels.Add(ar!);
+                            _cardAnswerResultLabels.Add(br!);
+                            _cardAnswerResultLabels.Add(cr!);
+                            _cardAnswerResultLabels.Add(dr!);
+                        }
+                    }
+                }
+            }
+
+        // Texte sur la carte (SubViewport)
+            if (IsInstanceValid(_cardQuestionLabel))
+                _cardQuestionLabel.Text = _currentQuestion.Prompt;
 
         // Réponses visibles directement sur la carte (effet "jeu de cartes")
         for (var i = 0; i < _cardAnswerLabels.Count && i < _currentOptions.Length; i++)
-            _cardAnswerLabels[i].Text = $"{i + 1}) {_currentOptions[i].Text}";
+            {
+                var l = _cardAnswerLabels[i];
+                if (IsInstanceValid(l))
+                    l.Text = $"{i + 1}) {_currentOptions[i].Text}";
+            }
 
         // Résultat sur le recto: reset (Bonne/Mauvaise à droite).
         foreach (var r in _cardAnswerResultLabels)
@@ -1071,14 +1239,24 @@ public partial class TimedRunUI : Control
         _hoveredAnswerIndex = -1;
         ApplyAnswerRowVisualState();
 
-        _domainLabel.Text = FormatDomain(_currentQuestion.Domain);
-        _cardDomainLabel.Text = FormatDomainFace(_currentQuestion.Domain);
+        if (IsInstanceValid(_topDomainLabel))
+            _topDomainLabel.Text = FormatDomain(_currentQuestion.Domain);
+            if (IsInstanceValid(_cardDomainLabel))
+                _cardDomainLabel.Text = FormatDomainFace(_currentQuestion.Domain);
         UpdateTopRow();
 
         // Pas de focus forcé: on veut éviter l'UI overlay et jouer au clavier.
 
         // Tirage depuis le deck vers la caméra
-        AnimateDrawFromDeck(first);
+            AnimateDrawFromDeck(first);
+        }
+        catch (Exception ex)
+        {
+            SetLastRuntimeError("NextQuestion", ex);
+            // Fallback: recale au focus pour garder la partie jouable.
+            if (IsInstanceValid(_cardRig))
+                _cardRig.GlobalTransform = GetFocusTransformGlobal();
+        }
     }
 
     private void Choose(int chosenIndex)
@@ -1098,6 +1276,8 @@ public partial class TimedRunUI : Control
         _answered++;
         if (ok) _correct++;
 
+        RecordQuestionMetricsToProfile(_currentQuestion, ok);
+
         var domain = _currentQuestion.Domain;
         if (!_domainStats.TryGetValue(domain, out var stat))
             stat = (0, 0);
@@ -1105,15 +1285,7 @@ public partial class TimedRunUI : Control
         if (ok) stat.correct += 1;
         _domainStats[domain] = stat;
 
-        _feedbackLabel.Text = ok
-            ? $"✅ Correct ! {_currentQuestion.Explanation}"
-            : $"❌ Faux. Réponse: {_currentQuestion.CorrectAnswer}. {_currentQuestion.Explanation}";
-        _feedbackLabel.SelfModulate = ok ? CorrectAccent : WrongAccent;
-
         HighlightAnswers(chosenIndex);
-
-        foreach (var b in _answerButtons)
-            b.Disabled = true;
 
         UpdateTopRow();
 
@@ -1129,6 +1301,71 @@ public partial class TimedRunUI : Control
         _awaitingContinueClick = true;
         _continueRunToken = _runToken;
         _continueQuestionToken = _questionToken;
+    }
+
+    private void RecordQuestionMetricsToProfile(Question q, bool ok)
+    {
+        try
+        {
+            var p = GetCurrentProfile();
+            p.QuestionStatsById ??= new Dictionary<string, QuestionStats>(StringComparer.OrdinalIgnoreCase);
+            p.TopicStatsByKey ??= new Dictionary<string, TopicStats>(StringComparer.OrdinalIgnoreCase);
+
+            var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+            var qid = string.IsNullOrWhiteSpace(q.Id) ? "unknown" : q.Id;
+            if (!p.QuestionStatsById.TryGetValue(qid, out var qs))
+            {
+                qs = new QuestionStats();
+                p.QuestionStatsById[qid] = qs;
+            }
+
+            qs.Asked += 1;
+            qs.LastAskedUnixSeconds = now;
+
+            if (ok)
+            {
+                qs.Correct += 1;
+                qs.CorrectStreak += 1;
+                qs.WrongStreak = 0;
+                qs.LastCorrectUnixSeconds = now;
+            }
+            else
+            {
+                qs.WrongStreak += 1;
+                qs.CorrectStreak = 0;
+                qs.LastWrongUnixSeconds = now;
+            }
+
+            // Topics: domaine + catégorie + problématique
+            void TouchTopic(string key)
+            {
+                if (string.IsNullOrWhiteSpace(key))
+                    return;
+                if (!p.TopicStatsByKey.TryGetValue(key, out var ts))
+                {
+                    ts = new TopicStats();
+                    p.TopicStatsByKey[key] = ts;
+                }
+                ts.Asked += 1;
+                if (ok) ts.Correct += 1;
+                ts.LastAskedUnixSeconds = now;
+            }
+
+            TouchTopic($"domain:{q.Domain}");
+            if (!string.IsNullOrWhiteSpace(q.Category)) TouchTopic($"cat:{q.Category}");
+            if (!string.IsNullOrWhiteSpace(q.Problem)) TouchTopic($"prob:{q.Problem}");
+            foreach (var s in q.Services ?? Array.Empty<string>())
+                TouchTopic($"svc:{s}");
+            foreach (var t in q.Tags ?? Array.Empty<string>())
+                TouchTopic($"tag:{t}");
+
+            SaveProfilesToDisk();
+        }
+        catch (Exception ex)
+        {
+            GD.PushWarning($"[MiniJeuCartesAWS] RecordQuestionMetrics failed: {ex.Message}");
+        }
     }
 
 }
