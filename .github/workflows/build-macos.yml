@@ -1,0 +1,60 @@
+name: Build macOS
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  GODOT_VERSION: "4.5.1"
+  EXPORT_NAME: MiniJeuCartesAWS
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup Godot
+        run: |
+          # Download Godot Mono for macOS
+          wget -q https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_mono_macos.universal.zip
+          unzip -q Godot_v${GODOT_VERSION}-stable_mono_macos.universal.zip
+          mv Godot_mono.app /Applications/
+          
+          # Download export templates
+          wget -q https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_mono_export_templates.tpz
+          mkdir -p ~/Library/Application\ Support/Godot/export_templates/${GODOT_VERSION}.stable.mono
+          unzip -q Godot_v${GODOT_VERSION}-stable_mono_export_templates.tpz
+          mv templates/* ~/Library/Application\ Support/Godot/export_templates/${GODOT_VERSION}.stable.mono/
+
+      - name: Build C# project
+        run: dotnet build -c Release
+
+      - name: Export macOS
+        run: |
+          mkdir -p build/macos
+          /Applications/Godot_mono.app/Contents/MacOS/Godot --headless --export-release "macOS (universal)" build/macos/${EXPORT_NAME}.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-macos-universal
+          path: build/macos/${{ env.EXPORT_NAME }}.zip
+
+      - name: Upload to Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/macos/${{ env.EXPORT_NAME }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
