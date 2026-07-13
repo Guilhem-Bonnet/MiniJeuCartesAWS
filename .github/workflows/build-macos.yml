@@ -47,18 +47,19 @@ jobs:
       - name: Export macOS
         run: |
           mkdir -p build/macos
-          /Applications/Godot_mono.app/Contents/MacOS/Godot --headless --export-release "macOS (universal)" build/macos/${EXPORT_NAME}.zip
+          # Nom aligné sur les assets de release attendus par le README (releases/latest/download/…)
+          /Applications/Godot_mono.app/Contents/MacOS/Godot --headless --export-release "macOS (universal)" build/macos/${EXPORT_NAME}-macos-universal.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-macos-universal
-          path: build/macos/${{ env.EXPORT_NAME }}.zip
+          path: build/macos/${{ env.EXPORT_NAME }}-macos-universal.zip
 
       - name: Upload to Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
-          files: build/macos/${{ env.EXPORT_NAME }}.zip
+          files: build/macos/${{ env.EXPORT_NAME }}-macos-universal.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

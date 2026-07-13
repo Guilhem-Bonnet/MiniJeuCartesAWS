@@ -54,6 +54,8 @@
 </table>
 
 > **Note Linux** : Après extraction, rends le fichier exécutable avec `chmod +x MiniJeuCartesAWS.x86_64`
+>
+> **Note macOS** : L'app est signée ad-hoc (pas de compte Apple Developer). Au **premier lancement** : clic droit sur `MiniJeuCartesAWS.app` → **Ouvrir** → **Ouvrir** (une seule fois). Alternative en terminal : `xattr -cr MiniJeuCartesAWS.app`. Compatible Intel et Apple Silicon (binaire universel).
 
 ---
 
