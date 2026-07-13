@@ -1,0 +1,3551 @@
+{
+  "deckId": "aws-saa-v1",
+  "title": "AWS Solutions Architect Associate — Deck V1",
+  "questions": [
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Une app du compte A doit lire un bucket S3 du compte B avec des credentials temporaires et auditables. Quelle solution ?",
+      "answers": [
+        "Créer un utilisateur IAM dans le compte B avec access keys",
+        "Partager les access keys root du compte B",
+        "Créer un rôle IAM dans le compte B et l'assumer via STS depuis le compte A",
+        "Activer S3 Transfer Acceleration"
+      ],
+      "correctIndex": 2,
+      "explanation": "Un rôle cross-account assumé via STS fournit des credentials temporaires, auditables dans CloudTrail, sans clés statiques.",
+      "services": [
+        "IAM",
+        "STS"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Accès cross-account"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Tu crées un rôle IAM que seul un compte partenaire précis doit pouvoir assumer. Où définis-tu cette restriction ?",
+      "answers": [
+        "Dans la politique de permissions du rôle",
+        "Dans la trust policy du rôle",
+        "Dans une SCP de l'organisation",
+        "Dans une bucket policy"
+      ],
+      "correctIndex": 1,
+      "explanation": "La trust policy (resource-based du rôle) définit qui peut l'assumer ; la politique de permissions définit ce qu'il peut faire.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Trust policy"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Tes devs créent leurs propres rôles IAM. Tu veux plafonner les permissions max de ces rôles sans bloquer leur autonomie. Que fais-tu ?",
+      "answers": [
+        "Imposer une permissions boundary sur les rôles créés",
+        "Retirer iam:CreateRole à tous les devs",
+        "Activer CloudTrail",
+        "Utiliser uniquement des inline policies"
+      ],
+      "correctIndex": 0,
+      "explanation": "La permissions boundary fixe le plafond des permissions effectives d'un rôle, même si sa politique accorde davantage.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Délégation contrôlée"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Le compte B doit lire un bucket du compte A sans que ses utilisateurs aient à changer de rôle. Quelle option ?",
+      "answers": [
+        "Rôle cross-account à assumer",
+        "Dupliquer le bucket dans le compte B",
+        "Access keys partagées entre comptes",
+        "Bucket policy autorisant les principaux du compte B"
+      ],
+      "correctIndex": 3,
+      "explanation": "Une resource-based policy (bucket policy) accorde l'accès direct cross-account sans AssumeRole, complétée par les permissions IAM côté B.",
+      "services": [
+        "S3",
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Policy resource-based"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Tu veux détecter automatiquement les buckets, rôles et clés KMS partagés avec des comptes externes. Quel service ?",
+      "answers": [
+        "AWS Config",
+        "IAM Access Analyzer",
+        "Amazon Inspector",
+        "AWS Trusted Advisor"
+      ],
+      "correctIndex": 1,
+      "explanation": "IAM Access Analyzer analyse les resource-based policies et signale les accès accordés à des entités hors de ta zone de confiance.",
+      "services": [
+        "IAM Access Analyzer"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Audit des accès"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Ton entreprise utilise un IdP SAML on-prem. Les employés doivent accéder à AWS sans utilisateurs IAM. Quelle approche ?",
+      "answers": [
+        "Créer un utilisateur IAM par employé",
+        "Un Cognito user pool",
+        "Fédération SAML 2.0 avec STS AssumeRoleWithSAML",
+        "Des access keys partagées par équipe"
+      ],
+      "correctIndex": 2,
+      "explanation": "La fédération SAML permet aux identités de l'IdP d'obtenir des credentials temporaires via STS, sans créer d'utilisateurs IAM.",
+      "services": [
+        "IAM",
+        "STS"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Fédération"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Une app sur EC2 doit écrire dans DynamoDB. Comment lui fournir des credentials de façon sécurisée ?",
+      "answers": [
+        "Attacher un rôle IAM via un instance profile",
+        "Stocker des access keys dans le code",
+        "Mettre les access keys dans les user data",
+        "Utiliser les credentials du compte root"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le rôle attaché à l'instance fournit des credentials temporaires auto-renouvelés via le metadata service. Jamais de clés statiques.",
+      "services": [
+        "IAM",
+        "EC2"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Credentials EC2"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Un prestataire SaaS doit assumer un rôle dans ton compte. Tu veux éviter le problème du confused deputy. Qu'ajoutes-tu ?",
+      "answers": [
+        "Une politique de mot de passe stricte",
+        "Une permissions boundary",
+        "Un chiffrement KMS du rôle",
+        "Une external ID exigée dans la trust policy"
+      ],
+      "correctIndex": 3,
+      "explanation": "L'external ID, vérifiée en condition de la trust policy, garantit que le tiers agit bien pour ton compte et pas pour un autre de ses clients.",
+      "services": [
+        "IAM",
+        "STS"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Confused deputy"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Tes admins ont un accès standard mais réalisent parfois des actions sensibles. Comment limiter le risque au quotidien ?",
+      "answers": [
+        "Leur donner AdministratorAccess en permanence",
+        "Un rôle privilégié séparé, assumable uniquement avec MFA",
+        "Partager un compte admin commun",
+        "Désactiver CloudTrail pour les admins"
+      ],
+      "correctIndex": 1,
+      "explanation": "Principe du moindre privilège : accès standard par défaut, élévation temporaire via AssumeRole conditionnée au MFA.",
+      "services": [
+        "IAM",
+        "STS"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "saa"
+      ],
+      "problem": "Moindre privilège"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "AccessControl",
+      "prompt": "Ton app mobile doit gérer inscription, connexion et MFA de ses utilisateurs finaux. Quel service ?",
+      "answers": [
+        "IAM",
+        "Cognito user pool",
+        "Cognito identity pool",
+        "AWS Directory Service"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le user pool gère l'annuaire des utilisateurs : inscription, connexion, MFA. L'identity pool fournit des credentials AWS, pas l'authentification.",
+      "services": [
+        "Cognito"
+      ],
+      "tags": [
+        "security",
+        "accesscontrol",
+        "saa"
+      ],
+      "problem": "Auth utilisateurs"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "AccessControl",
+      "prompt": "Des utilisateurs authentifiés de ton app doivent uploader directement dans S3 avec des credentials AWS temporaires. Que combines-tu ?",
+      "answers": [
+        "Cognito identity pool échangeant les tokens contre des credentials STS",
+        "Un utilisateur IAM par utilisateur de l'app",
+        "Des access keys embarquées dans l'app",
+        "Un bucket S3 en accès public"
+      ],
+      "correctIndex": 0,
+      "explanation": "L'identity pool échange le token du user pool (ou d'un IdP) contre des credentials AWS temporaires à portée limitée.",
+      "services": [
+        "Cognito",
+        "STS",
+        "S3"
+      ],
+      "tags": [
+        "security",
+        "accesscontrol",
+        "saa"
+      ],
+      "problem": "Credentials app"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "AccessControl",
+      "prompt": "Tu veux authentifier les utilisateurs via OIDC avant que les requêtes n'atteignent tes instances, sans modifier l'app. Quelle solution ?",
+      "answers": [
+        "Une NACL sur le subnet",
+        "WAF avec une règle managée",
+        "L'authentification OIDC/Cognito native de l'ALB",
+        "Chiffrer le trafic avec KMS"
+      ],
+      "correctIndex": 2,
+      "explanation": "L'ALB supporte l'authentification OIDC/Cognito nativement : il redirige vers l'IdP puis transmet les claims à l'app via des headers.",
+      "services": [
+        "ALB",
+        "Cognito"
+      ],
+      "tags": [
+        "security",
+        "accesscontrol",
+        "saa"
+      ],
+      "problem": "Auth déportée"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "AccessControl",
+      "prompt": "Aucune donnée S3 de l'entreprise ne doit jamais être publique, même par erreur de bucket policy. Quelle mesure ?",
+      "answers": [
+        "Vérifier chaque bucket manuellement",
+        "Chiffrer tous les objets",
+        "Activer le versioning",
+        "Activer S3 Block Public Access au niveau du compte"
+      ],
+      "correctIndex": 3,
+      "explanation": "Block Public Access au niveau compte neutralise ACL et policies publiques sur tous les buckets, existants et futurs.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "security",
+        "accesscontrol",
+        "saa"
+      ],
+      "problem": "Buckets publics"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "AccessControl",
+      "prompt": "Un bucket ne doit être accessible que depuis ton VPC via son endpoint, jamais depuis Internet. Comment l'imposer ?",
+      "answers": [
+        "Un security group sur le bucket",
+        "Une bucket policy avec condition aws:sourceVpce",
+        "Une NACL bloquant Internet",
+        "S3 Transfer Acceleration"
+      ],
+      "correctIndex": 1,
+      "explanation": "La condition aws:sourceVpce dans la bucket policy limite l'accès au VPC endpoint désigné. S3 n'a pas de security group.",
+      "services": [
+        "S3",
+        "VPC"
+      ],
+      "tags": [
+        "security",
+        "accesscontrol",
+        "saa"
+      ],
+      "problem": "Accès privé S3"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "AccessControl",
+      "prompt": "L'audit exige que tout accès à un bucket passe par TLS. Comment refuser les requêtes HTTP en clair ?",
+      "answers": [
+        "Bucket policy Deny avec condition aws:SecureTransport à false",
+        "Activer SSE-S3",
+        "Activer CloudFront",
+        "Bloquer le port 80 dans le security group"
+      ],
+      "correctIndex": 0,
+      "explanation": "Un Deny explicite quand aws:SecureTransport est false rejette toute requête non TLS vers le bucket.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "security",
+        "accesscontrol",
+        "saa"
+      ],
+      "problem": "TLS obligatoire"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "AccessControl",
+      "prompt": "Les appels API sensibles ne doivent être autorisés que depuis le réseau du bureau. Quelle condition IAM ?",
+      "answers": [
+        "aws:SecureTransport",
+        "aws:PrincipalOrgID",
+        "aws:SourceIp avec les plages IP du bureau",
+        "aws:RequestedRegion"
+      ],
+      "correctIndex": 2,
+      "explanation": "La condition aws:SourceIp restreint l'action aux plages IP indiquées. Attention aux appels passant par des VPC endpoints.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "accesscontrol",
+        "saa"
+      ],
+      "problem": "Restriction IP"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "AccessControl",
+      "prompt": "Un partenaire sans compte AWS doit télécharger ponctuellement un fichier privé de S3. Solution la plus simple ?",
+      "answers": [
+        "Créer un utilisateur IAM pour lui",
+        "Rendre l'objet public quelques heures",
+        "Copier le fichier sur une instance EC2",
+        "Générer une URL présignée à durée limitée"
+      ],
+      "correctIndex": 3,
+      "explanation": "L'URL présignée donne un accès temporaire à l'objet avec les permissions du signataire, sans compte ni objet public.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "security",
+        "accesscontrol",
+        "saa"
+      ],
+      "problem": "Partage ponctuel"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Encryption",
+      "prompt": "Tu dois tracer précisément qui déchiffre quels objets S3, avec des clés que tu contrôles. Quel chiffrement ?",
+      "answers": [
+        "SSE-S3",
+        "SSE-KMS avec une clé gérée client",
+        "SSE-C",
+        "Chiffrement TLS uniquement"
+      ],
+      "correctIndex": 1,
+      "explanation": "SSE-KMS journalise chaque usage de la clé dans CloudTrail et te laisse contrôler sa key policy. SSE-S3 n'offre pas cet audit.",
+      "services": [
+        "S3",
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "Audit chiffrement"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Encryption",
+      "prompt": "La conformité impose que AWS ne stocke jamais tes clés de chiffrement S3. Quelle option ?",
+      "answers": [
+        "SSE-S3",
+        "SSE-KMS",
+        "S3 Bucket Keys",
+        "SSE-C : tu fournis la clé à chaque requête"
+      ],
+      "correctIndex": 3,
+      "explanation": "Avec SSE-C, tu fournis la clé dans chaque requête ; S3 chiffre puis efface la clé de sa mémoire sans jamais la stocker.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "Clés client"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Encryption",
+      "prompt": "Un bucket très sollicité en SSE-KMS génère des coûts d'appels KMS élevés. Comment les réduire sans changer de chiffrement ?",
+      "answers": [
+        "Activer S3 Bucket Keys",
+        "Passer en SSE-C",
+        "Réduire la taille des objets",
+        "Désactiver CloudTrail"
+      ],
+      "correctIndex": 0,
+      "explanation": "S3 Bucket Keys crée une clé intermédiaire au niveau du bucket, réduisant fortement le nombre d'appels KMS et leur coût.",
+      "services": [
+        "S3",
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "Coûts KMS"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Encryption",
+      "prompt": "La politique interne exige une rotation annuelle des clés KMS sans re-chiffrer les données existantes. Que fais-tu ?",
+      "answers": [
+        "Créer une nouvelle clé chaque année à la main",
+        "Passer sur les clés gérées AWS",
+        "Activer la rotation automatique de la clé gérée client",
+        "Exporter la clé et la remplacer"
+      ],
+      "correctIndex": 2,
+      "explanation": "La rotation automatique génère un nouveau matériel de clé chaque année ; les anciennes versions restent utilisables pour déchiffrer.",
+      "services": [
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "Rotation de clés"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Encryption",
+      "prompt": "Un service doit obtenir un accès temporaire et programmatique à une clé KMS sans modifier sa key policy. Quel mécanisme ?",
+      "answers": [
+        "Une IAM policy inline",
+        "Un grant KMS",
+        "Une nouvelle clé dédiée",
+        "Un alias KMS"
+      ],
+      "correctIndex": 1,
+      "explanation": "Les grants accordent des permissions révocables sur une clé sans toucher à la key policy, idéal pour les accès temporaires programmatiques.",
+      "services": [
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "Accès temporaire clé"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Encryption",
+      "prompt": "Une base RDS existante n'est pas chiffrée. Comment obtenir une base chiffrée at-rest avec les mêmes données ?",
+      "answers": [
+        "Snapshot, copie chiffrée du snapshot, puis restauration",
+        "Activer le chiffrement dans les paramètres RDS",
+        "Activer TLS sur les connexions",
+        "Chiffrer soi-même le volume EBS de l'instance"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le chiffrement RDS ne s'active qu'à la création. Il faut snapshotter, copier le snapshot en le chiffrant, puis restaurer une nouvelle instance.",
+      "services": [
+        "RDS",
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "Chiffrer RDS existant"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Encryption",
+      "prompt": "Tu veux que tout nouveau volume EBS de la région soit chiffré, sans dépendre de la vigilance des équipes. Que fais-tu ?",
+      "answers": [
+        "Un script qui vérifie chaque volume",
+        "Une règle AWS Config qui alerte",
+        "Chiffrer au niveau de l'OS",
+        "Activer le chiffrement EBS par défaut dans la région"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le chiffrement EBS par défaut (réglage par région) chiffre automatiquement tout nouveau volume et snapshot, sans action des équipes.",
+      "services": [
+        "EBS",
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "EBS par défaut"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Encryption",
+      "prompt": "Tu dois partager un snapshot EBS chiffré avec un autre compte, mais l'opération échoue. Quelle cause probable ?",
+      "answers": [
+        "Les snapshots ne se partagent jamais",
+        "Le volume est trop grand",
+        "Il est chiffré avec la clé AWS managed, non partageable",
+        "Le compte cible est dans une autre région"
+      ],
+      "correctIndex": 2,
+      "explanation": "Un snapshot chiffré avec la clé AWS managed (aws/ebs) ne peut pas être partagé. Il faut le re-chiffrer avec une clé gérée client et partager la clé.",
+      "services": [
+        "EBS",
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "Partage snapshot"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Encryption",
+      "prompt": "Malgré une IAM policy autorisant kms:Decrypt, un rôle se voit refuser l'accès à une clé gérée client. Quelle cause probable ?",
+      "answers": [
+        "La key policy de la clé n'autorise pas ce compte ou ce rôle",
+        "La clé utilise un alias différent",
+        "KMS exige toujours le MFA",
+        "CloudTrail est désactivé"
+      ],
+      "correctIndex": 0,
+      "explanation": "L'accès à une clé KMS exige que sa key policy le permette, directement ou en déléguant à IAM. L'IAM policy seule ne suffit pas.",
+      "services": [
+        "KMS",
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "saa"
+      ],
+      "problem": "Key policy"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "NetworkSecurity",
+      "prompt": "Tu veux autoriser le trafic entrant HTTPS vers des instances sans gérer explicitement les réponses sortantes. Quel mécanisme ?",
+      "answers": [
+        "Une NACL",
+        "Une route table",
+        "Un security group, stateful",
+        "AWS WAF"
+      ],
+      "correctIndex": 2,
+      "explanation": "Les security groups sont stateful : le trafic retour d'une connexion autorisée est automatiquement permis, contrairement aux NACL stateless.",
+      "services": [
+        "VPC",
+        "EC2"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "SG vs NACL"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "NetworkSecurity",
+      "prompt": "Une IP précise attaque ton application. Tu veux la bloquer au niveau du subnet. Quelle solution ?",
+      "answers": [
+        "Une règle Deny dans le security group",
+        "Une règle Deny dans la NACL du subnet",
+        "Supprimer la route du subnet",
+        "Modifier la trust policy"
+      ],
+      "correctIndex": 1,
+      "explanation": "Les security groups n'ont pas de règles Deny. Les NACL, stateless, permettent un Deny explicite par IP au niveau du subnet.",
+      "services": [
+        "VPC"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "Blocage d'IP"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "NetworkSecurity",
+      "prompt": "Des instances en subnet privé doivent accéder à S3 sans passer par Internet et sans coût d'endpoint. Quelle option ?",
+      "answers": [
+        "Un Gateway VPC endpoint pour S3",
+        "Un Interface endpoint PrivateLink",
+        "Une NAT Gateway",
+        "Un VPN site-to-site"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le Gateway endpoint (S3 et DynamoDB) route le trafic en privé via la route table, sans frais, contrairement à l'Interface endpoint.",
+      "services": [
+        "VPC",
+        "S3"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "Accès privé S3"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "NetworkSecurity",
+      "prompt": "Tu dois exposer un service interne à des VPC clients sans peering ni exposition Internet. Quelle architecture ?",
+      "answers": [
+        "VPC peering avec chaque client",
+        "Transit Gateway public",
+        "Internet Gateway + security group strict",
+        "AWS PrivateLink : endpoint service derrière un NLB"
+      ],
+      "correctIndex": 3,
+      "explanation": "PrivateLink expose le service via des interface endpoints chez les consommateurs : pas de peering, pas de conflit CIDR, trafic privé.",
+      "services": [
+        "PrivateLink",
+        "NLB",
+        "VPC"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "Exposition privée"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "NetworkSecurity",
+      "prompt": "Ton API subit des pics de requêtes abusives depuis certaines IP. Comment les limiter automatiquement ?",
+      "answers": [
+        "Shield Standard",
+        "Une règle rate-based AWS WAF",
+        "Une NACL",
+        "Augmenter la taille des instances"
+      ],
+      "correctIndex": 1,
+      "explanation": "Une règle rate-based WAF bloque temporairement les IP qui dépassent un seuil de requêtes sur une fenêtre glissante.",
+      "services": [
+        "WAF"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "Rate limiting"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "NetworkSecurity",
+      "prompt": "Ton app critique exige une protection DDoS avancée avec accès à l'équipe de réponse AWS et couverture des surcoûts. Quel service ?",
+      "answers": [
+        "AWS Shield Advanced",
+        "AWS Shield Standard",
+        "AWS WAF seul",
+        "Amazon GuardDuty"
+      ],
+      "correctIndex": 0,
+      "explanation": "Shield Advanced ajoute la détection avancée, l'accès au Shield Response Team et la protection financière contre les surcoûts DDoS.",
+      "services": [
+        "Shield"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "Protection DDoS"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "NetworkSecurity",
+      "prompt": "Tu dois diagnostiquer pourquoi du trafic vers une instance est rejeté, en voyant les flux acceptés et refusés. Quel outil ?",
+      "answers": [
+        "CloudTrail",
+        "GuardDuty",
+        "VPC Flow Logs",
+        "AWS Config"
+      ],
+      "correctIndex": 2,
+      "explanation": "Les VPC Flow Logs enregistrent les métadonnées des flux réseau (ACCEPT/REJECT) au niveau ENI, subnet ou VPC.",
+      "services": [
+        "VPC"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "Diagnostic réseau"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "NetworkSecurity",
+      "prompt": "Tu veux détecter en continu des comportements malveillants : minage, credentials compromis, appels API inhabituels. Quel service ?",
+      "answers": [
+        "Amazon Inspector",
+        "AWS Config",
+        "Amazon Macie",
+        "Amazon GuardDuty"
+      ],
+      "correctIndex": 3,
+      "explanation": "GuardDuty analyse CloudTrail, les DNS logs et les VPC Flow Logs avec du ML pour produire des findings de menaces, sans agent.",
+      "services": [
+        "GuardDuty"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "Détection menaces"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "NetworkSecurity",
+      "prompt": "Ton ALB public doit être protégé contre les injections SQL et le XSS sans développer de règles toi-même. Quelle solution ?",
+      "answers": [
+        "AWS WAF avec les règles managées AWS",
+        "Des NACL restrictives",
+        "Shield Standard",
+        "SSL/TLS sur l'ALB"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les managed rule groups de WAF (Core rule set, SQL database) filtrent les patterns d'attaque courants sur ALB, API Gateway ou CloudFront.",
+      "services": [
+        "WAF",
+        "ALB"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "saa"
+      ],
+      "problem": "Attaques web"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DataProtection",
+      "prompt": "Ta distribution CloudFront doit servir en HTTPS avec un certificat ACM. Où le certificat doit-il être créé ?",
+      "answers": [
+        "Dans la région de l'origine",
+        "Dans us-east-1",
+        "Dans chaque région desservie",
+        "Dans la région du bucket S3"
+      ],
+      "correctIndex": 1,
+      "explanation": "CloudFront étant global, il n'accepte que les certificats ACM créés dans la région us-east-1 (Virginie du Nord).",
+      "services": [
+        "ACM",
+        "CloudFront"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "saa"
+      ],
+      "problem": "Certificat CloudFront"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DataProtection",
+      "prompt": "Tu veux éliminer les incidents liés aux certificats TLS expirés sur tes ALB. Quelle approche ?",
+      "answers": [
+        "Un rappel calendrier trimestriel",
+        "Des certificats auto-signés",
+        "Des certificats émis par ACM, renouvelés automatiquement",
+        "Un certificat wildcard de 10 ans importé"
+      ],
+      "correctIndex": 2,
+      "explanation": "Les certificats émis par ACM et attachés à des services intégrés (ALB, CloudFront) sont renouvelés automatiquement par AWS.",
+      "services": [
+        "ACM",
+        "ALB"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "saa"
+      ],
+      "problem": "Expiration TLS"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DataProtection",
+      "prompt": "Tous les nouveaux objets d'un bucket doivent être chiffrés avec ta clé KMS, sans modifier les applications. Que configures-tu ?",
+      "answers": [
+        "SSE-C obligatoire",
+        "Une Lambda qui re-chiffre chaque objet",
+        "Le chiffrement côté client",
+        "Le chiffrement par défaut du bucket en SSE-KMS avec ta clé"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le chiffrement par défaut du bucket applique SSE-KMS avec la clé choisie à tout objet uploadé sans en-tête de chiffrement.",
+      "services": [
+        "S3",
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "saa"
+      ],
+      "problem": "Chiffrement imposé"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DataProtection",
+      "prompt": "Les credentials de ta base RDS doivent tourner automatiquement tous les 30 jours sans redéployer l'app. Quel service ?",
+      "answers": [
+        "Secrets Manager avec rotation automatique",
+        "Parameter Store Standard",
+        "Des variables d'environnement",
+        "KMS"
+      ],
+      "correctIndex": 0,
+      "explanation": "Secrets Manager gère la rotation native des credentials RDS via Lambda ; l'app récupère toujours la version courante du secret.",
+      "services": [
+        "Secrets Manager",
+        "RDS"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "saa"
+      ],
+      "problem": "Rotation secrets"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "DataProtection",
+      "prompt": "Tu dois stocker des centaines de paramètres de config non sensibles, sans coût et sans besoin de rotation. Quel choix ?",
+      "answers": [
+        "Secrets Manager",
+        "DynamoDB",
+        "SSM Parameter Store en tier Standard",
+        "Un fichier dans un bucket S3 public"
+      ],
+      "correctIndex": 2,
+      "explanation": "Parameter Store Standard est gratuit et adapté à la config. Secrets Manager se justifie pour les secrets nécessitant une rotation.",
+      "services": [
+        "Systems Manager"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "saa"
+      ],
+      "problem": "Config vs secrets"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "DataProtection",
+      "prompt": "La conformité impose que toutes les connexions clientes à ta base RDS PostgreSQL soient chiffrées in-transit. Que fais-tu ?",
+      "answers": [
+        "Activer le chiffrement at-rest",
+        "Forcer SSL via le paramètre rds.force_ssl et le certificat RDS",
+        "Placer la base en subnet privé",
+        "Utiliser Secrets Manager"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le paramètre rds.force_ssl rejette les connexions non TLS ; les clients valident le certificat fourni par RDS.",
+      "services": [
+        "RDS"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "saa"
+      ],
+      "problem": "TLS base de données"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "DataProtection",
+      "prompt": "Une app active-active sur deux régions doit lire le même secret localement avec une faible latence. Quelle solution ?",
+      "answers": [
+        "Copier le secret à la main dans chaque région",
+        "Stocker le secret dans une table DynamoDB globale",
+        "Appeler un secret unique cross-region",
+        "La réplication multi-région de Secrets Manager"
+      ],
+      "correctIndex": 3,
+      "explanation": "Secrets Manager réplique un secret vers d'autres régions et synchronise les rotations, pour des lectures locales à faible latence.",
+      "services": [
+        "Secrets Manager"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "saa"
+      ],
+      "problem": "Secret multi-région"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Ta base RDS doit survivre à la panne d'une AZ sans intervention manuelle. Les lectures ne posent pas de problème. Que mets-tu en place ?",
+      "answers": [
+        "Un read replica dans une autre AZ",
+        "Des snapshots manuels quotidiens",
+        "RDS Multi-AZ avec failover automatique",
+        "Un export vers S3 toutes les heures"
+      ],
+      "correctIndex": 2,
+      "explanation": "Multi-AZ crée une instance standby synchrone dans une autre AZ avec basculement automatique. Un read replica sert à la lecture, pas au failover automatique.",
+      "services": [
+        "RDS"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa",
+        "multi-az"
+      ],
+      "problem": "Haute disponibilité"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Ton application RDS MySQL est saturée par des requêtes de reporting en lecture. Comment décharger l'instance principale ?",
+      "answers": [
+        "Créer des read replicas et y router le reporting",
+        "Activer Multi-AZ pour répartir les lectures",
+        "Augmenter la taille du volume EBS",
+        "Passer la base en mode single-AZ"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les read replicas (réplication asynchrone) absorbent le trafic de lecture. Le standby Multi-AZ classique ne sert pas les lectures.",
+      "services": [
+        "RDS"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa",
+        "read-replica"
+      ],
+      "problem": "Scalabilité lecture"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Sur Aurora, tu veux un failover rapide si l'instance writer tombe, tout en servant plus de lectures. Quelle approche choisis-tu ?",
+      "answers": [
+        "Un cluster Redshift en parallèle",
+        "Ajouter des Aurora Replicas comme cibles de failover",
+        "Des snapshots automatiques plus fréquents",
+        "Un read replica MySQL externe"
+      ],
+      "correctIndex": 1,
+      "explanation": "Les Aurora Replicas partagent le même volume de stockage, servent les lectures et peuvent être promus en writer en quelques secondes lors d'un failover.",
+      "services": [
+        "Aurora"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa",
+        "failover"
+      ],
+      "problem": "Haute disponibilité"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Database",
+      "prompt": "Ta base Aurora doit être lisible dans une autre Région avec une réplication inférieure à la seconde et un basculement rapide en cas de sinistre régional. Que choisis-tu ?",
+      "answers": [
+        "Des snapshots copiés entre Régions",
+        "RDS Multi-AZ étendu sur deux Régions",
+        "Un read replica RDS classique inter-Région",
+        "Aurora Global Database"
+      ],
+      "correctIndex": 3,
+      "explanation": "Aurora Global Database réplique vers des Régions secondaires avec une latence typique < 1 s et permet de promouvoir une Région secondaire rapidement.",
+      "services": [
+        "Aurora"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa",
+        "dr"
+      ],
+      "problem": "Reprise après sinistre"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Resilience",
+      "prompt": "Des instances derrière un ALB répondent mal aux requêtes HTTP mais restent 'running'. L'Auto Scaling group ne les remplace pas. Que corriges-tu ?",
+      "answers": [
+        "Réduire la période de cooldown",
+        "Configurer l'ASG avec les health checks de type ELB",
+        "Augmenter la capacité désirée",
+        "Passer les instances en dedicated hosts"
+      ],
+      "correctIndex": 1,
+      "explanation": "Par défaut l'ASG utilise le health check EC2 (statut de l'instance). Le type ELB fait remplacer les instances qui échouent aux checks applicatifs du load balancer.",
+      "services": [
+        "EC2 Auto Scaling",
+        "ELB"
+      ],
+      "tags": [
+        "technology",
+        "resilience",
+        "saa",
+        "health-check"
+      ],
+      "problem": "Auto-réparation"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Resilience",
+      "prompt": "Tu veux que ton Auto Scaling group maintienne automatiquement l'utilisation CPU moyenne autour de 50 % sans gérer d'alarmes manuellement. Quelle politique utilises-tu ?",
+      "answers": [
+        "Target tracking scaling",
+        "Scheduled scaling",
+        "Step scaling avec alarmes CloudWatch manuelles",
+        "Simple scaling avec cooldown long"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le target tracking vise une valeur cible de métrique (ex. CPU 50 %) et crée lui-même les alarmes nécessaires pour scaler dans les deux sens.",
+      "services": [
+        "EC2 Auto Scaling",
+        "CloudWatch"
+      ],
+      "tags": [
+        "technology",
+        "resilience",
+        "saa",
+        "scaling"
+      ],
+      "problem": "Élasticité"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Resilience",
+      "prompt": "Tes instances mettent 10 minutes à démarrer, ce qui rend le scale-out trop lent lors des pics. Comment réduire ce délai sans surprovisionner en permanence ?",
+      "answers": [
+        "Passer sur des instances plus grosses",
+        "Augmenter la capacité minimale de l'ASG",
+        "Utiliser un warm pool d'instances pré-initialisées",
+        "Réduire le health check grace period"
+      ],
+      "correctIndex": 2,
+      "explanation": "Un warm pool garde des instances déjà initialisées (stoppées ou en veille) que l'ASG active en quelques secondes, sans payer le plein tarif d'instances actives.",
+      "services": [
+        "EC2 Auto Scaling"
+      ],
+      "tags": [
+        "technology",
+        "resilience",
+        "saa",
+        "warm-pool"
+      ],
+      "problem": "Latence de scaling"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Networking",
+      "prompt": "Ton application TCP nécessite des millions de connexions, une latence très faible et des adresses IP statiques par AZ. Quel load balancer choisis-tu ?",
+      "answers": [
+        "Classic Load Balancer",
+        "Gateway Load Balancer",
+        "Application Load Balancer",
+        "Network Load Balancer"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le NLB opère en couche 4, gère des millions de connexions TCP/UDP à très faible latence et offre une IP statique (ou Elastic IP) par AZ.",
+      "services": [
+        "ELB"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa",
+        "nlb"
+      ],
+      "problem": "Répartition de charge"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Networking",
+      "prompt": "Tu dois insérer des appliances d'inspection (firewalls tiers) de façon transparente et scalable dans le trafic de plusieurs VPC. Quel service utilises-tu ?",
+      "answers": [
+        "Gateway Load Balancer",
+        "Application Load Balancer avec règles d'écoute",
+        "NAT Gateway dans chaque VPC",
+        "Network Load Balancer en mode TLS"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le GWLB (couche 3, protocole GENEVE) est conçu pour déployer et scaler des appliances de sécurité tierces en toute transparence dans le flux réseau.",
+      "services": [
+        "ELB",
+        "VPC"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa",
+        "gwlb"
+      ],
+      "problem": "Inspection du trafic"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Networking",
+      "prompt": "Ton site principal tourne en us-east-1, un site de secours sur S3. Le DNS doit basculer automatiquement vers le secours si le principal tombe. Que configures-tu ?",
+      "answers": [
+        "Une politique weighted à 50/50",
+        "Une politique failover avec health check sur le principal",
+        "Une politique geolocation par continent",
+        "Un enregistrement CNAME simple"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le routage failover de Route 53 associe un health check au site primaire et renvoie l'enregistrement secondaire quand le check échoue.",
+      "services": [
+        "Route 53",
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa",
+        "failover"
+      ],
+      "problem": "Reprise après sinistre"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Networking",
+      "prompt": "Ton application tourne dans 3 Régions. Chaque utilisateur doit être dirigé vers la Région au meilleur temps de réponse réseau. Quelle politique Route 53 choisis-tu ?",
+      "answers": [
+        "Failover",
+        "Multivalue answer",
+        "Latency-based routing",
+        "Weighted routing"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le latency-based routing répond avec la Région offrant la latence réseau mesurée la plus faible pour l'utilisateur, pas forcément la plus proche géographiquement.",
+      "services": [
+        "Route 53"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa",
+        "latency"
+      ],
+      "problem": "Performance globale"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Networking",
+      "prompt": "Tu veux tester une nouvelle version de ton application en envoyant progressivement 10 % du trafic vers le nouvel environnement. Quelle politique Route 53 utilises-tu ?",
+      "answers": [
+        "Weighted routing avec poids 90/10",
+        "Geolocation routing",
+        "Simple routing avec deux valeurs",
+        "Failover routing"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le weighted routing répartit le trafic selon des poids définis, idéal pour du canary ou du blue/green progressif.",
+      "services": [
+        "Route 53"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa",
+        "weighted"
+      ],
+      "problem": "Déploiement progressif"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Networking",
+      "prompt": "Réglementation : les utilisateurs en France doivent être servis uniquement par ton infrastructure hébergée en Europe. Quelle politique Route 53 répond à ce besoin ?",
+      "answers": [
+        "Latency-based routing",
+        "Weighted routing",
+        "Multivalue answer",
+        "Geolocation routing"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le geolocation routing route selon l'origine géographique de la requête, ce qui permet d'imposer qu'un pays soit servi par un endpoint précis (conformité, contenu localisé).",
+      "services": [
+        "Route 53"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa",
+        "geolocation"
+      ],
+      "problem": "Conformité"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Messaging",
+      "prompt": "Certains messages SQS échouent en boucle et bloquent tes consommateurs. Tu veux les isoler après plusieurs tentatives pour les analyser. Que configures-tu ?",
+      "answers": [
+        "Un long polling de 20 secondes",
+        "Une dead-letter queue avec maxReceiveCount",
+        "Une file FIFO avec déduplication",
+        "Un délai de livraison (delay queue)"
+      ],
+      "correctIndex": 1,
+      "explanation": "La DLQ reçoit les messages dépassant maxReceiveCount, ce qui débloque la file principale et permet d'inspecter les messages en échec.",
+      "services": [
+        "SQS"
+      ],
+      "tags": [
+        "technology",
+        "messaging",
+        "saa",
+        "dlq"
+      ],
+      "problem": "Messages empoisonnés"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Messaging",
+      "prompt": "Un système de traitement d'ordres bancaires exige que les ordres d'un même client soient traités dans l'ordre exact d'émission, sans doublon. Quelle solution choisis-tu ?",
+      "answers": [
+        "SNS avec un topic par client",
+        "SQS standard avec long polling",
+        "SQS FIFO avec message group ID par client",
+        "Kinesis Data Firehose"
+      ],
+      "correctIndex": 2,
+      "explanation": "SQS FIFO garantit l'ordre par message group ID et la déduplication exactly-once. La file standard n'assure qu'un ordre best-effort avec livraison au moins une fois.",
+      "services": [
+        "SQS"
+      ],
+      "tags": [
+        "technology",
+        "messaging",
+        "saa",
+        "fifo"
+      ],
+      "problem": "Ordre des messages"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Messaging",
+      "prompt": "Tes consommateurs SQS mettent 5 minutes par message, mais certains messages sont traités deux fois par des workers différents. Quelle est la cause la plus probable ?",
+      "answers": [
+        "Le long polling est désactivé",
+        "La file n'a pas de DLQ configurée",
+        "La rétention des messages est trop courte",
+        "Le visibility timeout est inférieur au temps de traitement"
+      ],
+      "correctIndex": 3,
+      "explanation": "Si le visibility timeout expire avant la fin du traitement, le message redevient visible et un autre worker le consomme. Il faut le régler au-delà de la durée de traitement.",
+      "services": [
+        "SQS"
+      ],
+      "tags": [
+        "technology",
+        "messaging",
+        "saa",
+        "visibility-timeout"
+      ],
+      "problem": "Doublons de traitement"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Messaging",
+      "prompt": "Chaque commande passée doit déclencher en parallèle la facturation, l'expédition et l'analytics, chacun via sa propre file de traitement. Quel pattern mets-tu en place ?",
+      "answers": [
+        "Fan-out SNS vers plusieurs files SQS abonnées",
+        "Une seule file SQS lue par les trois services",
+        "Trois appels API synchrones en cascade",
+        "Un cron EventBridge par service"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le fan-out SNS→SQS duplique chaque message vers plusieurs files : chaque consommateur traite à son rythme, de façon découplée et durable.",
+      "services": [
+        "SNS",
+        "SQS"
+      ],
+      "tags": [
+        "technology",
+        "messaging",
+        "saa",
+        "fan-out"
+      ],
+      "problem": "Découplage"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Resilience",
+      "prompt": "Plan DR : la base doit être répliquée en continu dans la Région de secours, mais les serveurs applicatifs restent éteints jusqu'au sinistre. Quelle stratégie décris-tu ?",
+      "answers": [
+        "Multi-site actif-actif",
+        "Pilot light",
+        "Backup and restore",
+        "Warm standby"
+      ],
+      "correctIndex": 1,
+      "explanation": "En pilot light, seul le noyau critique (données répliquées) tourne en secours ; le reste de l'infrastructure est provisionné au moment du sinistre.",
+      "services": [
+        "RDS",
+        "EC2"
+      ],
+      "tags": [
+        "technology",
+        "resilience",
+        "saa",
+        "dr"
+      ],
+      "problem": "Reprise après sinistre"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Resilience",
+      "prompt": "Ta direction exige un RTO de quelques minutes : la Région de secours doit exécuter une copie complète mais réduite de la prod. Quelle stratégie DR choisis-tu ?",
+      "answers": [
+        "Backup and restore",
+        "Pilot light",
+        "Snapshots cross-Region",
+        "Warm standby"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le warm standby maintient un environnement fonctionnel à capacité réduite dans la Région DR : il suffit de scaler pour absorber la prod, d'où un RTO de quelques minutes.",
+      "services": [
+        "EC2 Auto Scaling",
+        "Route 53"
+      ],
+      "tags": [
+        "technology",
+        "resilience",
+        "saa",
+        "dr"
+      ],
+      "problem": "Reprise après sinistre"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Resilience",
+      "prompt": "Une application interne tolère plusieurs heures d'indisponibilité et une perte de données de 24 h. Tu veux la stratégie DR la moins chère. Laquelle choisis-tu ?",
+      "answers": [
+        "Warm standby",
+        "Multi-site actif-actif",
+        "Backup and restore vers une autre Région",
+        "Pilot light"
+      ],
+      "correctIndex": 2,
+      "explanation": "Backup and restore est la stratégie la moins coûteuse : tu ne paies que le stockage des sauvegardes, au prix d'un RTO/RPO élevé, acceptable ici.",
+      "services": [
+        "AWS Backup",
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "resilience",
+        "saa",
+        "dr"
+      ],
+      "problem": "Optimisation des coûts DR"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Resilience",
+      "prompt": "Une plateforme de paiement critique exige un RTO et un RPO proches de zéro, même en cas de perte d'une Région entière. Quelle stratégie DR est adaptée ?",
+      "answers": [
+        "Multi-site actif-actif sur plusieurs Régions",
+        "Pilot light avec réplication continue",
+        "Warm standby avec scaling automatique",
+        "Backup and restore avec AWS Backup"
+      ],
+      "correctIndex": 0,
+      "explanation": "Seul le multi-site actif-actif sert le trafic simultanément depuis plusieurs Régions, offrant un RTO/RPO quasi nul — au prix le plus élevé.",
+      "services": [
+        "Route 53",
+        "DynamoDB"
+      ],
+      "tags": [
+        "technology",
+        "resilience",
+        "saa",
+        "dr"
+      ],
+      "problem": "Continuité d'activité"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Des utilisateurs suppriment parfois par erreur des objets S3 importants. Tu veux pouvoir restaurer facilement toute version antérieure. Quelle fonctionnalité actives-tu ?",
+      "answers": [
+        "Transfer Acceleration",
+        "Le versioning du bucket",
+        "Une lifecycle policy vers Glacier",
+        "S3 Intelligent-Tiering"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le versioning conserve chaque version d'un objet : une suppression pose un delete marker et les versions précédentes restent récupérables.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa",
+        "versioning"
+      ],
+      "problem": "Protection des données"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Pour la conformité, chaque objet écrit dans ton bucket de Paris doit être automatiquement copié dans un bucket à Francfort. Que configures-tu ?",
+      "answers": [
+        "Une lifecycle rule de transition",
+        "S3 Batch Operations hebdomadaire",
+        "Un endpoint VPC multi-Région",
+        "La Cross-Region Replication avec versioning activé"
+      ],
+      "correctIndex": 3,
+      "explanation": "La CRR réplique automatiquement et de façon asynchrone les nouveaux objets vers un bucket d'une autre Région. Le versioning est requis des deux côtés.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa",
+        "crr"
+      ],
+      "problem": "Réplication de données"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Storage",
+      "prompt": "Un régulateur impose que des journaux d'audit stockés sur S3 ne puissent être ni modifiés ni supprimés pendant 7 ans, même par le compte root. Que mets-tu en place ?",
+      "answers": [
+        "Le chiffrement SSE-KMS obligatoire",
+        "Une bucket policy refusant les DELETE",
+        "S3 Object Lock en mode compliance",
+        "Le versioning avec MFA Delete"
+      ],
+      "correctIndex": 2,
+      "explanation": "En mode compliance, Object Lock rend les objets immuables pendant la rétention : personne, pas même root, ne peut les supprimer ou raccourcir la durée (WORM).",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa",
+        "object-lock"
+      ],
+      "problem": "Immuabilité réglementaire"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Un système de fichiers partagé doit rester accessible à tes instances EC2 même si une AZ tombe. Quelle option de stockage choisis-tu ?",
+      "answers": [
+        "EFS Standard (Regional, multi-AZ)",
+        "EFS One Zone",
+        "Un volume EBS attaché en multi-attach",
+        "Un instance store partagé"
+      ],
+      "correctIndex": 0,
+      "explanation": "EFS Standard réplique les données sur plusieurs AZ et reste monté malgré la perte d'une AZ. One Zone stocke dans une seule AZ, moins cher mais moins résilient.",
+      "services": [
+        "EFS"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa",
+        "multi-az"
+      ],
+      "problem": "Stockage partagé résilient"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Database",
+      "prompt": "Ton application mondiale exige lectures et écritures DynamoDB à faible latence dans 3 Régions, avec réplication automatique entre elles. Quelle solution retiens-tu ?",
+      "answers": [
+        "DAX déployé dans chaque Région",
+        "DynamoDB global tables",
+        "Des exports S3 répliqués par CRR",
+        "Un stream DynamoDB vers Lambda maison"
+      ],
+      "correctIndex": 1,
+      "explanation": "Les global tables sont des tables multi-Région multi-actives : écritures locales dans chaque Région et réplication automatique. DAX n'est qu'un cache de lecture régional.",
+      "services": [
+        "DynamoDB"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa",
+        "global-tables"
+      ],
+      "problem": "Application mondiale"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Après un script défectueux, tu dois pouvoir restaurer ta table DynamoDB à n'importe quel instant des 35 derniers jours. Quelle fonctionnalité actives-tu ?",
+      "answers": [
+        "DynamoDB Streams",
+        "Les global tables",
+        "Le TTL sur les items",
+        "Le point-in-time recovery (PITR)"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le PITR permet une restauration continue à la seconde près sur les 35 derniers jours. Les backups on-demand ne capturent que des instants choisis.",
+      "services": [
+        "DynamoDB"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa",
+        "pitr"
+      ],
+      "problem": "Restauration de données"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Database",
+      "prompt": "Ton cache ElastiCache Redis doit dépasser la capacité d'un seul nœud en écriture et répartir les données sur plusieurs shards avec réplication. Que configures-tu ?",
+      "answers": [
+        "Redis en cluster mode enabled avec réplicas par shard",
+        "Memcached avec auto-discovery",
+        "Un seul nœud Redis plus grand",
+        "Redis cluster mode disabled avec 5 réplicas"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le cluster mode enabled partitionne les données sur plusieurs shards (scaling en écriture), chacun avec ses réplicas pour la haute disponibilité et le failover.",
+      "services": [
+        "ElastiCache"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa",
+        "redis"
+      ],
+      "problem": "Scalabilité du cache"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Messaging",
+      "prompt": "Un bug a fait échouer le traitement d'événements EventBridge pendant 2 h. Tu veux rejouer les événements passés vers ta cible après correction. Que fallait-il activer ?",
+      "answers": [
+        "Une DLQ SQS sur la règle",
+        "CloudTrail sur le bus d'événements",
+        "Un second bus en miroir",
+        "L'archive du bus avec la fonction replay"
+      ],
+      "correctIndex": 3,
+      "explanation": "L'archive EventBridge conserve les événements du bus ; le replay les réémet vers les règles sur une plage temporelle donnée après correction du bug.",
+      "services": [
+        "EventBridge"
+      ],
+      "tags": [
+        "technology",
+        "messaging",
+        "saa",
+        "replay"
+      ],
+      "problem": "Rejeu d'événements"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Resilience",
+      "prompt": "Dans Step Functions, un appel API échoue parfois de façon transitoire. Tu veux réessayer avec un délai croissant, puis basculer sur une étape de secours. Que définis-tu ?",
+      "answers": [
+        "Un timeout global sur la state machine",
+        "Des blocs Retry avec backoff puis un Catch vers l'étape de secours",
+        "Une boucle Choice qui rappelle l'état",
+        "Un déclencheur EventBridge sur échec"
+      ],
+      "correctIndex": 1,
+      "explanation": "Retry gère les nouvelles tentatives (IntervalSeconds, BackoffRate, MaxAttempts) et Catch route l'erreur résiduelle vers un état de fallback.",
+      "services": [
+        "Step Functions"
+      ],
+      "tags": [
+        "technology",
+        "resilience",
+        "saa",
+        "retry"
+      ],
+      "problem": "Tolérance aux pannes"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Tu dois centraliser et automatiser les sauvegardes de dizaines de ressources EC2, RDS, EFS et DynamoDB, avec des règles de rétention communes. Quel service utilises-tu ?",
+      "answers": [
+        "Des scripts Lambda planifiés par service",
+        "AWS DataSync",
+        "AWS Backup avec des backup plans",
+        "Les snapshots manuels de chaque console"
+      ],
+      "correctIndex": 2,
+      "explanation": "AWS Backup centralise les sauvegardes multi-services via des plans (planification, rétention, copie cross-Region) appliqués par tags ou par ressource.",
+      "services": [
+        "AWS Backup"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa",
+        "backup"
+      ],
+      "problem": "Sauvegardes centralisées"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Networking",
+      "prompt": "Tes instances privées de 3 AZ sortent via une seule NAT gateway. Une panne de son AZ a coupé tout l'accès sortant. Comment rendre l'architecture résiliente ?",
+      "answers": [
+        "Déployer une NAT gateway par AZ avec des routes par AZ",
+        "Remplacer la NAT gateway par une NAT instance",
+        "Ajouter un Internet Gateway par sous-réseau",
+        "Activer le mode multi-AZ de la NAT gateway"
+      ],
+      "correctIndex": 0,
+      "explanation": "Une NAT gateway est résiliente dans son AZ seulement. Il faut une NAT gateway par AZ et router chaque sous-réseau privé vers celle de sa propre AZ.",
+      "services": [
+        "VPC"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa",
+        "nat"
+      ],
+      "problem": "Point de défaillance unique"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Ton équipe hésite entre Multi-AZ et read replica pour RDS. Quelle affirmation sur la réplication Multi-AZ est correcte ?",
+      "answers": [
+        "Elle est asynchrone et sert les lectures",
+        "Elle nécessite une autre Région",
+        "Elle est synchrone vers un standby non lisible (déploiement classique)",
+        "Elle remplace les sauvegardes automatiques"
+      ],
+      "correctIndex": 2,
+      "explanation": "En Multi-AZ classique, la réplication est synchrone vers un standby qui ne sert pas de trafic : il n'existe que pour le failover. Les read replicas sont asynchrones et lisibles.",
+      "services": [
+        "RDS"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa",
+        "multi-az"
+      ],
+      "problem": "Choix d'architecture"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Ton application a besoin de volumes EBS à 6 000 IOPS avec un débit ajustable indépendamment de la taille, au meilleur coût. Que choisis-tu ?",
+      "answers": [
+        "io2 Block Express",
+        "gp2 avec un volume surdimensionné",
+        "gp3 avec IOPS et débit provisionnés",
+        "st1 optimisé débit"
+      ],
+      "correctIndex": 2,
+      "explanation": "gp3 permet de provisionner IOPS (jusqu'à 16 000) et débit indépendamment de la taille, moins cher que gp2/io2. io2 n'est utile qu'au-delà ou pour une durabilité extrême.",
+      "services": [
+        "EBS"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Un traitement big data lit de gros fichiers en séquentiel sur EBS. Tu veux maximiser le débit à faible coût. Quel type de volume choisis-tu ?",
+      "answers": [
+        "st1 (Throughput Optimized HDD)",
+        "io2 avec IOPS provisionnés",
+        "sc1 (Cold HDD)",
+        "gp3 avec IOPS maximum"
+      ],
+      "correctIndex": 0,
+      "explanation": "st1 est un HDD optimisé pour le débit séquentiel (big data, logs, ETL) à bas coût. sc1 est pour les accès rares, io2/gp3 pour les IOPS aléatoires.",
+      "services": [
+        "EBS"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Storage",
+      "prompt": "Une base de données critique sur EC2 exige 100 000 IOPS et une durabilité de 99,999 %. Quel volume EBS répond à ce besoin ?",
+      "answers": [
+        "gp3 avec IOPS provisionnés au maximum",
+        "st1 en RAID 0",
+        "Instance Store NVMe",
+        "io2 Block Express"
+      ],
+      "correctIndex": 3,
+      "explanation": "io2 Block Express monte à 256 000 IOPS avec 99,999 % de durabilité. gp3 plafonne à 16 000 IOPS et l'Instance Store est éphémère (non durable).",
+      "services": [
+        "EBS"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Compute",
+      "prompt": "Une application d'encodage vidéo sature le CPU en continu sur des instances généralistes. Quelle famille d'instances EC2 est la plus adaptée ?",
+      "answers": [
+        "T3 (burstable)",
+        "C6i (optimisée calcul)",
+        "R6i (optimisée mémoire)",
+        "M6i (généraliste plus grande)"
+      ],
+      "correctIndex": 1,
+      "explanation": "La famille C est optimisée calcul : ratio vCPU/mémoire élevé, idéale pour l'encodage, le HPC et les traitements intensifs. R vise la mémoire, T le trafic en rafale.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "technology",
+        "compute",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Compute",
+      "prompt": "Un cache applicatif en mémoire consomme 200 Go de RAM mais peu de CPU. Quelle famille d'instances EC2 choisis-tu pour optimiser le coût ?",
+      "answers": [
+        "C6i (optimisée calcul)",
+        "T3 avec unlimited",
+        "R6i (optimisée mémoire)",
+        "P4 (accélérée GPU)"
+      ],
+      "correctIndex": 2,
+      "explanation": "La famille R offre le meilleur ratio RAM/prix pour les charges gourmandes en mémoire (caches, bases in-memory, analytics). C paierait du CPU inutile.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "technology",
+        "compute",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Tes instances T3 ralentissent fortement chaque jour après un pic de trafic prolongé. Quelle est la cause la plus probable ?",
+      "answers": [
+        "Les crédits CPU sont épuisés et le CPU est bridé au niveau de base",
+        "L'EBS a atteint sa limite d'IOPS",
+        "L'ENA est désactivé sur les instances",
+        "Le placement group est saturé"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les T3 sont burstables : elles accumulent des crédits CPU. Épuisés, le CPU retombe au baseline. Active T3 Unlimited ou passe sur une famille M/C.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "technology",
+        "compute",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Compute",
+      "prompt": "Un cluster HPC a besoin d'une latence réseau minimale et d'un débit maximal entre ses nœuds EC2. Quelle stratégie de placement choisis-tu ?",
+      "answers": [
+        "Partition placement group sur 3 AZ",
+        "Spread placement group",
+        "Répartir les instances dans plusieurs régions",
+        "Cluster placement group dans une seule AZ"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le cluster placement group regroupe les instances sur du matériel proche dans une AZ : latence minimale et débit maximal, idéal HPC. Spread/partition visent la résilience.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "technology",
+        "compute",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Tu déploies 7 instances critiques qui ne doivent jamais partager le même matériel physique, réparties sur plusieurs AZ. Quel placement group utilises-tu ?",
+      "answers": [
+        "Cluster",
+        "Spread",
+        "Partition",
+        "Aucun, les AZ suffisent"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le spread placement group place chaque instance sur un rack distinct (max 7 par AZ), multi-AZ possible. Parfait pour un petit nombre d'instances critiques.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "technology",
+        "compute",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Un cluster Kafka de 40 nœuds doit isoler ses réplicas sur des groupes de racks distincts tout en connaissant la topologie. Quel placement group choisis-tu ?",
+      "answers": [
+        "Spread, un rack par instance",
+        "Cluster pour la latence",
+        "Partition, avec réplicas répartis entre partitions",
+        "Dedicated Hosts sans placement group"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le partition placement group divise les instances en partitions sur des racks séparés (jusqu'à 7 par AZ) et expose la topologie. Spread est limité à 7 instances par AZ.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "technology",
+        "compute",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Tu veux un cache en mémoire avec persistance, réplication multi-AZ et structures avancées (sorted sets) pour un classement de jeu. Que choisis-tu ?",
+      "answers": [
+        "ElastiCache Memcached",
+        "DynamoDB Accelerator (DAX)",
+        "CloudFront",
+        "ElastiCache Redis"
+      ],
+      "correctIndex": 3,
+      "explanation": "Redis offre persistance, réplication, failover multi-AZ et sorted sets (parfait pour les leaderboards). Memcached est plus simple : ni persistance ni réplication.",
+      "services": [
+        "ElastiCache"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Une application DynamoDB souffre de latence sur des lectures répétitives. Tu veux un cache sans modifier la logique applicative. Quelle solution retiens-tu ?",
+      "answers": [
+        "DAX devant la table DynamoDB",
+        "ElastiCache Redis avec code de cache manuel",
+        "Un GSI supplémentaire",
+        "Passer la table en mode on-demand"
+      ],
+      "correctIndex": 0,
+      "explanation": "DAX est un cache compatible avec l'API DynamoDB : latence en microsecondes sans réécrire l'application. Redis exigerait de gérer le cache dans le code.",
+      "services": [
+        "DynamoDB",
+        "DAX"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Tu as besoin d'un cache distribué très simple, multi-thread, sans persistance ni réplication, avec scaling horizontal par ajout de nœuds. Que choisis-tu ?",
+      "answers": [
+        "ElastiCache Redis en mode cluster",
+        "ElastiCache Memcached",
+        "DAX",
+        "EFS en mode General Purpose"
+      ],
+      "correctIndex": 1,
+      "explanation": "Memcached est multi-thread et se scale horizontalement en ajoutant des nœuds, sans persistance ni réplication. Redis apporte ces fonctions mais plus de complexité.",
+      "services": [
+        "ElastiCache"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Networking",
+      "prompt": "Ton site sert des images statiques et une API dynamique via CloudFront. Tu veux cacher les images 24 h mais jamais l'API. Comment fais-tu ?",
+      "answers": [
+        "Deux distributions CloudFront distinctes obligatoirement",
+        "Un seul TTL global de 12 h en compromis",
+        "Des cache behaviors par chemin avec des TTL différents",
+        "Désactiver CloudFront pour l'API"
+      ],
+      "correctIndex": 2,
+      "explanation": "Les cache behaviors routent par pattern de chemin (/images/*, /api/*) avec TTL et origines propres. Un TTL de 0 (ou politique CachingDisabled) suffit pour l'API.",
+      "services": [
+        "CloudFront"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Networking",
+      "prompt": "Un jeu multijoueur utilise UDP et exige des IP statiques et une latence mondiale minimale vers tes NLB. Quel service choisis-tu ?",
+      "answers": [
+        "AWS Global Accelerator",
+        "CloudFront avec TTL à 0",
+        "Route 53 avec routage de latence",
+        "API Gateway edge-optimized"
+      ],
+      "correctIndex": 0,
+      "explanation": "Global Accelerator gère TCP et UDP, fournit 2 IP anycast statiques et route via le backbone AWS. CloudFront ne gère que HTTP/HTTPS.",
+      "services": [
+        "Global Accelerator"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Networking",
+      "prompt": "Tu hésites entre CloudFront et Global Accelerator pour accélérer un contenu HTTP cachable au niveau mondial. Quel critère tranche en faveur de CloudFront ?",
+      "answers": [
+        "Le besoin d'IP statiques anycast",
+        "La mise en cache du contenu en périphérie",
+        "Le support du protocole UDP",
+        "Le failover régional instantané"
+      ],
+      "correctIndex": 1,
+      "explanation": "CloudFront cache le contenu aux edge locations, ce que Global Accelerator ne fait pas. GA se distingue par UDP, IP statiques et failover rapide.",
+      "services": [
+        "CloudFront",
+        "Global Accelerator"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Des utilisateurs répartis sur plusieurs continents uploadent des fichiers vers un bucket S3 unique et se plaignent de lenteur. Quelle solution recommandes-tu ?",
+      "answers": [
+        "Passer le bucket en classe Intelligent-Tiering",
+        "Activer le versioning du bucket",
+        "Activer S3 Transfer Acceleration",
+        "Créer un endpoint VPC pour S3"
+      ],
+      "correctIndex": 2,
+      "explanation": "Transfer Acceleration route les uploads via les edge locations CloudFront puis le backbone AWS, accélérant les transferts longue distance vers le bucket.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Tu dois uploader des fichiers de 40 Go vers S3 de façon fiable, avec reprise en cas d'échec réseau et parallélisation. Quelle approche choisis-tu ?",
+      "answers": [
+        "Multipart upload",
+        "PUT simple avec retry",
+        "S3 Batch Operations",
+        "AWS DataSync obligatoire"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le multipart upload découpe le fichier en parties uploadées en parallèle et rejouables individuellement. Recommandé dès 100 Mo, obligatoire au-delà de 5 Go en PUT.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Performance",
+      "prompt": "Une application dépasse les limites de requêtes par seconde sur un bucket S3 très sollicité. Comment augmenter le débit de requêtes ?",
+      "answers": [
+        "Ouvrir un ticket AWS pour augmenter la limite du bucket",
+        "Répartir les objets sur plusieurs préfixes du bucket",
+        "Activer le versioning",
+        "Passer en classe S3 Standard-IA"
+      ],
+      "correctIndex": 1,
+      "explanation": "S3 supporte 3 500 PUT et 5 500 GET par seconde et par préfixe. Multiplier les préfixes multiplie le débit total, sans limite de bucket à augmenter.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "performance",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Performance",
+      "prompt": "Un pipeline temps réel doit garantir l'ordre des événements par clé et permettre de rejouer les données sur 7 jours à plusieurs consommateurs. Que choisis-tu ?",
+      "answers": [
+        "SQS Standard",
+        "SQS FIFO",
+        "Kinesis Data Firehose",
+        "Kinesis Data Streams"
+      ],
+      "correctIndex": 3,
+      "explanation": "Kinesis Data Streams garantit l'ordre par shard (clé de partition), conserve les données jusqu'à 365 jours et sert plusieurs consommateurs. SQS supprime après lecture.",
+      "services": [
+        "Kinesis"
+      ],
+      "tags": [
+        "technology",
+        "performance",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Serverless",
+      "prompt": "Tu veux livrer un flux de clics vers S3 avec conversion en Parquet, sans gérer de consommateurs ni de shards. Quel service choisis-tu ?",
+      "answers": [
+        "Kinesis Data Streams avec Lambda",
+        "Kinesis Data Firehose",
+        "SQS avec un consumer EC2",
+        "AWS Glue en streaming direct"
+      ],
+      "correctIndex": 1,
+      "explanation": "Firehose est entièrement géré : livraison quasi temps réel vers S3/Redshift/OpenSearch avec conversion Parquet intégrée, sans code consommateur ni gestion de shards.",
+      "services": [
+        "Kinesis Data Firehose"
+      ],
+      "tags": [
+        "technology",
+        "serverless",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Serverless",
+      "prompt": "Une fonction Lambda de traitement d'images est trop lente. Sans changer le code, quel réglage améliore directement sa puissance CPU ?",
+      "answers": [
+        "Augmenter le timeout",
+        "Activer les X-Ray traces",
+        "Augmenter la concurrence réservée",
+        "Augmenter la mémoire allouée"
+      ],
+      "correctIndex": 3,
+      "explanation": "Lambda alloue le CPU proportionnellement à la mémoire : plus de mémoire = plus de vCPU. Le timeout n'accélère rien, la concurrence gère le parallélisme.",
+      "services": [
+        "Lambda"
+      ],
+      "tags": [
+        "technology",
+        "serverless",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Serverless",
+      "prompt": "Une API Lambda en Java subit des latences aléatoires de plusieurs secondes lors des premiers appels après une période calme. Quelle solution élimine ce problème ?",
+      "answers": [
+        "La concurrence provisionnée (provisioned concurrency)",
+        "Augmenter le timeout de la fonction",
+        "La concurrence réservée (reserved concurrency)",
+        "Passer l'API Gateway en edge-optimized"
+      ],
+      "correctIndex": 0,
+      "explanation": "La concurrence provisionnée garde des environnements initialisés en permanence, éliminant les cold starts. La concurrence réservée ne fait que plafonner/garantir un quota.",
+      "services": [
+        "Lambda"
+      ],
+      "tags": [
+        "technology",
+        "serverless",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Serverless",
+      "prompt": "Une Lambda sature les connexions de ta base RDS en aval lors des pics. Tu veux limiter son parallélisme maximal sans toucher aux autres fonctions. Que fais-tu ?",
+      "answers": [
+        "Activer la concurrence provisionnée",
+        "Réduire la mémoire de la fonction",
+        "Définir une concurrence réservée sur cette fonction",
+        "Augmenter le batch size de l'event source"
+      ],
+      "correctIndex": 2,
+      "explanation": "La concurrence réservée plafonne le nombre d'exécutions simultanées d'une fonction, protégeant la base en aval. La provisionnée vise les cold starts, pas la limite.",
+      "services": [
+        "Lambda",
+        "RDS"
+      ],
+      "tags": [
+        "technology",
+        "serverless",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Une base MySQL subit des pics de charge imprévisibles et reste sous-utilisée la nuit. Tu veux une capacité qui s'ajuste finement et automatiquement. Que choisis-tu ?",
+      "answers": [
+        "RDS MySQL avec réplicas en lecture",
+        "Aurora Serverless v2",
+        "DynamoDB en mode provisionné",
+        "Aurora provisionné en instance R6g fixe"
+      ],
+      "correctIndex": 1,
+      "explanation": "Aurora Serverless v2 ajuste la capacité (ACU) en quelques secondes, à la hausse comme à la baisse, sans interruption. Idéal pour les charges variables ou imprévisibles.",
+      "services": [
+        "Aurora"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Database",
+      "prompt": "Des centaines de Lambda ouvrent et ferment des connexions vers RDS PostgreSQL, provoquant l'épuisement des connexions. Quelle solution AWS résout ce problème ?",
+      "answers": [
+        "Passer en Multi-AZ",
+        "Ajouter un réplica en lecture",
+        "Augmenter max_connections au maximum",
+        "Placer RDS Proxy entre les Lambda et la base"
+      ],
+      "correctIndex": 3,
+      "explanation": "RDS Proxy mutualise et réutilise les connexions (pooling), absorbant les rafales de Lambda. Multi-AZ vise la dispo, pas la gestion des connexions.",
+      "services": [
+        "RDS",
+        "RDS Proxy"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Database",
+      "prompt": "Une nouvelle application DynamoDB a un trafic totalement imprévisible, avec des pics soudains et des périodes creuses. Quel mode de capacité choisis-tu ?",
+      "answers": [
+        "On-demand",
+        "Provisionné avec auto scaling",
+        "Provisionné fixe surdimensionné",
+        "Réservé sur 3 ans"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le mode on-demand facture à la requête et absorbe instantanément les pics sans planification. L'auto scaling provisionné réagit avec un délai lors des pics soudains.",
+      "services": [
+        "DynamoDB"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Database",
+      "prompt": "Une table DynamoDB est requêtée par userId (clé de partition). Tu dois aussi requêter efficacement par email, après la mise en production. Que fais-tu ?",
+      "answers": [
+        "Créer un LSI sur email",
+        "Créer un GSI avec email en clé de partition",
+        "Utiliser un Scan avec filtre sur email",
+        "Recréer la table avec email en clé primaire"
+      ],
+      "correctIndex": 1,
+      "explanation": "Un GSI se crée à tout moment avec une nouvelle clé de partition. Un LSI ne peut être créé qu'à la création de la table et garde la même clé de partition. Scan est coûteux.",
+      "services": [
+        "DynamoDB"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Database",
+      "prompt": "Une table DynamoDB provisionnée subit du throttling alors que la consommation globale est sous la capacité totale. Quelle est la cause la plus probable ?",
+      "answers": [
+        "Le mode on-demand est activé par erreur",
+        "Les RCU sont converties en WCU automatiquement",
+        "Une partition chaude concentre le trafic sur quelques clés",
+        "DAX intercepte les écritures"
+      ],
+      "correctIndex": 2,
+      "explanation": "Une clé de partition trop sollicitée crée une hot partition. L'adaptive capacity aide mais a des limites : il faut mieux distribuer les clés (sharding de clé, suffixes).",
+      "services": [
+        "DynamoDB"
+      ],
+      "tags": [
+        "technology",
+        "database",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Storage",
+      "prompt": "Des milliers de clients EFS en parallèle plafonnent en opérations par seconde. Tu peux tolérer une latence légèrement plus élevée. Quel mode choisis-tu à la création ?",
+      "answers": [
+        "Mode débit Bursting",
+        "Mode performance Max I/O",
+        "Mode performance General Purpose",
+        "EFS One Zone"
+      ],
+      "correctIndex": 1,
+      "explanation": "Max I/O offre un plafond d'IOPS bien plus élevé pour des accès massivement parallèles, au prix d'une latence accrue. General Purpose privilégie la latence faible.",
+      "services": [
+        "EFS"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Storage",
+      "prompt": "Un cluster HPC de simulation doit traiter des données stockées dans S3 avec un système de fichiers à très haut débit (centaines de Go/s). Que choisis-tu ?",
+      "answers": [
+        "EFS Max I/O monté sur le cluster",
+        "EBS io2 partagé en Multi-Attach",
+        "S3 monté via Mountpoint uniquement",
+        "FSx for Lustre lié au bucket S3"
+      ],
+      "correctIndex": 3,
+      "explanation": "FSx for Lustre est conçu pour le HPC : débit massif, latence sub-milliseconde et intégration native S3 (lazy loading et export). EFS ne vise pas ces débits.",
+      "services": [
+        "FSx"
+      ],
+      "tags": [
+        "technology",
+        "storage",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Serverless",
+      "prompt": "Une API REST sur API Gateway renvoie des données quasi statiques et le backend est surchargé. Comment réduire la latence et la charge sans modifier le backend ?",
+      "answers": [
+        "Passer en API HTTP au lieu de REST",
+        "Augmenter le throttling limit",
+        "Activer le cache d'API Gateway sur le stage",
+        "Ajouter une autorisation Lambda"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le cache d'API Gateway (0,5 à 237 Go, TTL configurable) sert les réponses depuis le cache, réduisant les appels backend et la latence. Le throttling ne fait que limiter.",
+      "services": [
+        "API Gateway"
+      ],
+      "tags": [
+        "technology",
+        "serverless",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 3,
+      "category": "Performance",
+      "prompt": "Tes requêtes Athena sur des logs S3 filtrés par date scannent tout le bucket et coûtent cher. Quelle optimisation réduit le plus les données scannées ?",
+      "answers": [
+        "Partitionner les données par date et convertir en Parquet",
+        "Augmenter la taille des fichiers CSV",
+        "Activer S3 Transfer Acceleration",
+        "Passer les logs en classe Glacier Instant Retrieval"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le partitionnement par date limite le scan aux partitions filtrées et Parquet (colonnaire, compressé) réduit encore les octets lus. Athena facture au To scanné.",
+      "services": [
+        "Athena",
+        "S3"
+      ],
+      "tags": [
+        "technology",
+        "performance",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 2,
+      "category": "Networking",
+      "prompt": "Tu veux maximiser le débit réseau et réduire la latence entre des instances EC2 récentes, jusqu'à 100 Gbps. Quelle fonctionnalité dois-tu vérifier ?",
+      "answers": [
+        "NAT Gateway en mode haute performance",
+        "L'Enhanced Networking avec ENA",
+        "Un Internet Gateway par instance",
+        "VPC Peering intra-AZ"
+      ],
+      "correctIndex": 1,
+      "explanation": "L'Enhanced Networking via ENA (SR-IOV) offre jusqu'à 100 Gbps et plus, avec moins de latence et de jitter. Activé par défaut sur les instances Nitro récentes.",
+      "services": [
+        "EC2",
+        "VPC"
+      ],
+      "tags": [
+        "technology",
+        "networking",
+        "saa"
+      ],
+      "problem": "Performance"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Des rapports sont lus rarement, exigent un accès immédiat et doivent résister à la perte d'une AZ. Quelle classe S3 minimise le coût ?",
+      "answers": [
+        "S3 One Zone-IA",
+        "S3 Standard",
+        "S3 Standard-IA",
+        "S3 Glacier Deep Archive"
+      ],
+      "correctIndex": 2,
+      "explanation": "Standard-IA est moins cher que Standard, garde un accès immédiat et réplique sur plusieurs AZ, contrairement à One Zone-IA.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Tu archives des logs réglementaires 10 ans, consultés au plus une fois par an, avec 12 h de délai de récupération acceptable. Quelle classe S3 choisir ?",
+      "answers": [
+        "S3 Glacier Deep Archive",
+        "S3 Standard-IA",
+        "S3 Glacier Instant Retrieval",
+        "S3 Intelligent-Tiering"
+      ],
+      "correctIndex": 0,
+      "explanation": "Deep Archive est la classe S3 la moins chère ; la récupération prend jusqu'à 12 h, parfait pour l'archivage long terme rarement consulté.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Storage",
+      "prompt": "Des images médicales archivées sont consultées environ une fois par trimestre et doivent rester accessibles en millisecondes. Quelle classe S3 est la plus économique ?",
+      "answers": [
+        "S3 Glacier Flexible Retrieval",
+        "S3 Glacier Instant Retrieval",
+        "S3 Standard",
+        "S3 One Zone-IA"
+      ],
+      "correctIndex": 1,
+      "explanation": "Glacier Instant Retrieval offre un accès en millisecondes au tarif archive pour un accès trimestriel. Flexible Retrieval impose des minutes à heures d'attente.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Storage",
+      "prompt": "Tu transfères en Standard-IA des objets supprimés après 10 jours et tu constates un surcoût. Quelle en est la cause ?",
+      "answers": [
+        "Les frais de réplication inter-AZ",
+        "Le coût des requêtes GET plus élevé",
+        "Le chiffrement obligatoire en IA",
+        "La durée de stockage minimale facturée de 30 jours"
+      ],
+      "correctIndex": 3,
+      "explanation": "Standard-IA facture un minimum de 30 jours : supprimer avant fait payer le reliquat. Les objets à courte durée de vie doivent rester en Standard.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Des logs S3 sont actifs 30 jours, rarement lus ensuite, puis inutiles après 1 an. Quelle approche automatise la réduction des coûts ?",
+      "answers": [
+        "Répliquer vers une autre région",
+        "Une règle de cycle de vie : IA à 30 jours, expiration à 365 jours",
+        "Activer le versioning",
+        "Compresser via une Lambda mensuelle"
+      ],
+      "correctIndex": 1,
+      "explanation": "Les lifecycle policies S3 automatisent transitions de classe et expiration, sans code ni intervention manuelle.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Un data lake S3 contient des objets aux schémas d'accès imprévisibles et changeants. Comment optimiser le coût de stockage sans impacter les performances ?",
+      "answers": [
+        "S3 Intelligent-Tiering",
+        "S3 Standard-IA",
+        "Transitions de cycle de vie vers Glacier",
+        "S3 One Zone-IA"
+      ],
+      "correctIndex": 0,
+      "explanation": "Intelligent-Tiering déplace automatiquement les objets entre niveaux selon l'accès réel, sans frais de récupération : idéal quand les patterns sont inconnus.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Compute",
+      "prompt": "Un traitement batch de rendu vidéo tolère les interruptions et reprend via des checkpoints. Quelle option d'achat EC2 minimise le coût ?",
+      "answers": [
+        "Reserved Instances standard",
+        "On-Demand",
+        "Instances Spot",
+        "Dedicated Hosts"
+      ],
+      "correctIndex": 2,
+      "explanation": "Les instances Spot offrent jusqu'à 90 % de réduction pour les workloads tolérants aux interruptions, comme le batch avec checkpoints.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Quel workload est le moins adapté aux instances Spot ?",
+      "answers": [
+        "Une base de données de production à état critique",
+        "Le transcodage vidéo par lots",
+        "Des nœuds de calcul CI/CD",
+        "L'entraînement ML avec checkpoints"
+      ],
+      "correctIndex": 0,
+      "explanation": "Spot peut être interrompu avec 2 minutes de préavis : à proscrire pour les charges à état critique comme une base de données de production.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Ton entreprise veut s'engager sur 3 ans d'EC2 mais prévoit de changer de famille d'instances en cours de route. Quelle option d'achat convient ?",
+      "answers": [
+        "Reserved Instances standard",
+        "Instances Spot",
+        "Capacity Reservations",
+        "Reserved Instances convertibles"
+      ],
+      "correctIndex": 3,
+      "explanation": "Les RI convertibles permettent d'échanger famille, OS et tenancy pendant la durée, contre une remise un peu moindre que les RI standard.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Tu veux une remise d'engagement couvrant EC2, Fargate et Lambda, quelle que soit la région ou la famille d'instances. Quelle option choisir ?",
+      "answers": [
+        "EC2 Instance Savings Plans",
+        "Compute Savings Plans",
+        "Reserved Instances standard",
+        "Spot Fleet"
+      ],
+      "correctIndex": 1,
+      "explanation": "Compute Savings Plans couvrent EC2 (toute famille/région), Fargate et Lambda. EC2 Instance Savings Plans sont limités à une famille dans une région.",
+      "services": [
+        "Savings Plans",
+        "EC2",
+        "Lambda",
+        "Fargate"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Une flotte EC2 stable restera sur la famille m6i en eu-west-1 pendant 3 ans. Quel engagement maximise la remise ?",
+      "answers": [
+        "Compute Savings Plans",
+        "On-Demand Capacity Reservations",
+        "EC2 Instance Savings Plans",
+        "Instances Spot"
+      ],
+      "correctIndex": 2,
+      "explanation": "EC2 Instance Savings Plans offrent la remise la plus élevée quand famille et région sont fixes, supérieure à celle des Compute Savings Plans.",
+      "services": [
+        "Savings Plans",
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Cost",
+      "prompt": "Une application EC2 échange de gros volumes avec sa base située dans une autre AZ et la facture réseau explose. Comment réduire ce coût ?",
+      "answers": [
+        "Rapprocher les composants dans la même AZ quand la HA le permet",
+        "Activer le VPC peering",
+        "Passer tout le trafic en IPv6",
+        "Utiliser des adresses IP élastiques"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le trafic inter-AZ est facturé dans les deux sens. Colocaliser les composants bavards dans une AZ supprime ce coût, à arbitrer avec la haute disponibilité.",
+      "services": [
+        "VPC",
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Cost",
+      "prompt": "Des instances EC2 en sous-réseaux privés envoient des téraoctets vers S3 via une NAT Gateway. Comment réduire fortement la facture de traitement de données ?",
+      "answers": [
+        "Ajouter une seconde NAT Gateway",
+        "Créer un Gateway VPC Endpoint pour S3",
+        "Activer S3 Transfer Acceleration",
+        "Compresser les objets"
+      ],
+      "correctIndex": 1,
+      "explanation": "Un Gateway VPC Endpoint pour S3 est gratuit et évite les frais de traitement de la NAT Gateway pour ce trafic.",
+      "services": [
+        "VPC",
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Cost",
+      "prompt": "Quel transfert de données est généralement gratuit sur AWS ?",
+      "answers": [
+        "EC2 vers Internet",
+        "Le trafic entre deux AZ d'une même région",
+        "S3 vers une autre région",
+        "Le trafic entrant depuis Internet"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le trafic entrant vers AWS est gratuit. Le sortant vers Internet, l'inter-AZ et l'inter-région sont facturés.",
+      "services": [
+        "VPC"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Cost",
+      "prompt": "Tu répliques un bucket S3 vers une autre région pour la reprise d'activité. Quel poste de coût est souvent sous-estimé ?",
+      "answers": [
+        "Les requêtes PUT dans la région source",
+        "Le chiffrement SSE-S3",
+        "Le transfert de données inter-région",
+        "Le coût des tags d'objets"
+      ],
+      "correctIndex": 2,
+      "explanation": "La réplication inter-région facture le transfert de données entre régions, en plus du stockage de la copie de destination.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Compute",
+      "prompt": "Comment identifier les instances EC2 surdimensionnées de ton parc, avec des recommandations basées sur les métriques d'utilisation ?",
+      "answers": [
+        "AWS Compute Optimizer",
+        "AWS Config",
+        "AWS CloudTrail",
+        "AWS Artifact"
+      ],
+      "correctIndex": 0,
+      "explanation": "Compute Optimizer analyse les métriques CloudWatch et recommande des types d'instances mieux dimensionnés pour réduire les coûts.",
+      "services": [
+        "Compute Optimizer",
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Tes volumes EBS gp2 fournissent des IOPS suffisantes mais coûtent cher. Comment réduire le coût sans perdre de performance ?",
+      "answers": [
+        "Passer en io2",
+        "Migrer vers gp3 en réglant IOPS et débit",
+        "Passer en st1",
+        "Augmenter la taille des volumes gp2"
+      ],
+      "correctIndex": 1,
+      "explanation": "gp3 est environ 20 % moins cher que gp2 par Go et fournit 3000 IOPS de base, réglables indépendamment de la taille du volume.",
+      "services": [
+        "EBS"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Cost",
+      "prompt": "Une base relationnelle sert une application avec des pics imprévisibles et de longues périodes creuses. Quelle option minimise le coût de la base ?",
+      "answers": [
+        "RDS avec une instance provisionnée surdimensionnée",
+        "RDS Multi-AZ",
+        "Aurora provisionné avec réplicas fixes",
+        "Aurora Serverless v2"
+      ],
+      "correctIndex": 3,
+      "explanation": "Aurora Serverless v2 ajuste la capacité (ACU) selon la charge : tu paies l'usage réel, idéal pour les charges intermittentes ou imprévisibles.",
+      "services": [
+        "Aurora",
+        "RDS"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Compute",
+      "prompt": "Une API reçoit quelques centaines de requêtes par jour, réparties de façon irrégulière. Quelle option de calcul est la plus économique ?",
+      "answers": [
+        "Une instance EC2 t3.small en continu",
+        "Fargate avec une tâche permanente",
+        "AWS Lambda",
+        "Un cluster ECS sur EC2"
+      ],
+      "correctIndex": 2,
+      "explanation": "Pour un trafic faible et sporadique, Lambda facture à l'invocation et à la milliseconde : aucun coût en période d'inactivité.",
+      "services": [
+        "Lambda"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Tes conteneurs tournent 24 h/24 à forte utilisation constante et la facture Fargate grimpe. Quelle piste réduit le coût de calcul ?",
+      "answers": [
+        "Migrer vers ECS sur EC2 avec Savings Plans ou Spot",
+        "Doubler le vCPU des tâches Fargate",
+        "Tout basculer sur Lambda",
+        "Passer le trafic critique en Fargate Spot"
+      ],
+      "correctIndex": 0,
+      "explanation": "À forte utilisation constante, EC2 avec engagement revient moins cher que Fargate, qui facture une prime serverless rentable surtout en charge variable.",
+      "services": [
+        "ECS",
+        "Fargate",
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Cost",
+      "prompt": "Tu veux visualiser l'évolution des dépenses AWS par service sur 6 mois et repérer les tendances. Quel outil utiliser ?",
+      "answers": [
+        "AWS Trusted Advisor",
+        "AWS Cost Explorer",
+        "AWS CloudTrail",
+        "Amazon Inspector"
+      ],
+      "correctIndex": 1,
+      "explanation": "Cost Explorer visualise et filtre les coûts historiques par service, compte ou tag, avec des prévisions de dépenses.",
+      "services": [
+        "Cost Explorer"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Cost",
+      "prompt": "L'équipe finance veut être alertée par email dès que les dépenses mensuelles prévues dépassent 10 000 $. Quel service configurer ?",
+      "answers": [
+        "Cost and Usage Report",
+        "AWS Pricing Calculator",
+        "CloudWatch Logs",
+        "AWS Budgets"
+      ],
+      "correctIndex": 3,
+      "explanation": "AWS Budgets envoie des alertes sur des seuils de coûts réels ou prévus, par email ou via SNS.",
+      "services": [
+        "Budgets"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Storage",
+      "prompt": "Tu partages un grand dataset S3 mais tu refuses de payer les frais de transfert générés par les téléchargements d'utilisateurs externes. Quelle option activer ?",
+      "answers": [
+        "Requester Pays sur le bucket",
+        "Une politique de bucket publique",
+        "S3 Transfer Acceleration",
+        "Le versioning S3"
+      ],
+      "correctIndex": 0,
+      "explanation": "Avec Requester Pays, le demandeur authentifié paie requêtes et transfert de données ; le propriétaire ne paie que le stockage.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Cost",
+      "prompt": "Un site sert des fichiers statiques depuis S3 à des utilisateurs mondiaux et les frais de transfert sortant grimpent. Comment réduire coûts et latence ?",
+      "answers": [
+        "Répliquer le bucket dans chaque région",
+        "Activer S3 Intelligent-Tiering",
+        "Distribuer via CloudFront",
+        "Passer les objets en Glacier"
+      ],
+      "correctIndex": 2,
+      "explanation": "CloudFront met en cache en edge : moins de requêtes vers l'origine, transfert S3 vers CloudFront gratuit et tarifs sortants souvent plus bas.",
+      "services": [
+        "CloudFront",
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Après une transition d'objets vers Glacier Deep Archive, un audit exige des fichiers sous 48 h. La récupération standard est-elle compatible ?",
+      "answers": [
+        "Non, il faut 7 jours",
+        "Oui, la récupération standard prend jusqu'à 12 heures",
+        "Non, Deep Archive est en lecture seule définitive",
+        "Oui, l'accès est en millisecondes"
+      ],
+      "correctIndex": 1,
+      "explanation": "Deep Archive restaure en environ 12 h en mode standard (48 h en bulk), donc compatible avec un délai d'audit de 48 h.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Storage",
+      "prompt": "Des objets Standard-IA sont téléchargés massivement chaque semaine et la facture dépasse celle du S3 Standard. Pourquoi ?",
+      "answers": [
+        "IA impose une réplication supplémentaire",
+        "Le versioning est activé par défaut",
+        "IA facture le double des requêtes PUT",
+        "Les frais de récupération par Go s'ajoutent à chaque lecture"
+      ],
+      "correctIndex": 3,
+      "explanation": "Standard-IA facture des frais de récupération par Go : pour des données lues fréquemment, ils dépassent l'économie réalisée sur le stockage.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Compute",
+      "prompt": "Un Auto Scaling group web doit réduire ses coûts tout en gardant un socle fiable pendant les pics. Quelle stratégie adopter ?",
+      "answers": [
+        "Mixer On-Demand pour la base et Spot pour le surplus",
+        "Tout basculer en Spot",
+        "Tout réserver pour la charge maximale",
+        "Remplacer l'ASG par une seule grosse instance"
+      ],
+      "correctIndex": 0,
+      "explanation": "Une mixed instances policy combine un socle On-Demand ou réservé et du Spot pour absorber les pics à moindre coût, en tolérant les interruptions.",
+      "services": [
+        "EC2",
+        "Auto Scaling"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Compute",
+      "prompt": "Les métriques montrent des instances EC2 à 8 % de CPU en moyenne depuis des mois. Quelle action applique le right-sizing ?",
+      "answers": [
+        "Ajouter des instances au groupe",
+        "Passer sur des Dedicated Hosts",
+        "Réduire la taille ou changer de famille d'instances",
+        "Acheter des RI à la taille actuelle"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le right-sizing ajuste le type d'instance à l'usage réel. Réserver une instance surdimensionnée fige le gaspillage sur 1 ou 3 ans.",
+      "services": [
+        "EC2",
+        "CloudWatch"
+      ],
+      "tags": [
+        "billing",
+        "compute",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Storage",
+      "prompt": "Des uploads multipart S3 échouent régulièrement et le stockage facturé dépasse le volume d'objets visibles. Comment supprimer ce coût caché ?",
+      "answers": [
+        "Désactiver le multipart upload",
+        "Une règle de cycle de vie qui purge les uploads multipart incomplets",
+        "Activer MFA Delete",
+        "Basculer le bucket en One Zone-IA"
+      ],
+      "correctIndex": 1,
+      "explanation": "Les parts d'uploads multipart incomplets sont facturées mais invisibles. Une règle AbortIncompleteMultipartUpload les nettoie automatiquement.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "storage",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Cost",
+      "prompt": "Des microservices en sous-réseaux privés appellent DynamoDB via une NAT Gateway et la facture NAT est élevée. Quelle optimisation appliquer ?",
+      "answers": [
+        "Déployer un proxy inverse sur EC2",
+        "Passer par un Transit Gateway",
+        "Ajouter une NAT Gateway par AZ",
+        "Créer un Gateway VPC Endpoint pour DynamoDB"
+      ],
+      "correctIndex": 3,
+      "explanation": "DynamoDB et S3 disposent de Gateway Endpoints gratuits : le trafic reste sur le réseau AWS et évite les frais de traitement de la NAT Gateway.",
+      "services": [
+        "VPC",
+        "DynamoDB"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "saa"
+      ],
+      "problem": "Optimisation coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "DesignPrinciples",
+      "prompt": "Un frontend envoie des commandes à un backend qui tombe parfois en panne, entraînant des pertes de commandes. Comment fiabiliser sans coupler les tiers ?",
+      "answers": [
+        "Insérer une file SQS entre les deux tiers",
+        "Appeler le backend en synchrone avec des retries",
+        "Fusionner les deux tiers en un seul service",
+        "Augmenter la taille du backend"
+      ],
+      "correctIndex": 0,
+      "explanation": "SQS découple les tiers : les messages persistent jusqu'au traitement, le backend consomme à son rythme et une panne ne perd plus de commandes.",
+      "services": [
+        "SQS"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "designprinciples",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "DesignPrinciples",
+      "prompt": "Des utilisateurs perdent leur session quand l'Auto Scaling remplace une instance web. Quelle solution rend l'application sans état ?",
+      "answers": [
+        "Activer les sticky sessions à durée illimitée",
+        "Répliquer les sessions entre instances par script",
+        "Stocker les sessions dans ElastiCache ou DynamoDB",
+        "Désactiver le scale-in"
+      ],
+      "correctIndex": 2,
+      "explanation": "Externaliser l'état de session vers ElastiCache ou DynamoDB rend les instances interchangeables : scaling et remplacements deviennent transparents.",
+      "services": [
+        "ElastiCache",
+        "DynamoDB"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "designprinciples",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "WellArchitected",
+      "prompt": "Ton architecture doit continuer à fonctionner malgré la panne d'une AZ et se rétablir automatiquement. À quel pilier Well-Architected ce besoin se rattache-t-il ?",
+      "answers": [
+        "Optimisation des coûts",
+        "Fiabilité",
+        "Excellence opérationnelle",
+        "Efficacité des performances"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le pilier Fiabilité couvre la capacité à résister aux pannes et à se rétablir : multi-AZ, auto scaling, récupération automatique.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "WellArchitected",
+      "prompt": "Une équipe déploie à la main et ne peut ni rejouer ni auditer ses changements d'infrastructure. Quelle pratique corrige ce point selon Well-Architected ?",
+      "answers": [
+        "Doubler les environnements de test",
+        "Restreindre les déploiements à un seul jour",
+        "Documenter chaque étape dans un wiki",
+        "Gérer l'infrastructure as code avec CloudFormation"
+      ],
+      "correctIndex": 3,
+      "explanation": "L'excellence opérationnelle recommande les opérations as code : des déploiements reproductibles, versionnés et auditables.",
+      "services": [
+        "CloudFormation",
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "DesignPrinciples",
+      "prompt": "Des serveurs modifiés manuellement en production dérivent de leur configuration d'origine et deviennent impossibles à reproduire. Quelle approche élimine ce problème ?",
+      "answers": [
+        "Infrastructure immuable : redéployer via de nouvelles AMI",
+        "Se connecter en SSH pour resynchroniser",
+        "Sauvegarder les serveurs chaque nuit",
+        "Geler toutes les mises à jour"
+      ],
+      "correctIndex": 0,
+      "explanation": "Avec l'infrastructure immuable, on ne modifie jamais un serveur en place : chaque changement passe par une nouvelle image déployée, éliminant la dérive.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "designprinciples",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "DesignPrinciples",
+      "prompt": "Ton application web voit son trafic décupler à certaines heures. Quelle stratégie de scaling est la plus adaptée dans le cloud ?",
+      "answers": [
+        "Scaling vertical vers la plus grosse instance disponible",
+        "Scaling horizontal avec Auto Scaling derrière un load balancer",
+        "Sur-provisionner en permanence pour le pic",
+        "Limiter le trafic aux heures creuses"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le scaling horizontal ajoute ou retire des instances selon la charge, sans plafond matériel ni interruption, contrairement au scaling vertical.",
+      "services": [
+        "Auto Scaling",
+        "ELB"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "designprinciples",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "DesignPrinciples",
+      "prompt": "Quel principe appliques-tu en déployant sur plusieurs AZ avec health checks et remplacement automatique des instances défaillantes ?",
+      "answers": [
+        "Le moindre privilège",
+        "L'élasticité budgétaire",
+        "Le cloud hybride",
+        "Le design for failure"
+      ],
+      "correctIndex": 3,
+      "explanation": "Design for failure : supposer que tout composant peut tomber et concevoir l'architecture pour y survivre automatiquement.",
+      "services": [
+        "EC2",
+        "Auto Scaling"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "designprinciples",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "DesignPrinciples",
+      "prompt": "Un monolithe e-commerce oblige à tout redéployer pour la moindre modification et une équipe bloque les autres. Quel bénéfice attendre des microservices ?",
+      "answers": [
+        "La suppression de tout besoin de tests",
+        "Une latence réseau réduite entre composants",
+        "Des déploiements et un scaling indépendants par service",
+        "Un coût d'exploitation toujours inférieur"
+      ],
+      "correctIndex": 2,
+      "explanation": "Les microservices se déploient et scalent indépendamment, libérant les équipes. En contrepartie : complexité distribuée et latence réseau accrues.",
+      "services": [
+        "ECS",
+        "API Gateway"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "designprinciples",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "DesignPrinciples",
+      "prompt": "Après chaque upload d'image, plusieurs traitements indépendants se déclenchent : miniature, modération, indexation. Quel pattern facilite l'ajout de traitements ?",
+      "answers": [
+        "Event-driven : publier l'événement en fan-out via SNS ou EventBridge",
+        "Appeler chaque traitement en série depuis l'application",
+        "Un cron qui scanne le bucket toutes les heures",
+        "Une seule Lambda monolithique"
+      ],
+      "correctIndex": 0,
+      "explanation": "En event-driven fan-out, chaque consommateur s'abonne à l'événement : on ajoute un traitement sans toucher au producteur ni aux autres consommateurs.",
+      "services": [
+        "SNS",
+        "EventBridge",
+        "Lambda"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "designprinciples",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "WellArchitected",
+      "prompt": "Tu veux tester rapidement plusieurs types d'instances et adopter les nouvelles technologies sans investissement initial. Quel pilier encourage ces expérimentations ?",
+      "answers": [
+        "Fiabilité",
+        "Efficacité des performances",
+        "Sécurité",
+        "Excellence opérationnelle"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le pilier Efficacité des performances prône la démocratisation des technologies, l'expérimentation fréquente et le choix de ressources adaptées.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "WellArchitected",
+      "prompt": "Ton entreprise veut réduire l'empreinte environnementale de ses workloads : meilleure utilisation, services managés, régions à faible impact. Quel pilier suivre ?",
+      "answers": [
+        "Optimisation des coûts",
+        "Efficacité des performances",
+        "Développement durable",
+        "Fiabilité"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le pilier Développement durable (Sustainability) vise à maximiser l'utilisation des ressources et minimiser l'impact environnemental des workloads.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "saa"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "WellArchitected",
+      "prompt": "Appliquer le moindre privilège, tracer toutes les actions et chiffrer les données au repos et en transit relèvent de quel pilier Well-Architected ?",
+      "answers": [
+        "Excellence opérationnelle",
+        "Fiabilité",
+        "Optimisation des coûts",
+        "Sécurité"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le pilier Sécurité couvre identité, traçabilité, protection des données en transit et au repos, et défense en profondeur.",
+      "services": [
+        "Well-Architected",
+        "IAM"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "saa"
+      ],
+      "problem": "Architecture"
+    }
+  ]
+}

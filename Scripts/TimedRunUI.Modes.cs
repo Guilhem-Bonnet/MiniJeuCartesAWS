@@ -25,6 +25,7 @@ public partial class TimedRunUI : Control
     private static readonly CertificationDef[] Certifications =
     {
         new("aws-ccp-fr", "AWS Cloud Practitioner (FR)", "res://Data/questions_practitioner.json"),
+        new("aws-saa-fr", "AWS Solutions Architect Associate (FR)", "res://Data/questions_saa.json"),
     };
 
     [Export] public int ExamTimeLimitSeconds { get; set; } = 3600;
