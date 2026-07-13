@@ -24,3 +24,9 @@ obj/
 *.tmp
 *.log
 .DS_Store
+
+# --- Grimoire Kit ---
+# Session runs — ephemeral runtime data
+_grimoire-output/.runs/
+# Memory archives — compressed old sessions
+_grimoire/_memory/archives/

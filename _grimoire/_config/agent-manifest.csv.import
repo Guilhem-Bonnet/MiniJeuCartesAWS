@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b6d51jbtecw1u"
+
+[deps]
+
+files=["res://_grimoire/_config/agent-manifest.file.translation", "res://_grimoire/_config/agent-manifest.category.translation", "res://_grimoire/_config/agent-manifest.description.translation", "res://_grimoire/_config/agent-manifest.en.translation"]
+
+source_file="res://_grimoire/_config/agent-manifest.csv"
+dest_files=["res://_grimoire/_config/agent-manifest.file.translation", "res://_grimoire/_config/agent-manifest.category.translation", "res://_grimoire/_config/agent-manifest.description.translation", "res://_grimoire/_config/agent-manifest.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

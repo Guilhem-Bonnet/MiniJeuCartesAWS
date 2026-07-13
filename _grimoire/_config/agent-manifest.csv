@@ -1,0 +1,11 @@
+name,file,category,description,icon
+agent-optimizer,agent-optimizer.md,meta,Agent Quality Assurance & Optimizer — Sentinel,
+art-director,art-director.md,meta,Art Director — Visual identity; prompt aesthetics; output formatting,
+concierge,concierge.md,meta,Concierge — Triage; clarification; routage intelligent vers l''agent adapté,
+creative-toolsmith,creative-toolsmith.md,meta,Creative Toolsmith — Tool design; framework extension; automation patterns,
+memory-keeper,memory-keeper.md,meta,Memory Keeper & Knowledge Quality — Mnemo,
+project-navigator,project-navigator.md,meta,Project Knowledge Curator & Navigator — Atlas,
+blender-expert,blender-expert.md,creative-studio,Blender 3D Expert — Modélisation; matériaux; éclairage; rendu via MCP + vision loop,
+brand-designer,brand-designer.md,creative-studio,Brand Designer — Identité visuelle; logo; palette; guidelines,
+content-creator,content-creator.md,creative-studio,Content Creator — Copywriting; illustrations; visuels sociaux,
+illustration-expert,illustration-expert.md,creative-studio,Illustration & SVG Expert — Icônes; illustrations vectorielles; assets visuels via MCP + vision loop,
