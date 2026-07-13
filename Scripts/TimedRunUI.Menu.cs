@@ -358,11 +358,6 @@ public partial class TimedRunUI : Control
         }
     }
 
-    private void ToggleSettingsPanel()
-    {
-        OpenOptionsPopup();
-    }
-
     private void HideSettingsPanel()
     {
         CloseOptionsPopup();

@@ -68,7 +68,6 @@ public partial class TimedRunUI : Control
     [Export] public int TimeLimitSeconds { get; set; } = 120;
 
     // Par défaut on respecte les placements faits dans la scène (caméra/table).
-    [Export] public bool AutoFrameCameraOnReady { get; set; } = false;
 
     [Export] public float DeckCardThickness { get; set; } = 0.0015f;
 
@@ -376,9 +375,6 @@ public partial class TimedRunUI : Control
         ApplySceneMaterials();
 
         ApplyViewportToCardMaterials();
-
-        if (AutoFrameCameraOnReady)
-            FrameCameraForReadability();
 
         _visualDeckRemaining = _visualDeckCapacity;
         UpdateDeckVisual();
@@ -689,30 +685,6 @@ public partial class TimedRunUI : Control
         }
     }
 
-    private void FrameCameraForReadability()
-    {
-        if (!IsInstanceValid(_camera) || !IsInstanceValid(_cardRig))
-            return;
-
-        // Cadrage "tabletop": lisible + on voit deck et décor.
-        _camera.Fov = 64.0f;
-
-        var focus = IsInstanceValid(_cardFocus) ? _cardFocus!.GlobalPosition : (_cardRig.GlobalPosition + new Vector3(0, 0.08f, 0));
-        var deck = IsInstanceValid(_deckRig) ? _deckRig!.GlobalPosition : focus;
-        var target = (focus * 0.7f) + (deck * 0.3f);
-
-        _camera.GlobalPosition = target + new Vector3(0.0f, 1.10f, 2.95f);
-        _camera.LookAt(target, Vector3.Up);
-    }
-
-    private Vector3 GetFrontRotationDegrees()
-    {
-        if (IsInstanceValid(_cardFocus))
-            return _cardFocus!.RotationDegrees;
-
-        return _cardRig.RotationDegrees;
-    }
-
     private Transform3D GetFocusTransformGlobal()
     {
         if (IsInstanceValid(_cardFocus))
@@ -722,11 +694,6 @@ public partial class TimedRunUI : Control
             return _cardReferenceGlobal;
 
         return _cardRig.GlobalTransform;
-    }
-
-    private Basis GetFrontBasisGlobal()
-    {
-        return GetFocusTransformGlobal().Basis;
     }
 
     private static Transform3D WithBasisAtOrigin(Basis basis, Vector3 origin)
@@ -963,38 +930,6 @@ public partial class TimedRunUI : Control
     private bool IsCardAnimationPlaying()
     {
         return IsInstanceValid(_cardAnim) && _cardAnim!.IsPlaying();
-    }
-
-    private Vector3 GetCardVisibleCenterWorld()
-    {
-        if (_cardIsBackSide)
-        {
-            if (IsInstanceValid(_cardBackMesh))
-                return _cardBackMesh.GlobalTransform.Origin;
-        }
-
-        if (IsInstanceValid(_cardFrontMesh))
-            return _cardFrontMesh.GlobalTransform.Origin;
-
-        return _cardRig.GlobalTransform.Origin;
-    }
-
-    private static Transform3D WithBasisKeepingCardCenter(Basis basis, Vector3 cardCenterWorld, Vector3 localOffset)
-    {
-        var origin = cardCenterWorld - (basis * localOffset);
-        return new Transform3D(basis, origin);
-    }
-
-    private Transform3D WithBasisKeepingCardCenter(Basis basis, Vector3 cardCenterWorld)
-    {
-        // Le mesh visible n'a pas exactement le même offset local en recto vs verso.
-        var localOffset = Vector3.Zero;
-        if (_cardIsBackSide && IsInstanceValid(_cardBackMesh))
-            localOffset = _cardBackMesh.Position;
-        else if (IsInstanceValid(_cardFrontMesh))
-            localOffset = _cardFrontMesh.Position;
-
-        return WithBasisKeepingCardCenter(basis, cardCenterWorld, localOffset);
     }
 
     private void StartRun()

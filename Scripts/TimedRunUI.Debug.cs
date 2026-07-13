@@ -74,15 +74,6 @@ public partial class TimedRunUI : Control
         GD.PushError($"[MiniJeuCartesAWS] {where}: {ex}");
     }
 
-    private void SetLastRuntimeError(string message)
-    {
-        if (string.IsNullOrWhiteSpace(message))
-            return;
-
-        _lastRuntimeError = message.Length > 800 ? message[..800] + "…" : message;
-        GD.PushWarning($"[MiniJeuCartesAWS] {message}");
-    }
-
     private void UpdateDebugOverlay(double delta)
     {
         if (!_debugOverlayVisible)

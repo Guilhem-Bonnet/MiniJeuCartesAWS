@@ -164,24 +164,4 @@ public partial class TimedRunUI : Control
         }
     }
 
-    private void SetDisplayFullscreen(bool enabled)
-    {
-        _displayFullscreen = enabled;
-        ApplyDisplaySettings();
-        SaveSettingsToDisk();
-    }
-
-    private void SetDisplayVsync(bool enabled)
-    {
-        _displayVsync = enabled;
-        ApplyDisplaySettings();
-        SaveSettingsToDisk();
-    }
-
-    private void SetDisplayWindowSize(Vector2I size)
-    {
-        _displayWindowSize = size;
-        ApplyDisplaySettings();
-        SaveSettingsToDisk();
-    }
 }
