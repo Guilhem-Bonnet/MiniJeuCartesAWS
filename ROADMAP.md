@@ -30,33 +30,24 @@ Ce document décrit :
 
 ## Plan de route
 
-### V6.5 — Hygiène & fondations (à faire en premier, ~1 session)
+### V6.5 — Hygiène & fondations ✅ (fait, juillet 2026)
 
-**But :** repartir sur une base saine avant toute feature.
+1. ✅ `git-lfs` installé (3.7.1) — `git status`/`diff` fiables.
+2. ✅ Travail en attente committé (doc + CI en commits séparés).
+3. ✅ Fichiers parasites supprimés.
+4. ✅ CI corrigée : Godot 4.6.3 + .NET 9 (le dernier échec venait du moteur 4.5.1 sur un projet 4.6 et du conflit global.json 9.0 vs setup-dotnet 8.0). Reste à valider sur un tag de test.
+5. ✅ `REGLES_DU_JEU.md` à jour (4 modes + profils).
 
-1. Installer `git-lfs` (`sudo dnf install git-lfs`) — sans lui, `git status`/`diff` échouent silencieusement sur ce dépôt.
-2. Committer le travail en attente en 2 commits séparés :
-   - refactor `ConnectOnce` (Scripts/*.cs, Main3D.tscn, csproj)
-   - contenu V6 (448 questions, README, ROADMAP)
-3. Supprimer les fichiers parasites `e list` et `t --limit 5` (dumps de `less` créés par une commande mal tapée).
-4. Relancer la CI macOS sur un tag de test et diagnostiquer l'échec.
-5. Mettre à jour `REGLES_DU_JEU.md` (les 4 modes et les profils existent déjà, la doc est en retard).
+Bonus fait dans la foulée : persistance atomique des profils/settings (+ backup `.corrupt`), purge du code mort (`Signals.cs`, caméra auto, ~130 lignes), toolchain Godot 4.5.1 retirée du LFS (~230 Mo), scripts `tools/*.sh` réparés (godot-mono résolu dynamiquement).
 
-**Critères d'acceptation :** `git status` propre et fiable ; CI verte sur les 3 plateformes.
+### V7 — Examen blanc complet ✅ (fait, juillet 2026)
 
-### V7 — Examen blanc complet (la feature la plus utile pour l'objectif pédagogique)
+Implémenté dans `Scripts/TimedRunUI.Exam.cs` :
 
-**But :** transformer le mode Examen actuel (simple chrono 60 min) en véritable simulation CLF-C02.
-
-1. Tirage d'un jeu **fixe de 65 questions sans répétition**, réparties selon les poids officiels (24/30/34/12).
-2. Mode "strict" : pas de correction pendant l'examen ; navigation possible entre questions (marquer/revenir) — ou a minima enchaînement sans verso.
-3. Écran de résultats de fin :
-   - score sur 100–1000 avec seuil de réussite 700 (comme le vrai examen)
-   - répartition réussite par domaine
-   - liste des questions ratées avec leurs explications
-4. Historique des examens blancs dans le profil (progression visible d'un examen à l'autre).
-
-**Critères d'acceptation :** un joueur peut passer un examen blanc de bout en bout et sait s'il aurait été reçu ; les questions ratées sont consultables après coup.
+1. ✅ Jeu **fixe de 65 questions sans répétition**, quotas par domaine selon les poids officiels (24/30/34/12 → 16/19/22/8).
+2. ✅ Mode strict : pas de correction pendant l'examen, enchaînement sans verso, HUD "Question x/65". (Navigation marquer/revenir : non fait, amélioration possible.)
+3. ✅ Écran de résultats : score 100–1000 (seuil 700, REÇU/RECALÉ), répartition par domaine, questions ratées avec la bonne réponse (les non-répondues comptent fausses).
+4. ✅ Les examens sont enregistrés dans l'historique du profil (`RunRecord.GameMode`). (Vue dédiée de progression : à faire.)
 
 ### V8 — Contenu : équilibrage & liaison leçons (fil rouge, par lots)
 
