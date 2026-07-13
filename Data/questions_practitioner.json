@@ -5,29 +5,6 @@
     {
       "domain": "Technology",
       "difficulty": 1,
-      "category": "Storage",
-      "prompt": "Quel service AWS est un stockage d'objets ?",
-      "answers": [
-        "Amazon S3",
-        "Amazon RDS",
-        "AWS Lambda",
-        "Amazon EC2"
-      ],
-      "correctIndex": 0,
-      "explanation": "S3 est un stockage d'objets (buckets/objets) pour fichiers, backups, contenu statique.",
-      "services": [
-        "S3"
-      ],
-      "tags": [
-        "technology",
-        "storage",
-        "ccp"
-      ],
-      "problem": "Stockage"
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 1,
       "category": "Compute",
       "prompt": "Quel service exécute du code sans serveur à gérer ?",
       "answers": [
@@ -396,29 +373,6 @@
     {
       "domain": "Technology",
       "difficulty": 2,
-      "category": "Storage",
-      "prompt": "Quel service fournit un système de fichiers partagé géré (montable sur plusieurs instances) ?",
-      "answers": [
-        "Amazon EFS",
-        "Amazon EBS",
-        "Amazon S3",
-        "Amazon Glacier"
-      ],
-      "correctIndex": 0,
-      "explanation": "EFS est un système de fichiers partagé (type NFS) managé.",
-      "services": [
-        "S3"
-      ],
-      "tags": [
-        "technology",
-        "storage",
-        "ccp"
-      ],
-      "problem": "Stockage"
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
       "category": "LoadBalancing",
       "prompt": "Quel composant distribue le trafic entrant sur plusieurs cibles (ex: instances) ?",
       "answers": [
@@ -697,29 +651,6 @@
     {
       "domain": "Technology",
       "difficulty": 3,
-      "category": "S3",
-      "prompt": "Quel énoncé décrit le mieux la durabilité recherchée pour un stockage d'objets comme S3 ?",
-      "answers": [
-        "Conçu pour une très forte durabilité des objets",
-        "Conçu pour remplacer un disque local d'une instance",
-        "Conçu uniquement pour des bases relationnelles",
-        "Conçu uniquement pour un réseau privé"
-      ],
-      "correctIndex": 0,
-      "explanation": "S3 est conçu pour une durabilité très élevée des objets (concept CCP).",
-      "services": [
-        "S3"
-      ],
-      "tags": [
-        "technology",
-        "s3",
-        "ccp"
-      ],
-      "problem": "Stockage"
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
       "category": "Serverless",
       "prompt": "Dans un design serverless, quelle idée est la plus correcte ?",
       "answers": [
@@ -854,52 +785,6 @@
         "ccp"
       ],
       "problem": "Observabilité"
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "prompt": "Quel énoncé décrit le mieux un Security Group ?",
-      "answers": [
-        "Un pare-feu stateful au niveau instance/ENI",
-        "Une liste de contrôle stateless au niveau subnet",
-        "Un service de DNS managé",
-        "Un service de chiffrement des données"
-      ],
-      "correctIndex": 0,
-      "explanation": "Les Security Groups sont stateful et s'attachent aux interfaces réseau/instances.",
-      "services": [
-        "Route 53"
-      ],
-      "tags": [
-        "technology",
-        "networking",
-        "ccp"
-      ],
-      "problem": "Réseau"
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "prompt": "Quel énoncé décrit le mieux une Network ACL (NACL) ?",
-      "answers": [
-        "Un filtre stateless au niveau subnet",
-        "Un filtre stateful au niveau instance",
-        "Un service de file de messages",
-        "Un service de CDN"
-      ],
-      "correctIndex": 0,
-      "explanation": "Les NACL s'appliquent aux subnets et sont stateless (règles entrée/sortie).",
-      "services": [
-        "Route 53"
-      ],
-      "tags": [
-        "technology",
-        "networking",
-        "ccp"
-      ],
-      "problem": "Réseau"
     },
     {
       "domain": "Security",
@@ -1061,30 +946,6 @@
         "ccp"
       ],
       "problem": "Calcul"
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Storage",
-      "prompt": "Quel service fournit un stockage bloc attaché à une instance EC2 ?",
-      "answers": [
-        "Amazon EBS",
-        "Amazon S3",
-        "Amazon EFS",
-        "Amazon CloudFront"
-      ],
-      "correctIndex": 0,
-      "explanation": "EBS est un stockage bloc (volumes) généralement attaché à une instance EC2.",
-      "services": [
-        "S3",
-        "EC2"
-      ],
-      "tags": [
-        "technology",
-        "storage",
-        "ccp"
-      ],
-      "problem": "Stockage"
     },
     {
       "domain": "Technology",
@@ -2063,29 +1924,6 @@
       "problem": "Stockage"
     },
     {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "S3",
-      "prompt": "Quelle fonctionnalité S3 réplique automatiquement des objets vers une autre région pour une stratégie multi-région ?",
-      "answers": [
-        "Cross-Region Replication (CRR)",
-        "Auto Scaling",
-        "Elastic Load Balancing",
-        "AWS Direct Connect"
-      ],
-      "correctIndex": 0,
-      "explanation": "La CRR réplique des objets S3 vers une autre région (avec prérequis comme le versioning).",
-      "services": [
-        "S3"
-      ],
-      "tags": [
-        "technology",
-        "s3",
-        "ccp"
-      ],
-      "problem": "Stockage"
-    },
-    {
       "domain": "Security",
       "difficulty": 2,
       "category": "IAM",
@@ -2299,29 +2137,6 @@
       "domain": "Technology",
       "difficulty": 2,
       "category": "S3",
-      "problem": "Stockage",
-      "services": [
-        "S3"
-      ],
-      "tags": [
-        "storage",
-        "durability",
-        "ccp"
-      ],
-      "prompt": "Quel énoncé décrit le mieux la durabilité d'Amazon S3 (au niveau CCP) ?",
-      "answers": [
-        "S3 est conçu pour une très haute durabilité des objets (plusieurs copies sur plusieurs AZ)",
-        "S3 garantit 100% de disponibilité",
-        "S3 ne peut stocker que des fichiers < 5 Go",
-        "S3 est uniquement pour les bases relationnelles"
-      ],
-      "correctIndex": 0,
-      "explanation": "S3 est conçu pour une durabilité extrêmement élevée (réplication interne multi-AZ). La disponibilité dépend de la classe de stockage, et n'est pas 100%."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "S3",
       "problem": "Sécurité",
       "services": [
         "S3",
@@ -2457,30 +2272,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Un VPC est un réseau virtuel isolé avec un CIDR, des subnets, routage, sécurité, etc."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "VPC",
-      "problem": "Réseau",
-      "services": [
-        "VPC",
-        "Internet Gateway"
-      ],
-      "tags": [
-        "network",
-        "internet",
-        "ccp"
-      ],
-      "prompt": "Pour permettre à des instances dans un subnet public d'accéder à Internet, quel composant est requis ?",
-      "answers": [
-        "Une Internet Gateway attachée au VPC et une route vers elle",
-        "Un bucket S3 public",
-        "Un rôle IAM",
-        "Un KMS key"
-      ],
-      "correctIndex": 0,
-      "explanation": "L'accès Internet depuis un subnet public passe par une Internet Gateway et une table de routage appropriée."
     },
     {
       "domain": "Technology",
@@ -2929,30 +2720,6 @@
     },
     {
       "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Stockage",
-      "services": [
-        "EFS"
-      ],
-      "tags": [
-        "storage",
-        "file",
-        "shared",
-        "ccp"
-      ],
-      "prompt": "Quel service fournit un système de fichiers partagé (NFS) managé pouvant être monté sur plusieurs instances EC2 ?",
-      "answers": [
-        "Amazon EFS",
-        "Amazon EBS",
-        "Amazon S3",
-        "Amazon DynamoDB"
-      ],
-      "correctIndex": 0,
-      "explanation": "EFS est un système de fichiers managé (NFS) partageable entre instances."
-    },
-    {
-      "domain": "Technology",
       "difficulty": 2,
       "category": "S3",
       "problem": "Stockage",
@@ -2999,53 +2766,6 @@
       ],
       "correctIndex": 0,
       "explanation": "SSE-KMS chiffre côté serveur en s'appuyant sur des clés gérées via KMS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Networking",
-      "problem": "Réseau",
-      "services": [
-        "Direct Connect"
-      ],
-      "tags": [
-        "network",
-        "hybrid",
-        "latency",
-        "ccp"
-      ],
-      "prompt": "Quel service fournit une connexion réseau dédiée entre un datacenter on-premises et AWS ?",
-      "answers": [
-        "AWS Direct Connect",
-        "AWS VPN Client",
-        "Amazon CloudFront",
-        "AWS Glue"
-      ],
-      "correctIndex": 0,
-      "explanation": "Direct Connect fournit une connectivité dédiée (souvent plus stable) entre on-premises et AWS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Migration",
-      "problem": "Migration",
-      "services": [
-        "Snowball"
-      ],
-      "tags": [
-        "migration",
-        "data-transfer",
-        "ccp"
-      ],
-      "prompt": "Pour transférer de très gros volumes de données vers AWS quand le réseau est limité, quel service est le plus adapté ?",
-      "answers": [
-        "AWS Snowball",
-        "Amazon Route 53",
-        "AWS WAF",
-        "Amazon SES"
-      ],
-      "correctIndex": 0,
-      "explanation": "Snowball permet des transferts de données offline à grande échelle avec des appliances."
     },
     {
       "domain": "Technology",
@@ -3185,29 +2905,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Les VPC Endpoints (Gateway pour S3/DynamoDB) permettent un accès privé sans Internet Gateway/NAT."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "VPC",
-      "problem": "Réseau",
-      "services": [
-        "VPC"
-      ],
-      "tags": [
-        "network",
-        "egress",
-        "ccp"
-      ],
-      "prompt": "Pour permettre à des instances dans un subnet privé de sortir sur Internet (sans être accessibles depuis Internet), que faut-il typiquement ?",
-      "answers": [
-        "Un NAT Gateway (ou NAT instance) et une route vers lui",
-        "Une Internet Gateway uniquement",
-        "Un bucket S3 public",
-        "Une policy IAM"
-      ],
-      "correctIndex": 0,
-      "explanation": "Un subnet privé utilise un NAT pour l'accès sortant Internet tout en restant non joignable directement depuis Internet."
     },
     {
       "domain": "Technology",
@@ -3447,31 +3144,6 @@
       "domain": "Technology",
       "difficulty": 2,
       "category": "Compute",
-      "problem": "Déploiement",
-      "services": [
-        "Elastic Beanstalk"
-      ],
-      "tags": [
-        "course",
-        "compute",
-        "deployment",
-        "paas",
-        "ccp"
-      ],
-      "prompt": "Tu veux déployer une application web en envoyant le code, et laisser AWS provisionner/mettre à l'échelle l'environnement automatiquement. Quel service est le plus adapté ?",
-      "answers": [
-        "AWS Elastic Beanstalk",
-        "Amazon EC2",
-        "AWS Lambda",
-        "AWS CloudFormation"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “j'envoie le code, AWS gère l'environnement” correspond à Elastic Beanstalk (PaaS)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Compute",
       "problem": "Hébergement simple",
       "services": [
         "Lightsail"
@@ -3491,30 +3163,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail “VPS simplifié + prix packagé” correspond à Lightsail."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Compute",
-      "problem": "Batch/Jobs",
-      "services": [
-        "Batch"
-      ],
-      "tags": [
-        "course",
-        "compute",
-        "batch",
-        "ccp"
-      ],
-      "prompt": "Tu dois exécuter des milliers de jobs de rendu (batch) avec une file, des priorités et de la capacité qui s'ajuste. Quel service choisir ?",
-      "answers": [
-        "AWS Batch",
-        "AWS Lambda",
-        "Amazon SNS",
-        "Amazon EC2"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “beaucoup de jobs + scheduling/queue” correspond à AWS Batch."
     },
     {
       "domain": "Technology",
@@ -3539,55 +3187,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail “stockage d'objets” correspond à S3 (buckets/objets)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Storage",
-      "problem": "Stockage",
-      "services": [
-        "EBS"
-      ],
-      "tags": [
-        "course",
-        "storage",
-        "ebs",
-        "ccp"
-      ],
-      "prompt": "Tu as besoin d'un disque persistant attaché à une instance EC2 (volume système ou data). Quel service choisir ?",
-      "answers": [
-        "Amazon EBS",
-        "Amazon EFS",
-        "Amazon S3",
-        "AWS Storage Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “disque bloc attaché à EC2” correspond à EBS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Storage",
-      "problem": "Partage de fichiers",
-      "services": [
-        "EFS"
-      ],
-      "tags": [
-        "course",
-        "storage",
-        "efs",
-        "file",
-        "ccp"
-      ],
-      "prompt": "Plusieurs instances EC2 doivent monter le même système de fichiers (type NFS) et partager des répertoires. Quel service choisir ?",
-      "answers": [
-        "Amazon EFS",
-        "Amazon EBS",
-        "Amazon S3",
-        "Amazon DynamoDB"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “filesystem partagé montable par plusieurs EC2” correspond à EFS."
     },
     {
       "domain": "Technology",
@@ -3642,130 +3241,6 @@
     {
       "domain": "Technology",
       "difficulty": 2,
-      "category": "Database",
-      "problem": "Base de données",
-      "services": [
-        "DynamoDB"
-      ],
-      "tags": [
-        "course",
-        "database",
-        "nosql",
-        "dynamodb",
-        "ccp"
-      ],
-      "prompt": "Tu veux une base NoSQL clé/valeur avec latence très faible et scalabilité automatique. Quel service choisir ?",
-      "answers": [
-        "Amazon DynamoDB",
-        "Amazon RDS",
-        "Amazon Aurora",
-        "Amazon Redshift"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “NoSQL + très faible latence + autoscaling” correspond à DynamoDB."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Database",
-      "problem": "Base de données",
-      "services": [
-        "Aurora"
-      ],
-      "tags": [
-        "course",
-        "database",
-        "sql",
-        "aurora",
-        "ccp"
-      ],
-      "prompt": "Tu veux une base relationnelle compatible MySQL/PostgreSQL, mais tu cherches un moteur optimisé pour performance et scalabilité dans la famille RDS. Quel service choisir ?",
-      "answers": [
-        "Amazon Aurora",
-        "Amazon RDS (MySQL)",
-        "Amazon DynamoDB",
-        "Amazon Redshift"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “compatible MySQL/PostgreSQL + moteur optimisé” correspond à Aurora."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Database",
-      "problem": "Analytique",
-      "services": [
-        "Redshift"
-      ],
-      "tags": [
-        "course",
-        "database",
-        "analytics",
-        "redshift",
-        "ccp"
-      ],
-      "prompt": "Tu dois faire de la BI avec des requêtes analytiques lourdes sur des années de données (OLAP). Quel service est le plus adapté ?",
-      "answers": [
-        "Amazon Redshift",
-        "Amazon RDS",
-        "Amazon Athena",
-        "Amazon DynamoDB"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “entrepôt de données / OLAP” correspond à Redshift."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Networking",
-      "problem": "Réseau",
-      "services": [
-        "VPC"
-      ],
-      "tags": [
-        "course",
-        "network",
-        "vpc",
-        "ccp"
-      ],
-      "prompt": "Tu dois isoler tes ressources dans un réseau virtuel, définir des subnets publics/privés et des route tables. Quel service choisir ?",
-      "answers": [
-        "Amazon VPC",
-        "Amazon Route 53",
-        "Amazon CloudFront",
-        "Elastic Load Balancing"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “CIDR/subnets/routage” correspond à VPC."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Networking",
-      "problem": "DNS",
-      "services": [
-        "Route 53"
-      ],
-      "tags": [
-        "course",
-        "network",
-        "dns",
-        "route53",
-        "ccp"
-      ],
-      "prompt": "Tu dois gérer les enregistrements DNS d'un domaine (A/AAAA/CNAME) et mettre en place un failover DNS. Quel service est attendu ?",
-      "answers": [
-        "Amazon Route 53",
-        "Amazon VPC",
-        "Amazon CloudFront",
-        "Elastic Load Balancing"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “DNS + policies de routage/failover” correspond à Route 53."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
       "category": "Networking",
       "problem": "Performance",
       "services": [
@@ -3787,31 +3262,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail “cache en edge / points de présence” correspond à CloudFront (CDN)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Networking",
-      "problem": "Haute disponibilité",
-      "services": [
-        "ELB"
-      ],
-      "tags": [
-        "course",
-        "network",
-        "load-balancing",
-        "elb",
-        "ccp"
-      ],
-      "prompt": "Tu veux répartir le trafic HTTP(S) sur plusieurs instances dans plusieurs AZ pour améliorer la disponibilité. Quel service est attendu ?",
-      "answers": [
-        "Elastic Load Balancing",
-        "Amazon Route 53",
-        "Amazon CloudFront",
-        "Amazon VPC"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “répartir le trafic vers plusieurs cibles” correspond à ELB."
     },
     {
       "domain": "Security",
@@ -3938,31 +3388,6 @@
       "explanation": "Le détail “attaque DDoS” correspond à Shield (Standard/Advanced)."
     },
     {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Monitoring",
-      "problem": "Observabilité",
-      "services": [
-        "CloudWatch"
-      ],
-      "tags": [
-        "course",
-        "observability",
-        "metrics",
-        "cloudwatch",
-        "ccp"
-      ],
-      "prompt": "Tu veux créer une alarme sur un seuil de métrique (CPU > 80%) et déclencher une notification. Quel service est attendu ?",
-      "answers": [
-        "Amazon CloudWatch",
-        "AWS CloudTrail",
-        "AWS Trusted Advisor",
-        "AWS Organizations"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “alarme basée sur métrique” correspond à CloudWatch."
-    },
-    {
       "domain": "Security",
       "difficulty": 2,
       "category": "Audit",
@@ -4063,56 +3488,6 @@
     },
     {
       "domain": "Technology",
-      "difficulty": 2,
-      "category": "Messaging",
-      "problem": "Intégration",
-      "services": [
-        "SNS"
-      ],
-      "tags": [
-        "course",
-        "integration",
-        "messaging",
-        "sns",
-        "ccp"
-      ],
-      "prompt": "Tu veux publier un message une seule fois et le diffuser à plusieurs abonnés (email, Lambda, SQS) via un modèle pub/sub. Quel service choisir ?",
-      "answers": [
-        "Amazon SNS",
-        "Amazon SQS",
-        "AWS Lambda",
-        "Amazon Kinesis"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “fan-out pub/sub vers plusieurs abonnés” correspond à SNS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Messaging",
-      "problem": "Découplage",
-      "services": [
-        "SQS"
-      ],
-      "tags": [
-        "course",
-        "integration",
-        "messaging",
-        "sqs",
-        "ccp"
-      ],
-      "prompt": "Tu veux découpler un producteur et des workers via une file de messages, pour bufferiser et traiter de façon asynchrone. Quel service est attendu ?",
-      "answers": [
-        "Amazon SQS",
-        "Amazon SNS",
-        "Amazon CloudWatch",
-        "AWS CloudTrail"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “file/queue pour découpler et bufferiser” correspond à SQS (et non SNS qui diffuse)."
-    },
-    {
-      "domain": "Technology",
       "difficulty": 3,
       "category": "Compute",
       "problem": "Choix du service",
@@ -4164,34 +3539,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail “pas de VM permanente + event-driven” correspond à Lambda."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Elastic Beanstalk"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "compute",
-        "deployment",
-        "paas",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux déployer une appli web (code) et laisser AWS gérer le provisioning, la mise à l'échelle et le patching de l'environnement. Quel service est attendu ?",
-      "answers": [
-        "AWS Elastic Beanstalk",
-        "Amazon EC2",
-        "AWS Lambda",
-        "Amazon ECR"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “j'envoie le code, AWS gère l'environnement” pointe vers Beanstalk (PaaS)."
     },
     {
       "domain": "Technology",
@@ -4280,33 +3627,6 @@
       "category": "Storage",
       "problem": "À ne pas confondre",
       "services": [
-        "EBS"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "storage",
-        "ebs",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu as besoin d'un disque bloc persistant pour une instance EC2 (volume système). Quel service choisir ?",
-      "answers": [
-        "Amazon EBS",
-        "Amazon S3",
-        "Amazon EFS",
-        "AWS Storage Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “bloc attaché à EC2” correspond à EBS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "À ne pas confondre",
-      "services": [
         "EFS"
       ],
       "tags": [
@@ -4387,145 +3707,6 @@
     {
       "domain": "Technology",
       "difficulty": 3,
-      "category": "Database",
-      "problem": "À ne pas confondre",
-      "services": [
-        "DynamoDB"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "database",
-        "nosql",
-        "dynamodb",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu as besoin de latence très faible et d'un scaling automatique, modèle clé/valeur sans JOIN. Quel service choisir ?",
-      "answers": [
-        "Amazon DynamoDB",
-        "Amazon RDS",
-        "Amazon Aurora",
-        "Amazon Redshift"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “NoSQL + scaling + faible latence” correspond à DynamoDB."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Aurora"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "database",
-        "sql",
-        "aurora",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux une base relationnelle compatible MySQL/PostgreSQL mais avec un moteur optimisé et des options avancées dans l'écosystème RDS. Quel service est attendu ?",
-      "answers": [
-        "Amazon Aurora",
-        "Amazon RDS (MySQL)",
-        "Amazon DynamoDB",
-        "Amazon Redshift"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “moteur optimisé compatible MySQL/PostgreSQL” correspond à Aurora."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "Analytique",
-      "services": [
-        "Redshift"
-      ],
-      "tags": [
-        "scenario",
-        "best-solution",
-        "database",
-        "analytics",
-        "redshift",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux un entrepôt de données (OLAP) pour requêtes analytiques lourdes et reporting BI. Quel service est le plus adapté ?",
-      "answers": [
-        "Amazon Redshift",
-        "Amazon RDS",
-        "Amazon DynamoDB",
-        "Amazon Aurora"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “data warehouse / OLAP” correspond à Redshift."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "À ne pas confondre",
-      "services": [
-        "VPC"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "network",
-        "vpc",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu dois créer des subnets publics/privés, configurer des route tables et isoler ton réseau. Quel service AWS correspond ?",
-      "answers": [
-        "Amazon VPC",
-        "Amazon Route 53",
-        "Amazon CloudFront",
-        "Elastic Load Balancing"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “subnets + routage + isolation réseau” correspond à VPC."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Route 53"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "network",
-        "dns",
-        "route53",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu dois gérer des enregistrements DNS et faire du failover au niveau DNS. Quel service choisir ?",
-      "answers": [
-        "Amazon Route 53",
-        "Elastic Load Balancing",
-        "Amazon VPC",
-        "Amazon CloudFront"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “DNS + routage DNS/failover” correspond à Route 53."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
       "category": "Networking",
       "problem": "Performance",
       "services": [
@@ -4550,34 +3731,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail “cache edge mondial” correspond à CloudFront."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "Haute disponibilité",
-      "services": [
-        "ELB"
-      ],
-      "tags": [
-        "scenario",
-        "best-solution",
-        "network",
-        "load-balancing",
-        "elb",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux répartir le trafic sur plusieurs cibles dans plusieurs AZ et faire des health checks. Quel service choisir ?",
-      "answers": [
-        "Elastic Load Balancing",
-        "Amazon Route 53",
-        "Amazon VPC",
-        "Amazon CloudFront"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “répartition + health checks” correspond à ELB."
     },
     {
       "domain": "Security",
@@ -4719,34 +3872,6 @@
       "explanation": "Le détail “DDoS volumétrique” correspond à Shield."
     },
     {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Monitoring",
-      "problem": "Observabilité",
-      "services": [
-        "CloudWatch"
-      ],
-      "tags": [
-        "scenario",
-        "best-solution",
-        "observability",
-        "metrics",
-        "cloudwatch",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux déclencher une alarme sur une métrique (CPU > 80%) et notifier un topic. Quel service est attendu ?",
-      "answers": [
-        "Amazon CloudWatch",
-        "AWS CloudTrail",
-        "AWS Trusted Advisor",
-        "AWS Organizations"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “métriques + alarmes” correspond à CloudWatch."
-    },
-    {
       "domain": "Security",
       "difficulty": 3,
       "category": "Audit",
@@ -4860,62 +3985,6 @@
     {
       "domain": "Technology",
       "difficulty": 3,
-      "category": "Analytics",
-      "problem": "BI",
-      "services": [
-        "QuickSight"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "analytics",
-        "bi",
-        "quicksight",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux créer des dashboards BI et les partager (visualisation). Quel service AWS correspond ?",
-      "answers": [
-        "Amazon QuickSight",
-        "Amazon Athena",
-        "Amazon Redshift",
-        "Amazon CloudWatch"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “BI / dashboards” correspond à QuickSight."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Messaging",
-      "problem": "À ne pas confondre",
-      "services": [
-        "SNS"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "integration",
-        "messaging",
-        "sns",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux envoyer un message une fois et le diffuser à plusieurs consommateurs (fan-out). Quel service choisir ?",
-      "answers": [
-        "Amazon SNS",
-        "Amazon SQS",
-        "Amazon EventBridge",
-        "AWS Step Functions"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “fan-out pub/sub” correspond à SNS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
       "category": "Messaging",
       "problem": "À ne pas confondre",
       "services": [
@@ -4940,734 +4009,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail “queue/buffer pour workers” correspond à SQS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "Calcul",
-      "services": [
-        "EC2"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "compute",
-        "ec2",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : contrôle OS + agents. Quel service est le plus adapté ?",
-      "answers": [
-        "EC2",
-        "Lambda",
-        "Lightsail",
-        "Elastic Beanstalk"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “contrôle OS + agents” rend EC2 attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "Calcul",
-      "services": [
-        "EC2"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "compute",
-        "ec2",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : serveur long-running ?",
-      "answers": [
-        "EC2",
-        "Lambda",
-        "Lightsail",
-        "Elastic Beanstalk"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “serveur long-running” discrimine en faveur de EC2."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "Serverless",
-      "services": [
-        "Lambda"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "compute",
-        "lambda",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : exécution serverless déclenchée par événements. Quel service est le plus adapté ?",
-      "answers": [
-        "Lambda",
-        "EC2",
-        "Batch",
-        "Elastic Beanstalk"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “exécution serverless déclenchée par événements” rend Lambda attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "Serverless",
-      "services": [
-        "Lambda"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "compute",
-        "lambda",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : pas de serveurs à gérer ?",
-      "answers": [
-        "Lambda",
-        "EC2",
-        "Batch",
-        "Elastic Beanstalk"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “pas de serveurs à gérer” discrimine en faveur de Lambda."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "Jobs",
-      "services": [
-        "Batch"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "compute",
-        "batch",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : scheduling/queue de jobs batch. Quel service est le plus adapté ?",
-      "answers": [
-        "Batch",
-        "Lambda",
-        "EC2",
-        "SQS"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “scheduling/queue de jobs batch” rend Batch attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "Jobs",
-      "services": [
-        "Batch"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "compute",
-        "batch",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : beaucoup de jobs de calcul ?",
-      "answers": [
-        "Batch",
-        "Lambda",
-        "EC2",
-        "SQS"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “beaucoup de jobs de calcul” discrimine en faveur de Batch."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Stockage",
-      "services": [
-        "S3"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "storage",
-        "s3",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : stockage d'objets avec lifecycle/versioning. Quel service est le plus adapté ?",
-      "answers": [
-        "S3",
-        "EBS",
-        "EFS",
-        "RDS"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “stockage d'objets avec lifecycle/versioning” rend S3 attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Stockage",
-      "services": [
-        "S3"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "storage",
-        "s3",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : data lake de fichiers sur S3 ?",
-      "answers": [
-        "S3",
-        "EBS",
-        "EFS",
-        "RDS"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “data lake de fichiers sur S3” discrimine en faveur de S3."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Stockage bloc",
-      "services": [
-        "EBS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "storage",
-        "ebs",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : volume bloc attaché à une instance. Quel service est le plus adapté ?",
-      "answers": [
-        "EBS",
-        "EFS",
-        "S3",
-        "Storage Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “volume bloc attaché à une instance” rend EBS attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Stockage bloc",
-      "services": [
-        "EBS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "storage",
-        "ebs",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : disque système EC2 ?",
-      "answers": [
-        "EBS",
-        "EFS",
-        "S3",
-        "Storage Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “disque système EC2” discrimine en faveur de EBS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Partage de fichiers",
-      "services": [
-        "EFS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "storage",
-        "efs",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : filesystem partagé multi-instances. Quel service est le plus adapté ?",
-      "answers": [
-        "EFS",
-        "EBS",
-        "S3",
-        "Storage Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “filesystem partagé multi-instances” rend EFS attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Partage de fichiers",
-      "services": [
-        "EFS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "storage",
-        "efs",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : montage NFS par plusieurs EC2 ?",
-      "answers": [
-        "EFS",
-        "EBS",
-        "S3",
-        "Storage Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “montage NFS par plusieurs EC2” discrimine en faveur de EFS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "SQL",
-      "services": [
-        "RDS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "database",
-        "rds",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : SQL + transactions + JOIN. Quel service est le plus adapté ?",
-      "answers": [
-        "RDS",
-        "DynamoDB",
-        "Redshift",
-        "Aurora"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “SQL + transactions + JOIN” rend RDS attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "SQL",
-      "services": [
-        "RDS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "database",
-        "rds",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : base relationnelle managée ?",
-      "answers": [
-        "RDS",
-        "DynamoDB",
-        "Redshift",
-        "Aurora"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “base relationnelle managée” discrimine en faveur de RDS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "SQL (Aurora)",
-      "services": [
-        "Aurora"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "database",
-        "aurora",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : MySQL/PostgreSQL compatible avec moteur optimisé. Quel service est le plus adapté ?",
-      "answers": [
-        "Aurora",
-        "RDS",
-        "DynamoDB",
-        "Redshift"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “MySQL/PostgreSQL compatible avec moteur optimisé” rend Aurora attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "SQL (Aurora)",
-      "services": [
-        "Aurora"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "database",
-        "aurora",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : relationnel optimisé dans la famille RDS ?",
-      "answers": [
-        "Aurora",
-        "RDS",
-        "DynamoDB",
-        "Redshift"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “relationnel optimisé dans la famille RDS” discrimine en faveur de Aurora."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "Analytique",
-      "services": [
-        "Redshift"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "database",
-        "redshift",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : entrepôt de données OLAP. Quel service est le plus adapté ?",
-      "answers": [
-        "Redshift",
-        "Athena",
-        "RDS",
-        "DynamoDB"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “entrepôt de données OLAP” rend Redshift attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "Analytique",
-      "services": [
-        "Redshift"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "database",
-        "redshift",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : requêtes analytiques lourdes ?",
-      "answers": [
-        "Redshift",
-        "Athena",
-        "RDS",
-        "DynamoDB"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “requêtes analytiques lourdes” discrimine en faveur de Redshift."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "Réseau",
-      "services": [
-        "VPC"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "networking",
-        "vpc",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : subnets + route tables. Quel service est le plus adapté ?",
-      "answers": [
-        "VPC",
-        "Route 53",
-        "CloudFront",
-        "ELB"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “subnets + route tables” rend VPC attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "Réseau",
-      "services": [
-        "VPC"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "networking",
-        "vpc",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : réseau isolé ?",
-      "answers": [
-        "VPC",
-        "Route 53",
-        "CloudFront",
-        "ELB"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “réseau isolé” discrimine en faveur de VPC."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "DNS",
-      "services": [
-        "Route 53"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "networking",
-        "route-53",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : DNS + politiques de routage. Quel service est le plus adapté ?",
-      "answers": [
-        "Route 53",
-        "ELB",
-        "CloudFront",
-        "VPC"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “DNS + politiques de routage” rend Route 53 attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "DNS",
-      "services": [
-        "Route 53"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "networking",
-        "route-53",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : failover DNS ?",
-      "answers": [
-        "Route 53",
-        "ELB",
-        "CloudFront",
-        "VPC"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “failover DNS” discrimine en faveur de Route 53."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "CDN",
-      "services": [
-        "CloudFront"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "networking",
-        "cloudfront",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : cache edge mondial. Quel service est le plus adapté ?",
-      "answers": [
-        "CloudFront",
-        "ELB",
-        "S3",
-        "Route 53"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “cache edge mondial” rend CloudFront attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "CDN",
-      "services": [
-        "CloudFront"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "networking",
-        "cloudfront",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : CDN pour réduire la latence ?",
-      "answers": [
-        "CloudFront",
-        "ELB",
-        "S3",
-        "Route 53"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “CDN pour réduire la latence” discrimine en faveur de CloudFront."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "Répartition",
-      "services": [
-        "ELB"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "networking",
-        "elb",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : répartition de trafic + health checks. Quel service est le plus adapté ?",
-      "answers": [
-        "ELB",
-        "Route 53",
-        "CloudFront",
-        "VPC"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “répartition de trafic + health checks” rend ELB attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "Répartition",
-      "services": [
-        "ELB"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "networking",
-        "elb",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : haute disponibilité multi-cibles ?",
-      "answers": [
-        "ELB",
-        "Route 53",
-        "CloudFront",
-        "VPC"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “haute disponibilité multi-cibles” discrimine en faveur de ELB."
     },
     {
       "domain": "Security",
@@ -5894,62 +4235,6 @@
       "explanation": "La contrainte “mitigation DDoS” discrimine en faveur de Shield."
     },
     {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Monitoring",
-      "problem": "Observabilité",
-      "services": [
-        "CloudWatch"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "monitoring",
-        "cloudwatch",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : métriques + alarmes. Quel service est le plus adapté ?",
-      "answers": [
-        "CloudWatch",
-        "CloudTrail",
-        "X-Ray",
-        "Trusted Advisor"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “métriques + alarmes” rend CloudWatch attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Monitoring",
-      "problem": "Observabilité",
-      "services": [
-        "CloudWatch"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "monitoring",
-        "cloudwatch",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : monitoring et dashboards ?",
-      "answers": [
-        "CloudWatch",
-        "CloudTrail",
-        "X-Ray",
-        "Trusted Advisor"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “monitoring et dashboards” discrimine en faveur de CloudWatch."
-    },
-    {
       "domain": "Security",
       "difficulty": 3,
       "category": "Audit",
@@ -6060,230 +4345,6 @@
       ],
       "correctIndex": 0,
       "explanation": "La contrainte “gouvernance centralisée” discrimine en faveur de Organizations."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
-      "problem": "Analytique",
-      "services": [
-        "Athena"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "analytics",
-        "athena",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : SQL direct sur S3 sans cluster. Quel service est le plus adapté ?",
-      "answers": [
-        "Athena",
-        "Redshift",
-        "RDS",
-        "QuickSight"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “SQL direct sur S3 sans cluster” rend Athena attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
-      "problem": "Analytique",
-      "services": [
-        "Athena"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "analytics",
-        "athena",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : requêtes ad-hoc sur fichiers S3 ?",
-      "answers": [
-        "Athena",
-        "Redshift",
-        "RDS",
-        "QuickSight"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “requêtes ad-hoc sur fichiers S3” discrimine en faveur de Athena."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
-      "problem": "BI",
-      "services": [
-        "QuickSight"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "analytics",
-        "quicksight",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : dashboards BI et visualisations. Quel service est le plus adapté ?",
-      "answers": [
-        "QuickSight",
-        "Athena",
-        "Redshift",
-        "CloudWatch"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “dashboards BI et visualisations” rend QuickSight attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
-      "problem": "BI",
-      "services": [
-        "QuickSight"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "analytics",
-        "quicksight",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : partage de tableaux de bord ?",
-      "answers": [
-        "QuickSight",
-        "Athena",
-        "Redshift",
-        "CloudWatch"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “partage de tableaux de bord” discrimine en faveur de QuickSight."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Messaging",
-      "problem": "Notifications",
-      "services": [
-        "SNS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "messaging",
-        "sns",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : fan-out pub/sub vers plusieurs abonnés. Quel service est le plus adapté ?",
-      "answers": [
-        "SNS",
-        "SQS",
-        "EventBridge",
-        "Kinesis"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “fan-out pub/sub vers plusieurs abonnés” rend SNS attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Messaging",
-      "problem": "Notifications",
-      "services": [
-        "SNS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "messaging",
-        "sns",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : notification à plusieurs cibles ?",
-      "answers": [
-        "SNS",
-        "SQS",
-        "EventBridge",
-        "Kinesis"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “notification à plusieurs cibles” discrimine en faveur de SNS."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Messaging",
-      "problem": "Découplage",
-      "services": [
-        "SQS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "messaging",
-        "sqs",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Le mot-clé ici est : file de messages pour découpler. Quel service est le plus adapté ?",
-      "answers": [
-        "SQS",
-        "SNS",
-        "Kinesis",
-        "CloudWatch"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “file de messages pour découpler” rend SQS attendu."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Messaging",
-      "problem": "Découplage",
-      "services": [
-        "SQS"
-      ],
-      "tags": [
-        "course",
-        "scenario",
-        "confusable",
-        "trap",
-        "messaging",
-        "sqs",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel service choisir si la contrainte principale est : bufferiser le traitement asynchrone ?",
-      "answers": [
-        "SQS",
-        "SNS",
-        "Kinesis",
-        "CloudWatch"
-      ],
-      "correctIndex": 0,
-      "explanation": "La contrainte “bufferiser le traitement asynchrone” discrimine en faveur de SQS."
     },
     {
       "domain": "Security",
@@ -6444,33 +4505,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Beanstalk est un PaaS (upload code), CloudFormation est de l'IaC (définir l'infra)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "DevOps",
-      "problem": "À ne pas confondre",
-      "services": [
-        "CodeBuild"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "devops",
-        "codebuild",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux un service managé pour compiler et tester ton code (CI) sans gérer de serveur Jenkins. Quel service choisir ?",
-      "answers": [
-        "AWS CodeBuild",
-        "AWS CodePipeline",
-        "AWS CodeDeploy",
-        "AWS CodeCommit"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail 'build/compile + managé' correspond à CodeBuild."
     },
     {
       "domain": "Technology",
@@ -6718,33 +4752,6 @@
       "domain": "Technology",
       "difficulty": 3,
       "category": "Analytics",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Kinesis",
-        "SQS"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "streaming",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux découpler des tâches avec une file de messages (consommation par des workers). Quel service est le plus adapté ?",
-      "answers": [
-        "Amazon SQS",
-        "Amazon Kinesis",
-        "Amazon SNS",
-        "AWS Step Functions"
-      ],
-      "correctIndex": 0,
-      "explanation": "SQS = file de messages. Kinesis = streaming temps réel (replay, shards, ordering)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
       "problem": "Use case",
       "services": [
         "Kinesis"
@@ -6793,59 +4800,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail 'SQL sur S3 sans cluster' correspond à Athena."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Athena",
-        "Redshift"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "analytics",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux un entrepôt de données provisionné pour des requêtes analytiques complexes avec des jointures massives. Quel service choisir ?",
-      "answers": [
-        "Amazon Redshift",
-        "Amazon Athena",
-        "Amazon RDS",
-        "Amazon DynamoDB"
-      ],
-      "correctIndex": 0,
-      "explanation": "Redshift = data warehouse provisionné. Athena = serverless sur S3."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Migration",
-      "problem": "Inventaire",
-      "services": [
-        "Application Discovery Service"
-      ],
-      "tags": [
-        "scenario",
-        "migration",
-        "discovery",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux découvrir et inventorier tes serveurs on-premises avant de migrer vers AWS. Quel service utiliser ?",
-      "answers": [
-        "AWS Application Discovery Service",
-        "AWS Migration Hub",
-        "AWS DMS",
-        "AWS DataSync"
-      ],
-      "correctIndex": 0,
-      "explanation": "Application Discovery Service collecte l'inventaire (config, dépendances) pour préparer la migration."
     },
     {
       "domain": "Technology",
@@ -6901,58 +4855,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail 'relations/graphe' correspond à Neptune."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Database",
-      "problem": "Type",
-      "services": [
-        "Neptune"
-      ],
-      "tags": [
-        "scenario",
-        "database",
-        "neptune",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Quel type de base de données est Amazon Neptune ?",
-      "answers": [
-        "Base de données graphe",
-        "Base de données relationnelle",
-        "Base de données document",
-        "Base de données clé/valeur"
-      ],
-      "correctIndex": 0,
-      "explanation": "Neptune est une base de données graphe (Gremlin, SPARQL)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
-      "problem": "Data Warehouse",
-      "services": [
-        "Redshift"
-      ],
-      "tags": [
-        "scenario",
-        "analytics",
-        "redshift",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux un entrepôt de données pour du BI et des requêtes analytiques lourdes (OLAP). Quel service choisir ?",
-      "answers": [
-        "Amazon Redshift",
-        "Amazon RDS",
-        "Amazon DynamoDB",
-        "Amazon Athena"
-      ],
-      "correctIndex": 0,
-      "explanation": "Redshift est le data warehouse d'AWS, conçu pour l'OLAP."
     },
     {
       "domain": "Technology",
@@ -7195,33 +5097,6 @@
       "domain": "Technology",
       "difficulty": 3,
       "category": "Migration",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Snowball"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "migration",
-        "snowball",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu dois migrer 80 To de données vers AWS, mais ta connexion réseau prendrait des semaines. Quelle solution est la plus rapide ?",
-      "answers": [
-        "AWS Snowball",
-        "AWS DataSync",
-        "AWS Direct Connect",
-        "AWS Storage Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail 'migration massive + réseau lent' correspond à Snowball (transfert physique)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Migration",
       "problem": "Snowball Edge",
       "services": [
         "Snowball Edge"
@@ -7276,34 +5151,6 @@
       "category": "Compute",
       "problem": "À ne pas confondre",
       "services": [
-        "Fargate"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "compute",
-        "containers",
-        "fargate",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux exécuter des conteneurs Docker sans gérer d'instances EC2. Quel service choisir ?",
-      "answers": [
-        "AWS Fargate",
-        "Amazon ECS sur EC2",
-        "Amazon EC2",
-        "AWS Lambda"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail 'conteneurs sans gérer de serveurs' correspond à Fargate."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "À ne pas confondre",
-      "services": [
         "Fargate",
         "Lambda"
       ],
@@ -7350,33 +5197,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Lightsail est conçu pour la simplicité (VPS packagé, prix prévisible)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "PaaS",
-      "services": [
-        "Elastic Beanstalk"
-      ],
-      "tags": [
-        "scenario",
-        "compute",
-        "deployment",
-        "beanstalk",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux uploader ton code Python/Node/Java et laisser AWS gérer le provisioning, le scaling et le patching. Quel service choisir ?",
-      "answers": [
-        "AWS Elastic Beanstalk",
-        "Amazon EC2",
-        "AWS CloudFormation",
-        "AWS Lambda"
-      ],
-      "correctIndex": 0,
-      "explanation": "Beanstalk est un PaaS : tu fournis le code, AWS gère l'environnement."
     },
     {
       "domain": "CloudConcepts",
@@ -7489,86 +5309,6 @@
       "category": "ML",
       "problem": "À ne pas confondre",
       "services": [
-        "Rekognition"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "ml",
-        "rekognition",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux détecter des visages et objets dans des images sans entraîner de modèle. Quel service choisir ?",
-      "answers": [
-        "Amazon Rekognition",
-        "Amazon Comprehend",
-        "Amazon Textract",
-        "Amazon SageMaker"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail 'images + visages/objets' correspond à Rekognition (vision par ordinateur)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "ML",
-      "problem": "Use case",
-      "services": [
-        "Rekognition"
-      ],
-      "tags": [
-        "scenario",
-        "ml",
-        "rekognition",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux modérer automatiquement les images uploadées par les utilisateurs (contenu inapproprié). Quel service utiliser ?",
-      "answers": [
-        "Amazon Rekognition",
-        "Amazon Comprehend",
-        "AWS WAF",
-        "Amazon Macie"
-      ],
-      "correctIndex": 0,
-      "explanation": "Rekognition propose la détection de contenu inapproprié dans les images."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "ML",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Rekognition",
-        "Textract"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "ml",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux extraire du texte et des données de formulaires depuis des images de documents. Quel service choisir ?",
-      "answers": [
-        "Amazon Textract",
-        "Amazon Rekognition",
-        "Amazon Comprehend",
-        "Amazon Polly"
-      ],
-      "correctIndex": 0,
-      "explanation": "Textract = extraction de texte/formulaires depuis images. Rekognition = reconnaissance visuelle (objets, visages)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "ML",
-      "problem": "À ne pas confondre",
-      "services": [
         "Comprehend"
       ],
       "tags": [
@@ -7590,33 +5330,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail 'sentiment analysis + texte' correspond à Comprehend (NLP)."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "ML",
-      "problem": "Use case",
-      "services": [
-        "Comprehend"
-      ],
-      "tags": [
-        "scenario",
-        "ml",
-        "nlp",
-        "comprehend",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux extraire automatiquement les entités nommées (personnes, lieux, organisations) d'un corpus de textes. Quel service utiliser ?",
-      "answers": [
-        "Amazon Comprehend",
-        "Amazon Textract",
-        "Amazon Rekognition",
-        "Amazon Translate"
-      ],
-      "correctIndex": 0,
-      "explanation": "Comprehend fait de l'extraction d'entités nommées (NER) avec le NLP."
     },
     {
       "domain": "Technology",
@@ -7676,33 +5389,6 @@
       "domain": "Technology",
       "difficulty": 3,
       "category": "DevOps",
-      "problem": "À ne pas confondre",
-      "services": [
-        "X-Ray",
-        "CloudWatch"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "devops",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux voir les métriques CPU/mémoire de tes instances EC2 et créer des alertes. Quel service utiliser ?",
-      "answers": [
-        "Amazon CloudWatch",
-        "AWS X-Ray",
-        "AWS CloudTrail",
-        "AWS Systems Manager"
-      ],
-      "correctIndex": 0,
-      "explanation": "CloudWatch = métriques/logs/alertes. X-Ray = traçage applicatif distribué."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "DevOps",
       "problem": "Use case",
       "services": [
         "X-Ray"
@@ -7724,60 +5410,6 @@
       ],
       "correctIndex": 0,
       "explanation": "X-Ray permet de visualiser les traces à travers les services serverless."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
-      "problem": "À ne pas confondre",
-      "services": [
-        "QuickSight"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "analytics",
-        "quicksight",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux créer des dashboards interactifs et des visualisations BI sans gérer de serveur. Quel service choisir ?",
-      "answers": [
-        "Amazon QuickSight",
-        "Amazon Athena",
-        "Amazon Redshift",
-        "AWS Glue"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail 'dashboards BI + serverless' correspond à QuickSight."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Analytics",
-      "problem": "À ne pas confondre",
-      "services": [
-        "QuickSight",
-        "Athena"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "analytics",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux exécuter des requêtes SQL ad-hoc sur des données S3. Quel service est le plus adapté ?",
-      "answers": [
-        "Amazon Athena",
-        "Amazon QuickSight",
-        "Amazon Redshift",
-        "AWS Glue"
-      ],
-      "correctIndex": 0,
-      "explanation": "Athena = requêtes SQL sur S3. QuickSight = visualisation/dashboards (peut utiliser Athena comme source)."
     },
     {
       "domain": "Technology",
@@ -8180,60 +5812,6 @@
       "explanation": "Les VPC Endpoints permettent d'accéder aux services AWS sans traverser Internet."
     },
     {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Auto Scaling"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "compute",
-        "autoscaling",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux ajouter automatiquement des instances EC2 quand le CPU dépasse 70%. Quel service utiliser ?",
-      "answers": [
-        "AWS Auto Scaling",
-        "Elastic Load Balancing",
-        "Amazon EC2",
-        "AWS Lambda"
-      ],
-      "correctIndex": 0,
-      "explanation": "Auto Scaling ajuste le nombre d'instances selon des métriques."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Compute",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Auto Scaling",
-        "ELB"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "compute",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux répartir le trafic entre plusieurs instances EC2. Quel service utiliser ?",
-      "answers": [
-        "Elastic Load Balancing",
-        "AWS Auto Scaling",
-        "Route 53",
-        "CloudFront"
-      ],
-      "correctIndex": 0,
-      "explanation": "ELB répartit le trafic. Auto Scaling ajuste le nombre d'instances."
-    },
-    {
       "domain": "Billing",
       "difficulty": 3,
       "category": "Cost",
@@ -8448,33 +6026,6 @@
       ],
       "correctIndex": 0,
       "explanation": "KMS = gestion de clés de chiffrement. Secrets Manager = stockage de secrets."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Networking",
-      "problem": "À ne pas confondre",
-      "services": [
-        "Direct Connect"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "network",
-        "hybrid",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux une connexion réseau dédiée (pas sur Internet) entre ton datacenter et AWS. Quel service utiliser ?",
-      "answers": [
-        "AWS Direct Connect",
-        "AWS VPN",
-        "VPC Peering",
-        "AWS Transit Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "Direct Connect = liaison physique dédiée, pas Internet."
     },
     {
       "domain": "Technology",
@@ -9123,33 +6674,6 @@
         "confusable",
         "scenario",
         "storage",
-        "glacier",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu dois archiver des données de conformité pour 7 ans, accès très rare (quelques fois par an). Quelle classe S3 est la moins chère ?",
-      "answers": [
-        "S3 Glacier Deep Archive",
-        "S3 Glacier Flexible Retrieval",
-        "S3 Standard-IA",
-        "S3 One Zone-IA"
-      ],
-      "correctIndex": 0,
-      "explanation": "Glacier Deep Archive = le moins cher, temps de récupération 12-48h."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Classes S3",
-      "services": [
-        "S3 Glacier"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "storage",
         "trap",
         "advanced",
         "ccp"
@@ -9217,33 +6741,6 @@
       ],
       "correctIndex": 0,
       "explanation": "DMS = migration de bases de données avec réplication continue."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Migration",
-      "problem": "À ne pas confondre",
-      "services": [
-        "DMS",
-        "DataSync"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "migration",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux synchroniser des fichiers NFS entre ton datacenter et S3. Quel service utiliser ?",
-      "answers": [
-        "AWS DataSync",
-        "AWS DMS",
-        "AWS Snowball",
-        "AWS Storage Gateway"
-      ],
-      "correctIndex": 0,
-      "explanation": "DataSync = fichiers. DMS = bases de données."
     },
     {
       "domain": "Technology",
@@ -9325,33 +6822,6 @@
       ],
       "correctIndex": 0,
       "explanation": "CodeCommit = dépôt Git managé."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "DevOps",
-      "problem": "À ne pas confondre",
-      "services": [
-        "CodeDeploy"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "devops",
-        "codedeploy",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux déployer automatiquement ton code sur EC2 avec une stratégie blue/green. Quel service utiliser ?",
-      "answers": [
-        "AWS CodeDeploy",
-        "AWS CodeBuild",
-        "AWS CodePipeline",
-        "AWS CloudFormation"
-      ],
-      "correctIndex": 0,
-      "explanation": "CodeDeploy = déploiement avec stratégies (rolling, blue/green, canary)."
     },
     {
       "domain": "Technology",
@@ -9707,33 +7177,6 @@
       ],
       "correctIndex": 0,
       "explanation": "FSx for Windows = SMB + AD. EFS = NFS Linux."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "À ne pas confondre",
-      "services": [
-        "FSx",
-        "EFS"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "storage",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux un système de fichiers NFS partagé entre plusieurs instances Linux. Quel service utiliser ?",
-      "answers": [
-        "Amazon EFS",
-        "Amazon FSx for Windows",
-        "Amazon EBS",
-        "Amazon S3"
-      ],
-      "correctIndex": 0,
-      "explanation": "EFS = NFS Linux. FSx for Windows = SMB Windows."
     },
     {
       "domain": "Technology",
@@ -11261,6 +8704,2235 @@
         "ccp"
       ],
       "problem": "Coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Fundamentals",
+      "prompt": "Comment appelle-t-on la fourniture de ressources informatiques à la demande via Internet, facturées à l'usage ?",
+      "answers": [
+        "La virtualisation",
+        "La colocation",
+        "Le cloud computing",
+        "Le clustering"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le cloud computing fournit calcul, stockage et services à la demande via Internet, facturés à l'usage.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Fondamentaux"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Fundamentals",
+      "prompt": "Quel modèle de service te donne le plus de contrôle : OS, réseau virtuel, stockage ?",
+      "answers": [
+        "IaaS",
+        "SaaS",
+        "PaaS",
+        "FaaS"
+      ],
+      "correctIndex": 0,
+      "explanation": "Avec l'IaaS (ex: EC2), tu gères l'OS et la configuration ; AWS gère le matériel et la virtualisation.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Modèles de service"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Fundamentals",
+      "prompt": "Tu utilises une application complète via ton navigateur, sans rien installer ni administrer. Quel modèle de service ?",
+      "answers": [
+        "IaaS",
+        "PaaS",
+        "FaaS",
+        "SaaS"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le SaaS fournit une application clé en main : le fournisseur gère tout (infra, OS, application).",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Modèles de service"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Fundamentals",
+      "prompt": "Quel est un avantage clé d'une architecture serverless ?",
+      "answers": [
+        "Un contrôle total sur l'OS des serveurs",
+        "Aucun serveur à provisionner ni à administrer",
+        "Un coût fixe mensuel garanti",
+        "Une latence réseau toujours nulle"
+      ],
+      "correctIndex": 1,
+      "explanation": "En serverless (ex: Lambda), AWS gère toute l'infrastructure : tu déploies ton code et paies à l'exécution.",
+      "services": [
+        "Lambda"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Serverless"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Fundamentals",
+      "prompt": "Quel avantage du cloud t'évite de payer l'électricité, le refroidissement et le câblage de tes propres datacenters ?",
+      "answers": [
+        "Le déploiement global en minutes",
+        "Les économies d'échelle",
+        "Arrêter de dépenser pour exploiter des datacenters",
+        "La haute disponibilité"
+      ],
+      "correctIndex": 2,
+      "explanation": "Un des 6 avantages du cloud : AWS exploite les datacenters à ta place (énergie, matériel, locaux).",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Avantages du cloud"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Fundamentals",
+      "prompt": "Tu remplaces ton instance EC2 par une plus grosse (plus de vCPU et de RAM). Comment s'appelle cette approche ?",
+      "answers": [
+        "La scalabilité verticale",
+        "La scalabilité horizontale",
+        "L'élasticité",
+        "Le découplage"
+      ],
+      "correctIndex": 0,
+      "explanation": "Augmenter la taille d'une machine = scalabilité verticale (scale up). Ajouter des machines = horizontale.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Scalabilité"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Fundamentals",
+      "prompt": "Quelle propriété garantit qu'une application fonctionne sans AUCUNE interruption, même pendant une panne de composant ?",
+      "answers": [
+        "La haute disponibilité",
+        "Le disaster recovery",
+        "La scalabilité",
+        "La tolérance aux pannes"
+      ],
+      "correctIndex": 3,
+      "explanation": "La tolérance aux pannes vise zéro interruption. La haute disponibilité tolère une brève indisponibilité.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Résilience"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Fundamentals",
+      "prompt": "Quelle métrique de reprise d'activité mesure la perte de données maximale acceptable (en temps) ?",
+      "answers": [
+        "RTO",
+        "RPO",
+        "SLA",
+        "MTBF"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le RPO (Recovery Point Objective) définit combien de données tu acceptes de perdre, ex: 1 h de transactions.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Disaster recovery"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Fundamentals",
+      "prompt": "Après un sinistre, quelle métrique définit la durée maximale acceptable avant le retour en service ?",
+      "answers": [
+        "RPO",
+        "SLA",
+        "RTO",
+        "MTTR"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le RTO (Recovery Time Objective) fixe le délai maximal d'interruption toléré avant la reprise du service.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Disaster recovery"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Fundamentals",
+      "prompt": "Quel concept consiste à décrire ton infrastructure dans des fichiers modèles versionnables et reproductibles ?",
+      "answers": [
+        "L'infrastructure as code",
+        "Le serverless",
+        "La virtualisation",
+        "Le monitoring"
+      ],
+      "correctIndex": 0,
+      "explanation": "L'IaC (ex: CloudFormation) décrit l'infra en code : déploiements reproductibles, versionnés, automatisés.",
+      "services": [
+        "CloudFormation"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Automatisation"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Fundamentals",
+      "prompt": "Quel bénéfice principal obtiens-tu en découplant les composants de ton application ?",
+      "answers": [
+        "Un chiffrement automatique des données",
+        "La panne d'un composant n'entraîne pas tout le système",
+        "Une facturation réduite garantie",
+        "Moins de comptes AWS à gérer"
+      ],
+      "correctIndex": 1,
+      "explanation": "Des composants découplés (ex: via SQS) tombent en panne indépendamment : le système résiste mieux.",
+      "services": [
+        "SQS"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Fundamentals",
+      "prompt": "Quelle affirmation sur haute disponibilité (HA) et tolérance aux pannes (FT) est correcte ?",
+      "answers": [
+        "HA et FT sont des synonymes exacts",
+        "La FT accepte plusieurs heures d'interruption",
+        "La HA garantit zéro interruption de service",
+        "La FT coûte plus cher car elle exige une redondance totale"
+      ],
+      "correctIndex": 3,
+      "explanation": "La FT duplique tout pour éviter toute coupure : plus coûteuse que la HA, qui tolère une courte interruption.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Résilience"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Fundamentals",
+      "prompt": "Pourquoi la scalabilité horizontale est-elle souvent préférée à la verticale pour les applis web ?",
+      "answers": [
+        "Pas de limite d'une seule machine et meilleure tolérance aux pannes",
+        "Elle évite d'utiliser un load balancer",
+        "Elle est toujours moins chère",
+        "Elle ne demande aucune adaptation de l'application"
+      ],
+      "correctIndex": 0,
+      "explanation": "Ajouter des instances contourne les limites d'une machine unique et supprime le point unique de panne.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "fundamentals",
+        "ccp"
+      ],
+      "problem": "Scalabilité"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Economics",
+      "prompt": "Comment appelle-t-on les dépenses d'investissement initial comme l'achat de serveurs et de datacenters ?",
+      "answers": [
+        "OPEX",
+        "CAPEX",
+        "TCO",
+        "ROI"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le CAPEX (capital expenditure) désigne les investissements initiaux. Le cloud le remplace par de l'OPEX.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "economics",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Economics",
+      "prompt": "Tu arrêtes tes instances EC2 chaque week-end. Quel effet sur ta facture de calcul ?",
+      "answers": [
+        "Aucun, le calcul est facturé au mois",
+        "La facture augmente à cause des redémarrages",
+        "AWS facture des frais d'arrêt",
+        "Tu ne paies plus le calcul pendant l'arrêt"
+      ],
+      "correctIndex": 3,
+      "explanation": "Paiement à l'usage : une instance arrêtée ne facture plus le calcul (le stockage EBS reste facturé).",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "economics",
+        "ccp"
+      ],
+      "problem": "Facturation"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Economics",
+      "prompt": "Que représente le TCO (Total Cost of Ownership) ?",
+      "answers": [
+        "Le coût complet : matériel, licences, énergie, personnel",
+        "Uniquement le prix d'achat des serveurs",
+        "Le montant de la facture AWS mensuelle",
+        "Le coût des licences logicielles seules"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le TCO additionne tous les coûts d'une infrastructure : acquisition, énergie, maintenance, personnel.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "economics",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Economics",
+      "prompt": "Pourquoi AWS peut-il baisser régulièrement ses prix depuis des années ?",
+      "answers": [
+        "Les taxes sur le cloud diminuent chaque année",
+        "La concurrence oblige AWS à vendre à perte",
+        "Les économies d'échelle réduisent ses coûts unitaires",
+        "Les clients paient des frais d'entrée élevés"
+      ],
+      "correctIndex": 2,
+      "explanation": "Plus de clients = achats massifs et meilleure utilisation : AWS répercute ces économies d'échelle sur ses prix.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "economics",
+        "ccp"
+      ],
+      "problem": "Économies d'échelle"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Economics",
+      "prompt": "Pourquoi le paiement à l'usage encourage-t-il l'expérimentation ?",
+      "answers": [
+        "Les tests sont gratuits sur AWS",
+        "Tu peux tester une idée puis tout supprimer sans engagement",
+        "AWS rembourse les projets abandonnés",
+        "Les environnements de test sont facturés au forfait"
+      ],
+      "correctIndex": 1,
+      "explanation": "Sans investissement initial, tu provisionnes, testes, puis supprimes : l'échec coûte peu, l'innovation accélère.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "economics",
+        "ccp"
+      ],
+      "problem": "Agilité"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Economics",
+      "prompt": "Dans un datacenter on-premises, que se passe-t-il quand tes serveurs sont inutilisés la nuit ?",
+      "answers": [
+        "Ils se revendent automatiquement",
+        "Le fournisseur te rembourse la période",
+        "Ils ne coûtent plus rien",
+        "Tu continues de payer : le matériel est déjà acheté"
+      ],
+      "correctIndex": 3,
+      "explanation": "On-premises, les coûts sont fixes (CAPEX) : le matériel coûte, utilisé ou non. Le cloud aligne coût et usage.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "economics",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Economics",
+      "prompt": "Quel poste de coût on-premises est le plus souvent oublié dans une comparaison TCO avec le cloud ?",
+      "answers": [
+        "L'énergie, le refroidissement et le personnel d'exploitation",
+        "Le prix catalogue des serveurs",
+        "Le coût des licences Windows",
+        "Le prix de la bande passante Internet"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le TCO on-premises inclut des coûts indirects majeurs : électricité, climatisation, locaux, salaires des ops.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "economics",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quel service s'appuie sur les edge locations pour diffuser du contenu au plus près des utilisateurs ?",
+      "answers": [
+        "Amazon S3",
+        "Amazon EC2",
+        "Amazon CloudFront",
+        "Amazon RDS"
+      ],
+      "correctIndex": 2,
+      "explanation": "CloudFront est le CDN d'AWS : il met le contenu en cache dans plus de 400 edge locations dans le monde.",
+      "services": [
+        "CloudFront"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "globalinfrastructure",
+        "ccp"
+      ],
+      "problem": "Distribution"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "GlobalInfrastructure",
+      "prompt": "Une réglementation impose que tes données restent stockées en France. Que fais-tu ?",
+      "answers": [
+        "Activer le chiffrement KMS",
+        "Déployer dans la région Europe (Paris)",
+        "Utiliser des edge locations françaises",
+        "Ouvrir un ticket au support AWS"
+      ],
+      "correctIndex": 1,
+      "explanation": "Les données restent dans la région choisie sauf action de ta part : la région Paris assure la résidence en France.",
+      "services": [
+        "Global Infrastructure"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "globalinfrastructure",
+        "ccp"
+      ],
+      "problem": "Conformité"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "GlobalInfrastructure",
+      "prompt": "Comment les Availability Zones d'une même région sont-elles connectées entre elles ?",
+      "answers": [
+        "Par un réseau privé redondant à très faible latence",
+        "Par l'Internet public uniquement",
+        "Par des liaisons satellite",
+        "Elles ne sont pas connectées entre elles"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les AZ d'une région sont reliées par des fibres privées à faible latence, permettant la réplication synchrone.",
+      "services": [
+        "Global Infrastructure"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "globalinfrastructure",
+        "ccp"
+      ],
+      "problem": "Infrastructure"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "GlobalInfrastructure",
+      "prompt": "Combien d'Availability Zones une région AWS standard compte-t-elle au minimum ?",
+      "answers": [
+        "1",
+        "2",
+        "6",
+        "3"
+      ],
+      "correctIndex": 3,
+      "explanation": "Chaque région AWS possède au minimum 3 AZ isolées, pour permettre des architectures hautement disponibles.",
+      "services": [
+        "Global Infrastructure"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "globalinfrastructure",
+        "ccp"
+      ],
+      "problem": "Infrastructure"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quelle affirmation sur la disponibilité des services AWS selon les régions est correcte ?",
+      "answers": [
+        "Tous les services existent partout dès leur lancement",
+        "Les services ne sont disponibles qu'en us-east-1",
+        "Certains services ne sont pas disponibles dans toutes les régions",
+        "Les nouvelles régions ont toujours tous les services"
+      ],
+      "correctIndex": 2,
+      "explanation": "Les services sont déployés progressivement : vérifie la disponibilité régionale avant de choisir ta région.",
+      "services": [
+        "Global Infrastructure"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "globalinfrastructure",
+        "ccp"
+      ],
+      "problem": "Choix de région"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quel est le principal intérêt de déployer ton application dans plusieurs régions AWS ?",
+      "answers": [
+        "Réduire le nombre de comptes AWS",
+        "Résister à un sinistre régional et réduire la latence mondiale",
+        "Éviter d'utiliser des load balancers",
+        "Rendre IAM plus rapide"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le multi-région apporte une DR géographique et une latence réduite pour les utilisateurs éloignés.",
+      "services": [
+        "Global Infrastructure"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "globalinfrastructure",
+        "ccp"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quelle différence entre AWS Outposts et les Local Zones ?",
+      "answers": [
+        "Outposts s'installe dans tes locaux ; une Local Zone est gérée par AWS près des villes",
+        "Ce sont deux noms du même service",
+        "Les Local Zones sont réservées au secteur public",
+        "Outposts ne fonctionne qu'avec S3"
+      ],
+      "correctIndex": 0,
+      "explanation": "Outposts apporte le matériel AWS chez toi ; les Local Zones sont des extensions de région exploitées par AWS.",
+      "services": [
+        "Outposts",
+        "Local Zones"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "globalinfrastructure",
+        "ccp"
+      ],
+      "problem": "Infrastructure"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quel type d'emplacement est le plus nombreux dans l'infrastructure mondiale AWS ?",
+      "answers": [
+        "Les régions",
+        "Les Availability Zones",
+        "Les Local Zones",
+        "Les edge locations"
+      ],
+      "correctIndex": 3,
+      "explanation": "AWS compte 400+ edge locations, bien plus que de régions ou d'AZ : elles rapprochent le contenu des utilisateurs.",
+      "services": [
+        "Global Infrastructure"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "globalinfrastructure",
+        "ccp"
+      ],
+      "problem": "Infrastructure"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "WellArchitected",
+      "prompt": "Quel pilier du Well-Architected Framework couvre la protection des données, des systèmes et des identités ?",
+      "answers": [
+        "Fiabilité",
+        "Sécurité",
+        "Excellence opérationnelle",
+        "Optimisation des coûts"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le pilier Sécurité traite IAM, protection des données, chiffrement, détection et réponse aux incidents.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "ccp"
+      ],
+      "problem": "Bonnes pratiques"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "WellArchitected",
+      "prompt": "Quel pilier Well-Architected vise à choisir les bons types de ressources et suivre les évolutions technologiques ?",
+      "answers": [
+        "Sécurité",
+        "Durabilité",
+        "Efficacité des performances",
+        "Fiabilité"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le pilier Performance Efficiency : utiliser les ressources efficacement et adopter les nouvelles technologies.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "ccp"
+      ],
+      "problem": "Bonnes pratiques"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "WellArchitected",
+      "prompt": "Quel pilier Well-Architected couvre l'exploitation : runbooks, petits changements fréquents, amélioration continue ?",
+      "answers": [
+        "Excellence opérationnelle",
+        "Optimisation des coûts",
+        "Efficacité des performances",
+        "Sécurité"
+      ],
+      "correctIndex": 0,
+      "explanation": "L'excellence opérationnelle : exécuter et superviser les systèmes, automatiser et améliorer en continu.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "ccp"
+      ],
+      "problem": "Bonnes pratiques"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "WellArchitected",
+      "prompt": "Quelle perspective du AWS CAF aligne la stratégie cloud sur les objectifs et la valeur métier ?",
+      "answers": [
+        "Platform",
+        "Operations",
+        "People",
+        "Business"
+      ],
+      "correctIndex": 3,
+      "explanation": "La perspective Business du CAF garantit que les investissements cloud servent les résultats de l'entreprise.",
+      "services": [
+        "CAF"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "ccp"
+      ],
+      "problem": "Adoption cloud"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "WellArchitected",
+      "prompt": "Quel pilier a été ajouté au Well-Architected Framework en 2021, portant le total à six ?",
+      "answers": [
+        "Excellence opérationnelle",
+        "Durabilité (Sustainability)",
+        "Fiabilité",
+        "Sécurité"
+      ],
+      "correctIndex": 1,
+      "explanation": "La durabilité (impact environnemental, empreinte carbone) est le 6e pilier, ajouté fin 2021.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "ccp"
+      ],
+      "problem": "Bonnes pratiques"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "WellArchitected",
+      "prompt": "Parmi les 6 perspectives du AWS CAF, lesquelles sont dites « techniques » ?",
+      "answers": [
+        "Business, People, Governance",
+        "Business, Platform, Security",
+        "Platform, Security, Operations",
+        "People, Governance, Operations"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le CAF sépare perspectives métier (Business, People, Governance) et techniques (Platform, Security, Operations).",
+      "services": [
+        "CAF"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "ccp"
+      ],
+      "problem": "Adoption cloud"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "WellArchitected",
+      "prompt": "Quel principe de conception général est recommandé par le Well-Architected Framework ?",
+      "answers": [
+        "Tester ses systèmes à l'échelle de la production",
+        "Deviner la capacité nécessaire à l'avance",
+        "Éviter d'automatiser les changements",
+        "Ne jamais modifier une architecture qui fonctionne"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le framework recommande de tester à l'échelle réelle, d'automatiser et de faire évoluer les architectures.",
+      "services": [
+        "Well-Architected"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "wellarchitected",
+        "ccp"
+      ],
+      "problem": "Bonnes pratiques"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Migration",
+      "prompt": "Pendant l'inventaire de migration, tu découvres une application que plus personne n'utilise. Quelle stratégie 7R ?",
+      "answers": [
+        "Rehost",
+        "Retain",
+        "Refactor",
+        "Retire"
+      ],
+      "correctIndex": 3,
+      "explanation": "Retire : décommissionner les applications inutiles pour économiser et réduire la surface à migrer.",
+      "services": [
+        "Migration"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Migration",
+      "prompt": "Une application legacy doit rester on-premises pour l'instant (contrainte de licence). Quelle stratégie 7R ?",
+      "answers": [
+        "Retire",
+        "Retain",
+        "Relocate",
+        "Repurchase"
+      ],
+      "correctIndex": 1,
+      "explanation": "Retain : conserver l'application sur site quand la migration n'est pas justifiée ou pas encore possible.",
+      "services": [
+        "Migration"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Migration",
+      "prompt": "Tu abandonnes ton CRM maison au profit d'une solution SaaS du marché. Quelle stratégie de migration ?",
+      "answers": [
+        "Repurchase",
+        "Replatform",
+        "Rehost",
+        "Refactor"
+      ],
+      "correctIndex": 0,
+      "explanation": "Repurchase (drop and shop) : remplacer l'application par un produit du marché, souvent en SaaS.",
+      "services": [
+        "Migration"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Migration",
+      "prompt": "Tu migres ta base MySQL vers Amazon RDS sans toucher au code applicatif, pour profiter du managé. Quelle stratégie ?",
+      "answers": [
+        "Rehost",
+        "Refactor",
+        "Replatform",
+        "Retain"
+      ],
+      "correctIndex": 2,
+      "explanation": "Replatform (lift-tinker-and-shift) : quelques optimisations cloud (ex: RDS) sans changer l'architecture.",
+      "services": [
+        "RDS"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Migration",
+      "prompt": "Tu déplaces tes VMs VMware vers VMware Cloud on AWS sans les convertir ni les modifier. Quelle stratégie 7R ?",
+      "answers": [
+        "Rehost",
+        "Relocate",
+        "Replatform",
+        "Refactor"
+      ],
+      "correctIndex": 1,
+      "explanation": "Relocate : déplacer une infrastructure entière (ex: VMware) vers le cloud sans changer ni VMs ni outils.",
+      "services": [
+        "Migration"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Migration",
+      "prompt": "Tu veux suivre la progression de toutes tes migrations d'applications depuis un tableau de bord unique. Quel service ?",
+      "answers": [
+        "AWS DMS",
+        "AWS Application Migration Service",
+        "AWS Snowball",
+        "AWS Migration Hub"
+      ],
+      "correctIndex": 3,
+      "explanation": "Migration Hub centralise le suivi des migrations, quel que soit l'outil utilisé (MGN, DMS...).",
+      "services": [
+        "Migration Hub"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "DeploymentModels",
+      "prompt": "Comment appelle-t-on une infrastructure cloud exploitée pour une seule organisation, souvent dans ses locaux ?",
+      "answers": [
+        "Le cloud privé",
+        "Le cloud public",
+        "Le cloud hybride",
+        "Le multi-cloud"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le cloud privé est dédié à une organisation unique, qui garde le contrôle mais supporte les coûts.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "deploymentmodels",
+        "ccp"
+      ],
+      "problem": "Déploiement"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "DeploymentModels",
+      "prompt": "Quel modèle consiste à exécuter 100 % de tes applications sur l'infrastructure d'un fournisseur comme AWS ?",
+      "answers": [
+        "Le cloud privé",
+        "Le cloud hybride",
+        "Le cloud public",
+        "L'on-premises"
+      ],
+      "correctIndex": 2,
+      "explanation": "Dans le cloud public, tout tourne sur l'infrastructure mutualisée du fournisseur, accessible via Internet.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "deploymentmodels",
+        "ccp"
+      ],
+      "problem": "Déploiement"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "DeploymentModels",
+      "prompt": "Pour ton architecture hybride, tu veux une liaison privée dédiée (hors Internet) entre ton datacenter et AWS. Quel service ?",
+      "answers": [
+        "AWS Site-to-Site VPN",
+        "AWS Direct Connect",
+        "Amazon CloudFront",
+        "AWS Transit Gateway"
+      ],
+      "correctIndex": 1,
+      "explanation": "Direct Connect fournit une connexion physique dédiée vers AWS : bande passante stable, latence prévisible.",
+      "services": [
+        "Direct Connect"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "deploymentmodels",
+        "ccp"
+      ],
+      "problem": "Hybride"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "DeploymentModels",
+      "prompt": "Quel est l'inconvénient principal d'un cloud privé par rapport au cloud public ?",
+      "answers": [
+        "Moins de contrôle sur les données",
+        "Aucune virtualisation possible",
+        "L'impossibilité d'automatiser les déploiements",
+        "Les coûts d'investissement et la maintenance restent à ta charge"
+      ],
+      "correctIndex": 3,
+      "explanation": "En cloud privé, tu finances et exploites toi-même l'infrastructure : CAPEX élevé et scalabilité limitée.",
+      "services": [
+        "Cloud"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "deploymentmodels",
+        "ccp"
+      ],
+      "problem": "Déploiement"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "IAM",
+      "prompt": "Dans IAM, comment s'appelle le document JSON qui définit des autorisations (Allow/Deny) ?",
+      "answers": [
+        "Un rôle IAM",
+        "Un groupe IAM",
+        "Une policy (politique) IAM",
+        "Un identifiant de sécurité"
+      ],
+      "correctIndex": 2,
+      "explanation": "Une policy IAM est un document JSON listant les actions autorisées ou refusées sur des ressources.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "IAM",
+      "prompt": "Tu veux donner les mêmes permissions à 20 développeurs d'un coup. Quelle entité IAM utiliser ?",
+      "answers": [
+        "Un utilisateur IAM partagé",
+        "Un groupe IAM avec les policies attachées",
+        "Une clé d'accès commune",
+        "Un compte root par équipe"
+      ],
+      "correctIndex": 1,
+      "explanation": "Un groupe IAM regroupe des utilisateurs : les policies attachées au groupe s'appliquent à tous ses membres.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "IAM",
+      "prompt": "Ton compte root possède encore des clés d'accès actives. Que recommande AWS ?",
+      "answers": [
+        "Les supprimer : le root ne doit pas avoir de clés d'accès",
+        "Les partager avec l'équipe admin",
+        "Les publier dans le code pour la CI/CD",
+        "Les faire tourner chaque semaine"
+      ],
+      "correctIndex": 0,
+      "explanation": "Bonne pratique : aucun accès programmatique root. Supprime ses clés et utilise des rôles ou utilisateurs IAM.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "SharedResponsibility",
+      "prompt": "Dans le modèle de responsabilité partagée, qui est responsable de la classification des données stockées ?",
+      "answers": [
+        "AWS uniquement",
+        "AWS Support",
+        "Personne, c'est automatique",
+        "Le client"
+      ],
+      "correctIndex": 3,
+      "explanation": "Le client garde toujours la responsabilité de ses données : classification, protection et gestion des accès.",
+      "services": [
+        "Shared Responsibility Model"
+      ],
+      "tags": [
+        "security",
+        "sharedresponsibility",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "SharedResponsibility",
+      "prompt": "Dans le modèle de responsabilité partagée, que couvre la responsabilité d'AWS ?",
+      "answers": [
+        "La sécurité DANS le cloud (données, IAM)",
+        "La sécurité DU cloud (infra, matériel, datacenters)",
+        "La configuration des Security Groups clients",
+        "Le chiffrement des données applicatives du client"
+      ],
+      "correctIndex": 1,
+      "explanation": "AWS sécurise l'infrastructure (le cloud lui-même) ; le client sécurise ce qu'il déploie dedans.",
+      "services": [
+        "Shared Responsibility Model"
+      ],
+      "tags": [
+        "security",
+        "sharedresponsibility",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "DataProtection",
+      "prompt": "Tu envoies un nouvel objet dans un bucket S3 sans rien configurer. Est-il chiffré au repos ?",
+      "answers": [
+        "Oui, S3 applique un chiffrement par défaut (SSE-S3)",
+        "Non, jamais sans configuration",
+        "Seulement si le bucket est public",
+        "Uniquement avec CloudHSM"
+      ],
+      "correctIndex": 0,
+      "explanation": "Depuis 2023, S3 chiffre tous les nouveaux objets par défaut avec SSE-S3, sans action du client.",
+      "services": [
+        "S3",
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "ccp"
+      ],
+      "problem": "Chiffrement"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "NetworkSecurity",
+      "prompt": "Quel mécanisme joue le rôle de pare-feu virtuel directement au niveau d'une instance EC2 ?",
+      "answers": [
+        "AWS Shield",
+        "Amazon Macie",
+        "Le Security Group",
+        "AWS Artifact"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le Security Group filtre le trafic entrant/sortant au niveau de l'instance (ENI). Il est stateful.",
+      "services": [
+        "VPC",
+        "EC2"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "ccp"
+      ],
+      "problem": "Réseau"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "Governance",
+      "prompt": "Quel outil AWS analyse ton compte et te recommande des améliorations, notamment des checks de sécurité ?",
+      "answers": [
+        "AWS CloudFormation",
+        "AWS Trusted Advisor",
+        "Amazon SQS",
+        "AWS Batch"
+      ],
+      "correctIndex": 1,
+      "explanation": "Trusted Advisor donne des recommandations : coûts, performance, tolérance aux pannes et sécurité.",
+      "services": [
+        "Trusted Advisor"
+      ],
+      "tags": [
+        "security",
+        "governance",
+        "ccp"
+      ],
+      "problem": "Gouvernance"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "IAM",
+      "prompt": "Un nouvel employé rejoint ton équipe cloud. Quelle pratique faut-il absolument éviter ?",
+      "answers": [
+        "Lui donner les identifiants du compte root",
+        "Créer son propre utilisateur IAM",
+        "Le placer dans un groupe IAM adapté",
+        "Exiger la MFA sur son compte"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le root ne se partage jamais. Chaque personne reçoit sa propre identité avec le moindre privilège.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "SharedResponsibility",
+      "prompt": "Dans le modèle de responsabilité partagée, qui gère la sensibilisation et la formation de tes employés ?",
+      "answers": [
+        "AWS",
+        "AWS Support Business",
+        "Le client",
+        "Les auditeurs externes"
+      ],
+      "correctIndex": 2,
+      "explanation": "La formation et la gestion de ses propres employés relèvent toujours du client, pas d'AWS.",
+      "services": [
+        "Shared Responsibility Model"
+      ],
+      "tags": [
+        "security",
+        "sharedresponsibility",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "NetworkSecurity",
+      "prompt": "Quelle protection DDoS est activée automatiquement et sans frais pour tous les clients AWS ?",
+      "answers": [
+        "AWS WAF",
+        "Shield Advanced",
+        "AWS Network Firewall",
+        "Shield Standard"
+      ],
+      "correctIndex": 3,
+      "explanation": "Shield Standard protège gratuitement et automatiquement contre les attaques DDoS courantes (L3/L4).",
+      "services": [
+        "Shield"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "ccp"
+      ],
+      "problem": "Réseau"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "Compliance",
+      "prompt": "Ton entreprise doit respecter le RGPD en utilisant AWS. Comment la responsabilité se répartit-elle ?",
+      "answers": [
+        "AWS gère toute ta conformité RGPD",
+        "Partagée : AWS pour l'infra, toi pour tes données et applis",
+        "Le RGPD ne s'applique pas dans le cloud",
+        "Seul ton DPO est concerné, pas AWS"
+      ],
+      "correctIndex": 1,
+      "explanation": "La conformité suit le modèle partagé : AWS certifie son infrastructure, tu restes responsable de ton usage.",
+      "services": [
+        "Artifact"
+      ],
+      "tags": [
+        "security",
+        "compliance",
+        "ccp"
+      ],
+      "problem": "Conformité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Quelle différence est correcte entre un utilisateur IAM et un rôle IAM ?",
+      "answers": [
+        "L'utilisateur a des identifiants permanents, le rôle fournit des accès temporaires",
+        "Le rôle a un mot de passe, pas l'utilisateur",
+        "L'utilisateur est gratuit, le rôle est payant",
+        "Le rôle ne peut être utilisé que par le root"
+      ],
+      "correctIndex": 0,
+      "explanation": "Un rôle s'assume et délivre des identifiants temporaires via STS ; un utilisateur a des credentials durables.",
+      "services": [
+        "IAM",
+        "STS"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Une action est autorisée par une policy mais refusée par un Deny explicite dans une autre. Résultat ?",
+      "answers": [
+        "L'action est autorisée",
+        "AWS demande une confirmation",
+        "L'action est refusée : le Deny explicite l'emporte",
+        "Cela dépend de l'ordre de création des policies"
+      ],
+      "correctIndex": 2,
+      "explanation": "Dans l'évaluation IAM, un Deny explicite gagne toujours sur n'importe quel Allow.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Tu crées un utilisateur IAM depuis la région Paris. Dans quelles régions existe-t-il ?",
+      "answers": [
+        "Uniquement eu-west-3",
+        "Toutes : IAM est un service global",
+        "Uniquement en Europe",
+        "Uniquement dans les régions activées après coup"
+      ],
+      "correctIndex": 1,
+      "explanation": "IAM est global : utilisateurs, groupes, rôles et policies s'appliquent à tout le compte, toutes régions.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "IAM",
+      "prompt": "Quelle distinction est correcte entre IAM Identity Center et Amazon Cognito ?",
+      "answers": [
+        "Cognito gère les accès SSO des employés",
+        "Identity Center chiffre les données, Cognito les stocke",
+        "Les deux sont réservés aux applications mobiles",
+        "Identity Center : SSO des employés ; Cognito : utilisateurs de tes applis"
+      ],
+      "correctIndex": 3,
+      "explanation": "Identity Center centralise le SSO workforce ; Cognito gère l'inscription/connexion des clients d'une appli.",
+      "services": [
+        "IAM Identity Center",
+        "Cognito"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Governance",
+      "prompt": "Quel avantage financier direct apporte AWS Organizations à une entreprise multi-comptes ?",
+      "answers": [
+        "La facturation consolidée avec remises de volume mutualisées",
+        "La gratuité des instances EC2",
+        "La suppression des frais de support",
+        "Des crédits AWS automatiques chaque mois"
+      ],
+      "correctIndex": 0,
+      "explanation": "Organizations regroupe la facturation : les usages s'additionnent pour atteindre les paliers de remise.",
+      "services": [
+        "Organizations"
+      ],
+      "tags": [
+        "security",
+        "governance",
+        "ccp"
+      ],
+      "problem": "Gouvernance"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Governance",
+      "prompt": "Tu veux déployer un environnement multi-comptes conforme aux bonnes pratiques (landing zone). Quel service ?",
+      "answers": [
+        "AWS Config",
+        "AWS Control Tower",
+        "Amazon Connect",
+        "AWS Snowball"
+      ],
+      "correctIndex": 1,
+      "explanation": "Control Tower automatise la création d'une landing zone multi-comptes avec des garde-fous intégrés.",
+      "services": [
+        "Control Tower",
+        "Organizations"
+      ],
+      "tags": [
+        "security",
+        "governance",
+        "ccp"
+      ],
+      "problem": "Gouvernance"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Governance",
+      "prompt": "Lequel de ces contrôles fait partie des checks de sécurité de Trusted Advisor ?",
+      "answers": [
+        "La température des datacenters",
+        "Le prix des instances Spot",
+        "Les Security Groups avec des ports sensibles ouverts à tous",
+        "La version de ton navigateur web"
+      ],
+      "correctIndex": 2,
+      "explanation": "Trusted Advisor signale entre autres les ports ouverts au monde, les buckets S3 publics et la MFA root.",
+      "services": [
+        "Trusted Advisor"
+      ],
+      "tags": [
+        "security",
+        "governance",
+        "ccp"
+      ],
+      "problem": "Gouvernance"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "ThreatDetection",
+      "prompt": "Tu veux scanner automatiquement tes images de conteneurs dans ECR pour détecter des CVE. Quel service ?",
+      "answers": [
+        "Amazon Inspector",
+        "Amazon Macie",
+        "AWS Shield",
+        "AWS Artifact"
+      ],
+      "correctIndex": 0,
+      "explanation": "Amazon Inspector scanne automatiquement les images ECR à l'envoi et remonte les CVE connues.",
+      "services": [
+        "Inspector",
+        "ECR"
+      ],
+      "tags": [
+        "security",
+        "threatdetection",
+        "ccp"
+      ],
+      "problem": "Détection"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "ThreatDetection",
+      "prompt": "Amazon Macie analyse principalement quelle source de données pour détecter des informations sensibles ?",
+      "answers": [
+        "Les tables DynamoDB",
+        "Les buckets Amazon S3",
+        "Les files SQS",
+        "Les volumes EBS"
+      ],
+      "correctIndex": 1,
+      "explanation": "Macie utilise le ML pour découvrir des données sensibles (PII) stockées dans Amazon S3.",
+      "services": [
+        "Macie",
+        "S3"
+      ],
+      "tags": [
+        "security",
+        "threatdetection",
+        "ccp"
+      ],
+      "problem": "Détection"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "ThreatDetection",
+      "prompt": "Quelle distinction est correcte entre GuardDuty et Inspector ?",
+      "answers": [
+        "Inspector détecte les intrusions réseau en temps réel",
+        "GuardDuty scanne les CVE des AMI",
+        "GuardDuty détecte les menaces ; Inspector cherche les vulnérabilités logicielles",
+        "Les deux services sont identiques"
+      ],
+      "correctIndex": 2,
+      "explanation": "GuardDuty surveille l'activité malveillante (logs) ; Inspector évalue les failles de tes workloads.",
+      "services": [
+        "GuardDuty",
+        "Inspector"
+      ],
+      "tags": [
+        "security",
+        "threatdetection",
+        "ccp"
+      ],
+      "problem": "Détection"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "NetworkSecurity",
+      "prompt": "Sur lesquelles de ces ressources peux-tu attacher AWS WAF ?",
+      "answers": [
+        "Uniquement les instances EC2",
+        "Les tables DynamoDB",
+        "Les volumes EBS",
+        "CloudFront, ALB et API Gateway"
+      ],
+      "correctIndex": 3,
+      "explanation": "WAF s'attache aux points d'entrée HTTP(S) : CloudFront, Application Load Balancer, API Gateway, AppSync.",
+      "services": [
+        "WAF",
+        "CloudFront"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "ccp"
+      ],
+      "problem": "Réseau"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "NetworkSecurity",
+      "prompt": "Tu veux un pare-feu managé qui inspecte et filtre le trafic à l'échelle de tout un VPC. Quel service ?",
+      "answers": [
+        "AWS Network Firewall",
+        "AWS WAF",
+        "Amazon GuardDuty",
+        "AWS IAM"
+      ],
+      "correctIndex": 0,
+      "explanation": "Network Firewall est un pare-feu réseau managé déployé au niveau du VPC (filtrage stateful, IPS).",
+      "services": [
+        "Network Firewall",
+        "VPC"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "ccp"
+      ],
+      "problem": "Réseau"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DataProtection",
+      "prompt": "Ton équipe exige un module matériel de chiffrement dédié, mono-locataire, sous ton contrôle exclusif. Quel service ?",
+      "answers": [
+        "AWS KMS",
+        "AWS CloudHSM",
+        "AWS Secrets Manager",
+        "Amazon Cognito"
+      ],
+      "correctIndex": 1,
+      "explanation": "CloudHSM fournit des HSM dédiés mono-locataires (FIPS 140-2 niveau 3) dont tu contrôles les clés.",
+      "services": [
+        "CloudHSM"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "ccp"
+      ],
+      "problem": "Chiffrement"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DataProtection",
+      "prompt": "Quel avantage offre AWS Certificate Manager pour les certificats publics qu'il émet ?",
+      "answers": [
+        "Ils fonctionnent sans DNS",
+        "Ils sont payants mais illimités",
+        "Renouvellement automatique et gratuit",
+        "Ils s'installent sur n'importe quel serveur externe"
+      ],
+      "correctIndex": 2,
+      "explanation": "ACM émet des certificats publics gratuits et les renouvelle automatiquement pour les services intégrés.",
+      "services": [
+        "ACM"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "ccp"
+      ],
+      "problem": "Chiffrement"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "DataProtection",
+      "prompt": "Quelle distinction est correcte entre AWS KMS et AWS Secrets Manager ?",
+      "answers": [
+        "KMS stocke les mots de passe applicatifs",
+        "Secrets Manager crée des clés de chiffrement",
+        "Les deux services sont interchangeables",
+        "KMS gère des clés de chiffrement ; Secrets Manager stocke et fait tourner des secrets"
+      ],
+      "correctIndex": 3,
+      "explanation": "KMS = cycle de vie des clés crypto. Secrets Manager = stockage et rotation de secrets (chiffrés via KMS).",
+      "services": [
+        "KMS",
+        "Secrets Manager"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "ccp"
+      ],
+      "problem": "Chiffrement"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "SharedResponsibility",
+      "prompt": "Sur Amazon RDS, qui est responsable de l'application des correctifs du moteur de base de données ?",
+      "answers": [
+        "AWS, car c'est un service managé",
+        "Le client, via SSH",
+        "L'éditeur de la base uniquement",
+        "Personne, RDS n'est jamais patché"
+      ],
+      "correctIndex": 0,
+      "explanation": "RDS est managé : AWS patch l'OS et le moteur. Le client gère les données, comptes et paramètres d'accès.",
+      "services": [
+        "RDS",
+        "Shared Responsibility Model"
+      ],
+      "tags": [
+        "security",
+        "sharedresponsibility",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "SharedResponsibility",
+      "prompt": "Pour Amazon S3, quelle tâche de sécurité reste entièrement à la charge du client ?",
+      "answers": [
+        "Le remplacement des disques défectueux",
+        "La configuration des accès (bucket policies, blocage public)",
+        "La maintenance des datacenters",
+        "La réplication interne de l'infrastructure"
+      ],
+      "correctIndex": 1,
+      "explanation": "AWS opère l'infrastructure S3 ; le client configure les permissions, le chiffrement et l'accès public.",
+      "services": [
+        "S3",
+        "Shared Responsibility Model"
+      ],
+      "tags": [
+        "security",
+        "sharedresponsibility",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Compliance",
+      "prompt": "AWS est certifié PCI DSS. Ton application de paiement hébergée sur EC2 est-elle automatiquement conforme ?",
+      "answers": [
+        "Oui, la certification AWS suffit",
+        "Oui, si tu actives CloudTrail",
+        "Non, tu dois valider la conformité de ta propre application",
+        "Non, PCI DSS est interdit dans le cloud"
+      ],
+      "correctIndex": 2,
+      "explanation": "Héritage partiel : l'infra AWS est certifiée, mais ta conformité applicative reste ta responsabilité.",
+      "services": [
+        "Artifact"
+      ],
+      "tags": [
+        "security",
+        "compliance",
+        "ccp"
+      ],
+      "problem": "Conformité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Governance",
+      "prompt": "Une policy IAM autorise s3:*, mais le SCP appliqué au compte n'inclut pas S3. Que se passe-t-il ?",
+      "answers": [
+        "L'accès S3 est accordé, IAM prime",
+        "AWS fusionne les deux policies",
+        "Seule la lecture S3 est permise",
+        "L'accès est refusé : le SCP fixe le plafond des permissions"
+      ],
+      "correctIndex": 3,
+      "explanation": "Un SCP n'accorde rien : il délimite le maximum. Une action hors SCP est refusée même si IAM l'autorise.",
+      "services": [
+        "Organizations",
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "governance",
+        "ccp"
+      ],
+      "problem": "Gouvernance"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Governance",
+      "prompt": "Dans AWS Organizations, quel compte n'est jamais restreint par les SCP ?",
+      "answers": [
+        "Le compte de gestion (management account)",
+        "Tous les comptes de production",
+        "Le premier compte membre créé",
+        "Les comptes avec MFA activée"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les SCP ne s'appliquent pas au compte de gestion : d'où l'intérêt de ne pas y héberger de workloads.",
+      "services": [
+        "Organizations"
+      ],
+      "tags": [
+        "security",
+        "governance",
+        "ccp"
+      ],
+      "problem": "Gouvernance"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "À quoi sert une permissions boundary attachée à un utilisateur ou un rôle IAM ?",
+      "answers": [
+        "À accorder des permissions supplémentaires",
+        "À fixer le maximum de permissions effectives, sans en accorder",
+        "À remplacer les SCP de l'organisation",
+        "À chiffrer les policies JSON"
+      ],
+      "correctIndex": 1,
+      "explanation": "La boundary plafonne les permissions : l'accès effectif = intersection entre policies et boundary.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Un partenaire disposant de son propre compte AWS doit accéder à un bucket précis chez toi. Meilleure approche ?",
+      "answers": [
+        "Lui créer un utilisateur IAM et envoyer les clés par mail",
+        "Rendre le bucket public",
+        "Créer un rôle cross-account qu'il assume avec des accès temporaires",
+        "Partager ton compte root temporairement"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le rôle cross-account évite les clés statiques : le partenaire l'assume via STS avec le moindre privilège.",
+      "services": [
+        "IAM",
+        "STS"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "NetworkSecurity",
+      "prompt": "Quel avantage obtiens-tu avec Shield Advanced mais pas avec Shield Standard ?",
+      "answers": [
+        "La protection DDoS de base L3/L4",
+        "La gratuité totale du service",
+        "L'activation automatique sans souscription",
+        "L'accès à l'équipe de réponse DDoS et une protection financière"
+      ],
+      "correctIndex": 3,
+      "explanation": "Shield Advanced ajoute le SRT (équipe 24/7), des détections avancées et la protection contre les surcoûts.",
+      "services": [
+        "Shield"
+      ],
+      "tags": [
+        "security",
+        "networksecurity",
+        "ccp"
+      ],
+      "problem": "Réseau"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "DataProtection",
+      "prompt": "Avec le chiffrement côté client (client-side encryption), où les données sont-elles chiffrées ?",
+      "answers": [
+        "Chez toi, avant leur envoi vers AWS",
+        "Dans le datacenter AWS à la réception",
+        "Automatiquement par S3 à l'écriture",
+        "Uniquement pendant le transit TLS"
+      ],
+      "correctIndex": 0,
+      "explanation": "En client-side, tu chiffres les données avant l'envoi : AWS ne voit jamais les données en clair.",
+      "services": [
+        "KMS",
+        "S3"
+      ],
+      "tags": [
+        "security",
+        "dataprotection",
+        "ccp"
+      ],
+      "problem": "Chiffrement"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Compliance",
+      "prompt": "Des ressources hébergées chez AWS par un tiers attaquent ton site web. Quelle est la bonne démarche ?",
+      "answers": [
+        "Contre-attaquer les ressources fautives",
+        "Signaler l'abus à l'équipe AWS Trust & Safety (formulaire abuse)",
+        "Ouvrir un ticket de facturation",
+        "Supprimer ton propre compte"
+      ],
+      "correctIndex": 1,
+      "explanation": "Les abus émanant de ressources AWS se signalent via le formulaire AWS Abuse (Trust & Safety).",
+      "services": [
+        "AWS Abuse"
+      ],
+      "tags": [
+        "security",
+        "compliance",
+        "ccp"
+      ],
+      "problem": "Conformité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Compliance",
+      "prompt": "Dans la politique de tests de sécurité AWS, quelle activité reste interdite sans accord préalable ?",
+      "answers": [
+        "Scanner tes propres instances EC2",
+        "Tester ton WAF avec des requêtes SQLi",
+        "Simuler une attaque DDoS contre ta propre infrastructure",
+        "Analyser les vulnérabilités de tes API Gateway"
+      ],
+      "correctIndex": 2,
+      "explanation": "Le pentest est permis sur plusieurs services sans accord, mais les simulations DDoS exigent une validation AWS.",
+      "services": [
+        "AWS Pentest Policy"
+      ],
+      "tags": [
+        "security",
+        "compliance",
+        "ccp"
+      ],
+      "problem": "Conformité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "ThreatDetection",
+      "prompt": "Amazon Inspector peut évaluer automatiquement quels types de ressources ?",
+      "answers": [
+        "Uniquement les buckets S3",
+        "Les utilisateurs IAM et leurs policies",
+        "Les factures et budgets",
+        "Les instances EC2, les images ECR et les fonctions Lambda"
+      ],
+      "correctIndex": 3,
+      "explanation": "Inspector scanne en continu EC2, les images de conteneurs ECR et les fonctions Lambda (CVE, exposition).",
+      "services": [
+        "Inspector"
+      ],
+      "tags": [
+        "security",
+        "threatdetection",
+        "ccp"
+      ],
+      "problem": "Détection"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "SharedResponsibility",
+      "prompt": "Parmi ces services, lequel laisse au client le PLUS de responsabilités de sécurité ?",
+      "answers": [
+        "Amazon EC2",
+        "AWS Lambda",
+        "Amazon DynamoDB",
+        "Amazon S3"
+      ],
+      "correctIndex": 0,
+      "explanation": "Sur EC2 (IaaS), le client gère l'OS, les patchs, le pare-feu et les applis ; les services managés en font plus.",
+      "services": [
+        "EC2",
+        "Shared Responsibility Model"
+      ],
+      "tags": [
+        "security",
+        "sharedresponsibility",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Ton entreprise gère ses identités dans Active Directory. Comment donner accès à AWS sans créer d'utilisateurs IAM ?",
+      "answers": [
+        "Exporter les mots de passe AD vers IAM",
+        "Utiliser la fédération d'identité pour assumer des rôles IAM",
+        "Créer un compte root par employé",
+        "Publier les identifiants dans S3"
+      ],
+      "correctIndex": 1,
+      "explanation": "La fédération (via Identity Center ou SAML) permet aux identités existantes d'assumer des rôles temporaires.",
+      "services": [
+        "IAM Identity Center",
+        "STS"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Support",
+      "prompt": "Tu veux le plan de support AWS payant le moins cher avec accès aux Cloud Support Engineers par email en heures ouvrées. Lequel choisir ?",
+      "answers": [
+        "Business",
+        "Enterprise",
+        "Developer",
+        "Basic"
+      ],
+      "correctIndex": 2,
+      "explanation": "Developer est le premier plan payant : accès email aux Cloud Support Engineers en heures ouvrées. Basic est gratuit mais sans support technique.",
+      "services": [
+        "AWS Support"
+      ],
+      "tags": [
+        "billing",
+        "support",
+        "ccp"
+      ],
+      "problem": "Support"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Support",
+      "prompt": "Ton système de production est hors service et tu exiges une réponse en moins d'1 heure, 24/7. Quel plan de support minimum ?",
+      "answers": [
+        "Business",
+        "Developer",
+        "Basic",
+        "Aucun plan ne garantit ce délai"
+      ],
+      "correctIndex": 0,
+      "explanation": "Business offre un support 24/7 avec réponse < 1 h pour un système de production hors service. Developer ne couvre que les heures ouvrées.",
+      "services": [
+        "AWS Support"
+      ],
+      "tags": [
+        "billing",
+        "support",
+        "ccp"
+      ],
+      "problem": "Support"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Support",
+      "prompt": "Ton entreprise veut un accès à une équipe de Technical Account Managers sans payer le plan Enterprise complet. Quel plan de support choisir ?",
+      "answers": [
+        "Business",
+        "Enterprise On-Ramp",
+        "Developer",
+        "Basic avec option TAM"
+      ],
+      "correctIndex": 1,
+      "explanation": "Enterprise On-Ramp donne accès à un pool de TAM (non dédié), moins cher qu'Enterprise qui fournit un TAM désigné.",
+      "services": [
+        "AWS Support"
+      ],
+      "tags": [
+        "billing",
+        "support",
+        "ccp"
+      ],
+      "problem": "Support"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "CostManagement",
+      "prompt": "Tu revends du cloud à tes clients et veux leur présenter des factures avec des tarifs personnalisés, sans changer ta facture AWS réelle. Quel service ?",
+      "answers": [
+        "AWS Budgets",
+        "Cost Explorer",
+        "AWS Organizations",
+        "AWS Billing Conductor"
+      ],
+      "correctIndex": 3,
+      "explanation": "Billing Conductor crée des vues de facturation pro forma avec tarifs personnalisés pour tes clients ou entités, sans modifier la facture AWS réelle.",
+      "services": [
+        "Billing Conductor"
+      ],
+      "tags": [
+        "billing",
+        "costmanagement",
+        "ccp"
+      ],
+      "problem": "Facturation"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Billing",
+      "prompt": "Tu reçois des crédits AWS (programme promotionnel). Comment sont-ils appliqués à ta facture ?",
+      "answers": [
+        "Automatiquement sur l'usage des services éligibles, jusqu'à expiration",
+        "Versés en argent sur ton compte bancaire",
+        "Uniquement sur les frais de support",
+        "Jamais : les crédits ne réduisent pas la facture"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les crédits AWS sont déduits automatiquement de l'usage des services éligibles jusqu'à épuisement ou expiration. Ils ne sont pas remboursables en argent.",
+      "services": [
+        "Billing Console"
+      ],
+      "tags": [
+        "billing",
+        "credits",
+        "ccp"
+      ],
+      "problem": "Facturation"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Pricing",
+      "prompt": "Un service AWS est gratuit pendant une courte période à partir de son activation, puis devient payant. De quel type d'offre Free Tier s'agit-il ?",
+      "answers": [
+        "12 mois gratuits",
+        "Always free",
+        "Essai gratuit (trial)",
+        "Tarification Spot"
+      ],
+      "correctIndex": 2,
+      "explanation": "Les trials sont gratuits pour une durée courte dès l'activation du service. Les 12 mois démarrent à la création du compte ; always free n'expire jamais.",
+      "services": [
+        "Free Tier"
+      ],
+      "tags": [
+        "billing",
+        "pricing",
+        "ccp"
+      ],
+      "problem": "Tarification"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Billing",
+      "prompt": "Tu migres 500 Go depuis ton datacenter vers Amazon S3 via Internet. Combien coûte ce transfert de données entrant ?",
+      "answers": [
+        "Un tarif fixe par Go transféré",
+        "Rien : le transfert entrant est gratuit",
+        "Le même prix que le transfert sortant",
+        "Un forfait mensuel obligatoire"
+      ],
+      "correctIndex": 1,
+      "explanation": "Le transfert de données entrant vers AWS est gratuit. C'est le transfert sortant vers Internet qui est facturé.",
+      "services": [
+        "S3"
+      ],
+      "tags": [
+        "billing",
+        "datatransfer",
+        "ccp"
+      ],
+      "problem": "Facturation"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "CostManagement",
+      "prompt": "Quelle différence est correcte entre AWS Pricing Calculator et Cost Explorer ?",
+      "answers": [
+        "Calculator estime des coûts futurs ; Cost Explorer analyse les coûts réels passés",
+        "Calculator analyse le passé ; Cost Explorer estime le futur",
+        "Les deux nécessitent un compte AWS actif",
+        "Cost Explorer sert uniquement à payer les factures"
+      ],
+      "correctIndex": 0,
+      "explanation": "Pricing Calculator estime le coût d'une architecture avant déploiement (sans compte requis). Cost Explorer visualise et analyse l'usage et les coûts réels.",
+      "services": [
+        "Pricing Calculator",
+        "Cost Explorer"
+      ],
+      "tags": [
+        "billing",
+        "costmanagement",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "CostManagement",
+      "prompt": "Quand AWS Cost Anomaly Detection repère une dépense inhabituelle, que fournit-il en plus de l'alerte ?",
+      "answers": [
+        "Un remboursement automatique de l'anomalie",
+        "L'arrêt immédiat des ressources concernées",
+        "Un ticket de support ouvert automatiquement",
+        "Une analyse des causes racines (service, compte, région concernés)"
+      ],
+      "correctIndex": 3,
+      "explanation": "Cost Anomaly Detection fournit une analyse des causes racines pour identifier le service, le compte ou la région à l'origine de l'anomalie. Il n'agit pas sur les ressources.",
+      "services": [
+        "Cost Anomaly Detection"
+      ],
+      "tags": [
+        "billing",
+        "costmanagement",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Billing",
+      "prompt": "Une organisation AWS regroupe 5 comptes avec facturation consolidée. Comment le Free Tier s'applique-t-il ?",
+      "answers": [
+        "Chaque compte bénéficie de son propre Free Tier",
+        "Une seule fois pour toute l'organisation",
+        "Le Free Tier est désactivé en facturation consolidée",
+        "Il est multiplié par le nombre de comptes"
+      ],
+      "correctIndex": 1,
+      "explanation": "Avec la facturation consolidée, le Free Tier s'applique une seule fois au niveau de l'organisation, pas une fois par compte membre.",
+      "services": [
+        "Organizations",
+        "Free Tier"
+      ],
+      "tags": [
+        "billing",
+        "freetier",
+        "ccp"
+      ],
+      "problem": "Facturation"
     }
   ]
 }
