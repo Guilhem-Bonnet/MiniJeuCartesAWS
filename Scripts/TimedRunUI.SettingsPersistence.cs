@@ -108,12 +108,37 @@ public partial class TimedRunUI : Control
             };
 
             var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
-            using var f = FileAccess.Open(SettingsPath, FileAccess.ModeFlags.Write);
-            f.StoreString(json);
+            AtomicWriteText(SettingsPath, json);
         }
         catch (Exception e)
         {
             GD.PushWarning($"[MiniJeuCartesAWS] Save settings failed: {e.Message}");
+        }
+    }
+
+    // Écriture atomique (temp + rename) : une coupure pendant l'écriture ne peut pas
+    // corrompre le fichier existant — au pire le .tmp est perdu.
+    private static void AtomicWriteText(string godotPath, string text)
+    {
+        var absPath = ProjectSettings.GlobalizePath(godotPath);
+        var tmpPath = absPath + ".tmp";
+        System.IO.File.WriteAllText(tmpPath, text);
+        System.IO.File.Move(tmpPath, absPath, overwrite: true);
+    }
+
+    // Met de côté un fichier illisible (.corrupt) au lieu de l'écraser silencieusement,
+    // pour permettre une récupération manuelle.
+    private static void BackupCorruptFile(string godotPath)
+    {
+        try
+        {
+            var absPath = ProjectSettings.GlobalizePath(godotPath);
+            if (System.IO.File.Exists(absPath))
+                System.IO.File.Move(absPath, absPath + ".corrupt", overwrite: true);
+        }
+        catch (Exception e)
+        {
+            GD.PushWarning($"[MiniJeuCartesAWS] Backup corrupt file failed: {e.Message}");
         }
     }
 

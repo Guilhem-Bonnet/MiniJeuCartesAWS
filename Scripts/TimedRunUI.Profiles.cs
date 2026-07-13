@@ -86,6 +86,7 @@ public partial class TimedRunUI : Control
         catch (Exception e)
         {
             GD.PushWarning($"[MiniJeuCartesAWS] Load profiles failed: {e.Message}");
+            BackupCorruptFile(ProfilesPath);
             _profileStore = new ProfileStore();
         }
         finally
@@ -99,8 +100,7 @@ public partial class TimedRunUI : Control
         try
         {
             var json = JsonSerializer.Serialize(_profileStore, new JsonSerializerOptions { WriteIndented = true });
-            using var f = FileAccess.Open(ProfilesPath, FileAccess.ModeFlags.Write);
-            f.StoreString(json);
+            AtomicWriteText(ProfilesPath, json);
         }
         catch (Exception e)
         {
