@@ -10,7 +10,16 @@ S'entraîner pour la certification **AWS Certified Cloud Practitioner** avec un 
 
 ## Principe
 
-Le jeu est un **timed run** en solo (offline) : répondre au maximum de questions avant la fin du chrono.
+Jeu solo offline. Quatre modes de jeu :
+
+| Mode | Règle |
+|------|-------|
+| **Chrono** | Répondre au maximum de questions avant la fin du chrono (durée réglable) |
+| **Infini** | Sans chrono, pour réviser tranquillement |
+| **Examen** | Simulation type examen (temps limité long) |
+| **Renforcement** | Déblocable — le tirage privilégie les questions ratées récemment |
+
+Les profils joueurs enregistrent les stats par question (réussites, séries d'erreurs), les meilleurs scores et les succès.
 
 Boucle (ressenti “jeu de cartes”) :
 1. Une carte apparaît face avant avec une question et 4 réponses
@@ -46,8 +55,6 @@ Note : à ce stade, la persistance historique n’est pas l’objectif principal
 - Lisibilité avant tout (texte sur la carte, contrastes).
 - Pas de punition “hard” : l’erreur sert l’apprentissage.
 
-## Roadmap (plus tard)
+## Roadmap
 
-- Vrai deck sur la table (pile qui diminue + mélanger/reformer)
-- Packs de questions par certification (Associate/Professional/Specialty)
-- Révision ciblée (rejouer les erreurs)
+Voir `ROADMAP.md` (V7 : examen blanc complet ; V9 : packs par certification). Le deck physique et la révision ciblée (mode Renforcement) sont déjà en place.
