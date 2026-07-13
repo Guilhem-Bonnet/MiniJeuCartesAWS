@@ -65,15 +65,13 @@ public partial class TimedRunUI : Control
         _menuNewProfile = GetNodeOrNull<Button>("Margin/Center/CardPanel/CardMargin/VBox/ProfileRow/NewProfile");
         if (IsInstanceValid(_menuProfile))
         {
-            _menuProfile!.ItemSelected -= OnProfileSelected;
-            _menuProfile.ItemSelected += OnProfileSelected;
+            ConnectOnce(_menuProfile, "item_selected", Callable.From<long>(OnProfileSelected));
             RefreshProfileOption();
         }
 
         if (IsInstanceValid(_menuNewProfile))
         {
-            _menuNewProfile!.Pressed -= OpenNewProfileDialog;
-            _menuNewProfile.Pressed += OpenNewProfileDialog;
+            ConnectOnce(_menuNewProfile, "pressed", Callable.From(OpenNewProfileDialog));
         }
 
         // Certification (deck)
@@ -93,8 +91,7 @@ public partial class TimedRunUI : Control
             }
 
             _menuCertification.Disabled = false;
-            _menuCertification.ItemSelected -= OnCertificationSelected;
-            _menuCertification.ItemSelected += OnCertificationSelected;
+            ConnectOnce(_menuCertification, "item_selected", Callable.From<long>(OnCertificationSelected));
         }
 
         // Type de jeu
@@ -115,8 +112,7 @@ public partial class TimedRunUI : Control
 
             _menuTrainingDifficulty.Selected = (int)_selectedTrainingDifficulty;
 
-            _menuTrainingDifficulty.ItemSelected -= OnTrainingDifficultySelected;
-            _menuTrainingDifficulty.ItemSelected += OnTrainingDifficultySelected;
+            ConnectOnce(_menuTrainingDifficulty, "item_selected", Callable.From<long>(OnTrainingDifficultySelected));
         }
 
         // Menu buttons
@@ -133,26 +129,22 @@ public partial class TimedRunUI : Control
         if (IsInstanceValid(_menuSettingsButton))
         {
             // Events C# (sûrs): retirer puis ré-ajouter évite les doublons sans dépendre des signaux.
-            _menuSettingsButton!.Pressed -= OpenOptionsPopup;
-            _menuSettingsButton.Pressed += OpenOptionsPopup;
+            ConnectOnce(_menuSettingsButton, "pressed", Callable.From(OpenOptionsPopup));
         }
 
         if (IsInstanceValid(_menuQuitButton))
         {
-            _menuQuitButton!.Pressed -= QuitGame;
-            _menuQuitButton.Pressed += QuitGame;
+            ConnectOnce(_menuQuitButton, "pressed", Callable.From(QuitGame));
         }
 
         if (IsInstanceValid(_menuRulesButton))
         {
-            _menuRulesButton!.Pressed -= ToggleRules;
-            _menuRulesButton.Pressed += ToggleRules;
+            ConnectOnce(_menuRulesButton, "pressed", Callable.From(ToggleRules));
         }
 
         if (IsInstanceValid(_menuCoursesButton))
         {
-            _menuCoursesButton!.Pressed -= OpenCourseOverlay;
-            _menuCoursesButton.Pressed += OpenCourseOverlay;
+            ConnectOnce(_menuCoursesButton, "pressed", Callable.From(OpenCourseOverlay));
         }
 
         // Options popup (fenêtre séparée)
@@ -173,68 +165,57 @@ public partial class TimedRunUI : Control
 
         if (IsInstanceValid(_optionsCloseButton))
         {
-            _optionsCloseButton!.Pressed -= CloseOptionsPopup;
-            _optionsCloseButton.Pressed += CloseOptionsPopup;
+            ConnectOnce(_optionsCloseButton, "pressed", Callable.From(CloseOptionsPopup));
         }
 
         if (IsInstanceValid(_optionsApplyButton))
         {
-            _optionsApplyButton!.Pressed -= ApplyOptions;
-            _optionsApplyButton.Pressed += ApplyOptions;
+            ConnectOnce(_optionsApplyButton, "pressed", Callable.From(ApplyOptions));
         }
 
         if (IsInstanceValid(_optionsEnableAudio))
         {
-            _optionsEnableAudio!.Toggled -= OnPendingEnableAudio;
-            _optionsEnableAudio.Toggled += OnPendingEnableAudio;
+            ConnectOnce(_optionsEnableAudio, "toggled", Callable.From<bool>(OnPendingEnableAudio));
         }
 
         if (IsInstanceValid(_optionsEnableAmbience))
         {
-            _optionsEnableAmbience!.Toggled -= OnPendingEnableAmbience;
-            _optionsEnableAmbience.Toggled += OnPendingEnableAmbience;
+            ConnectOnce(_optionsEnableAmbience, "toggled", Callable.From<bool>(OnPendingEnableAmbience));
         }
 
         if (IsInstanceValid(_optionsSfxVolume))
         {
-            _optionsSfxVolume!.ValueChanged -= OnPendingSfxVolume;
-            _optionsSfxVolume.ValueChanged += OnPendingSfxVolume;
+            ConnectOnce(_optionsSfxVolume, "value_changed", Callable.From<double>(OnPendingSfxVolume));
         }
 
         if (IsInstanceValid(_optionsAmbienceVolume))
         {
-            _optionsAmbienceVolume!.ValueChanged -= OnPendingAmbienceVolume;
-            _optionsAmbienceVolume.ValueChanged += OnPendingAmbienceVolume;
+            ConnectOnce(_optionsAmbienceVolume, "value_changed", Callable.From<double>(OnPendingAmbienceVolume));
         }
 
         if (IsInstanceValid(_optionsTimeLimit))
         {
-            _optionsTimeLimit!.ValueChanged -= OnPendingTimeLimit;
-            _optionsTimeLimit.ValueChanged += OnPendingTimeLimit;
+            ConnectOnce(_optionsTimeLimit, "value_changed", Callable.From<double>(OnPendingTimeLimit));
         }
 
         if (IsInstanceValid(_optionsExamTimeLimit))
         {
-            _optionsExamTimeLimit!.ValueChanged -= OnPendingExamTimeLimit;
-            _optionsExamTimeLimit.ValueChanged += OnPendingExamTimeLimit;
+            ConnectOnce(_optionsExamTimeLimit, "value_changed", Callable.From<double>(OnPendingExamTimeLimit));
         }
 
         if (IsInstanceValid(_optionsFullscreen))
         {
-            _optionsFullscreen!.Toggled -= OnPendingFullscreen;
-            _optionsFullscreen.Toggled += OnPendingFullscreen;
+            ConnectOnce(_optionsFullscreen, "toggled", Callable.From<bool>(OnPendingFullscreen));
         }
 
         if (IsInstanceValid(_optionsVsync))
         {
-            _optionsVsync!.Toggled -= OnPendingVsync;
-            _optionsVsync.Toggled += OnPendingVsync;
+            ConnectOnce(_optionsVsync, "toggled", Callable.From<bool>(OnPendingVsync));
         }
 
         if (IsInstanceValid(_optionsResolution))
         {
-            _optionsResolution!.ItemSelected -= OnPendingResolution;
-            _optionsResolution.ItemSelected += OnPendingResolution;
+            ConnectOnce(_optionsResolution, "item_selected", Callable.From<long>(OnPendingResolution));
 
             _optionsResolution.Clear();
             for (var i = 0; i < ResolutionPresets.Length; i++)
@@ -315,7 +296,6 @@ public partial class TimedRunUI : Control
 
         var unlocked = IsReinforcementUnlocked(GetCurrentProfile());
 
-        _menuGameMode!.ItemSelected -= OnGameModeSelected;
         _menuGameMode.Clear();
 
         _menuGameMode.AddItem(GetGameModeLabel(GameMode.Chrono), (int)GameMode.Chrono);
@@ -332,7 +312,7 @@ public partial class TimedRunUI : Control
             _selectedGameMode = GameMode.Chrono;
 
         _menuGameMode.Selected = FindGameModeIndex(_menuGameMode, (int)_selectedGameMode);
-        _menuGameMode.ItemSelected += OnGameModeSelected;
+        ConnectOnce(_menuGameMode, "item_selected", Callable.From<long>(OnGameModeSelected));
     }
 
     private static int FindGameModeIndex(OptionButton b, int itemId)

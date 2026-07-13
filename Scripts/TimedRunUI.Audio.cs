@@ -24,16 +24,14 @@ public partial class TimedRunUI : Control
         _sfxFlip = scene.GetNodeOrNull<AudioStreamPlayer3D>("Audio3D/SfxFlip");
         _sfxDraw = scene.GetNodeOrNull<AudioStreamPlayer3D>("Audio3D/SfxDraw");
         _sfxShuffle = scene.GetNodeOrNull<AudioStreamPlayer3D>("Audio3D/SfxShuffle");
-        _sfxCorrect = scene.GetNodeOrNull<AudioStreamPlayer3D>("Audio3D/SfxCorrect");
-        _sfxWrong = scene.GetNodeOrNull<AudioStreamPlayer3D>("Audio3D/SfxWrong");
         _ambience = scene.GetNodeOrNull<AudioStreamPlayer3D>("Audio3D/Ambience");
 
         if (!IsInstanceValid(_sfxFlip) && !IsInstanceValid(_sfxDraw) && !IsInstanceValid(_ambience))
-            GD.PushWarning("[MiniJeuCartesAWS] Audio3D introuvable (attendu: Audio3D/SfxFlip,SfxDraw,SfxShuffle,SfxCorrect,SfxWrong,Ambience)");
+            GD.PushWarning("[MiniJeuCartesAWS] Audio3D introuvable (attendu: Audio3D/SfxFlip,SfxDraw,SfxShuffle,Ambience)");
         else if (!_audioInitLogged)
         {
             _audioInitLogged = true;
-            GD.Print($"[MiniJeuCartesAWS] Audio3D OK: flip={_sfxFlip?.Stream?.ResourcePath ?? "null"}, draw={_sfxDraw?.Stream?.ResourcePath ?? "null"}, shuffle={_sfxShuffle?.Stream?.ResourcePath ?? "null"}, correct={_sfxCorrect?.Stream?.ResourcePath ?? "null"}, wrong={_sfxWrong?.Stream?.ResourcePath ?? "null"}, amb={_ambience?.Stream?.ResourcePath ?? "null"}");
+            GD.Print($"[MiniJeuCartesAWS] Audio3D OK: flip={_sfxFlip?.Stream?.ResourcePath ?? "null"}, draw={_sfxDraw?.Stream?.ResourcePath ?? "null"}, shuffle={_sfxShuffle?.Stream?.ResourcePath ?? "null"}, amb={_ambience?.Stream?.ResourcePath ?? "null"}");
         }
 
         // Si le bus custom n'existe pas (layout non chargé), fallback sur Master.
@@ -44,8 +42,6 @@ public partial class TimedRunUI : Control
             if (IsInstanceValid(_sfxFlip)) _sfxFlip!.Bus = "Master";
             if (IsInstanceValid(_sfxDraw)) _sfxDraw!.Bus = "Master";
             if (IsInstanceValid(_sfxShuffle)) _sfxShuffle!.Bus = "Master";
-            if (IsInstanceValid(_sfxCorrect)) _sfxCorrect!.Bus = "Master";
-            if (IsInstanceValid(_sfxWrong)) _sfxWrong!.Bus = "Master";
         }
         if (!hasAmbienceBus)
         {
@@ -65,8 +61,6 @@ public partial class TimedRunUI : Control
         if (IsInstanceValid(_sfxFlip)) _sfxFlip!.VolumeDb = sfxDb;
         if (IsInstanceValid(_sfxDraw)) _sfxDraw!.VolumeDb = sfxDb;
         if (IsInstanceValid(_sfxShuffle)) _sfxShuffle!.VolumeDb = sfxDb;
-        if (IsInstanceValid(_sfxCorrect)) _sfxCorrect!.VolumeDb = sfxDb;
-        if (IsInstanceValid(_sfxWrong)) _sfxWrong!.VolumeDb = sfxDb;
         if (IsInstanceValid(_ambience)) _ambience!.VolumeDb = ambDb;
 
         // Ambience

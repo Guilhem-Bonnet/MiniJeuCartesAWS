@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://3evg2a3lhjsp" path="res://Scripts/TimedRunUI.cs" id="1"]
 [ext_resource type="AudioStream" uid="uid://divq8tiwuth63" path="res://Assets/Audio/SFX/card-flip.mp3" id="1_c2h2b"]
 [ext_resource type="AudioStream" uid="uid://se7mkbghy8j4" path="res://Assets/Audio/SFX/keyswipe-card-103918-Rework.mp3" id="2_1y7wl"]
-[ext_resource type="AudioStream" uid="uid://bia3hn1igqnvc" path="res://Assets/Audio/Ambience/35-snowfall-music-box-449840.mp3" id="3_bbhl4"]
+[ext_resource type="AudioStream" uid="uid://erocmx7b2pst" path="res://Assets/Audio/Ambience/35-snowfall-music-box-449840.ogg" id="3_bbhl4"]
 [ext_resource type="PackedScene" uid="uid://bcgp8fxvsckpv" path="res://Assets/3D/Flower Pot/FlowerPot2.fbx" id="3_qbgkv"]
 [ext_resource type="Shader" uid="uid://cp4mduw7b1x03" path="res://Assets/Shaders/card_collector.gdshader" id="4"]
 [ext_resource type="PackedScene" uid="uid://bcd25lstfoqq4" path="res://Scenes/CardUI/CardFrontUI.tscn" id="20_cardfront"]
@@ -29,6 +29,12 @@ background_mode = 1
 background_color = Color(0.03, 0.04, 0.06, 1)
 ambient_light_source = 1
 ambient_light_color = Color(0.35, 0.4, 0.55, 1)
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 0.55
+glow_bloom = 0.12
+glow_blend_mode = 1
+glow_hdr_threshold = 1.0
 
 [sub_resource type="Animation" id="Animation_c2h2b"]
 length = 0.001
@@ -384,6 +390,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.976105, 0.5500001, 0.49958
 light_color = Color(1, 0.78, 0.58, 1)
 light_energy = 2.2
 omni_range = 4.0
+shadow_enabled = true
 
 [node name="WarmLamp2" type="OmniLight3D" parent="Set"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.83167446, 0.7806605, 0.063020274)
@@ -434,6 +441,7 @@ light_energy = 10.213
 light_indirect_energy = 5.307
 spot_range = 11.848374
 spot_angle = 24.44
+shadow_enabled = true
 
 [node name="store" type="MeshInstance3D" parent="Set"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34254915, 1.059881, -2.9967992)

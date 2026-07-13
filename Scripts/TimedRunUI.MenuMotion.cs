@@ -10,30 +10,33 @@ public partial class TimedRunUI : Control
     private float _hoverQuit;
     private double _menuPulseTime;
 
+    private static void ConnectOnce(GodotObject? o, StringName signal, Callable callable)
+    {
+        if (!IsInstanceValid(o))
+            return;
+        if (o!.IsConnected(signal, callable))
+            return;
+        o.Connect(signal, callable);
+    }
+
     private void HookMenuHover(Control? startBtn, Control? settingsBtn, Control? quitBtn)
     {
         if (IsInstanceValid(startBtn))
         {
-            startBtn!.MouseEntered -= OnStartHoverEnter;
-            startBtn.MouseEntered += OnStartHoverEnter;
-            startBtn.MouseExited -= OnStartHoverExit;
-            startBtn.MouseExited += OnStartHoverExit;
+            ConnectOnce(startBtn, "mouse_entered", Callable.From(OnStartHoverEnter));
+            ConnectOnce(startBtn, "mouse_exited", Callable.From(OnStartHoverExit));
         }
 
         if (IsInstanceValid(settingsBtn))
         {
-            settingsBtn!.MouseEntered -= OnSettingsHoverEnter;
-            settingsBtn.MouseEntered += OnSettingsHoverEnter;
-            settingsBtn.MouseExited -= OnSettingsHoverExit;
-            settingsBtn.MouseExited += OnSettingsHoverExit;
+            ConnectOnce(settingsBtn, "mouse_entered", Callable.From(OnSettingsHoverEnter));
+            ConnectOnce(settingsBtn, "mouse_exited", Callable.From(OnSettingsHoverExit));
         }
 
         if (IsInstanceValid(quitBtn))
         {
-            quitBtn!.MouseEntered -= OnQuitHoverEnter;
-            quitBtn.MouseEntered += OnQuitHoverEnter;
-            quitBtn.MouseExited -= OnQuitHoverExit;
-            quitBtn.MouseExited += OnQuitHoverExit;
+            ConnectOnce(quitBtn, "mouse_entered", Callable.From(OnQuitHoverEnter));
+            ConnectOnce(quitBtn, "mouse_exited", Callable.From(OnQuitHoverExit));
         }
     }
 

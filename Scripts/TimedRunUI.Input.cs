@@ -77,14 +77,7 @@ public partial class TimedRunUI : Control
             return;
         }
 
-        // Clavier 1–4 (plus "tôt" que _UnhandledInput)
-        if (@event is InputEventKey key && key.Pressed)
-        {
-            if (key.Keycode == Key.Key1) Choose(0);
-            else if (key.Keycode == Key.Key2) Choose(1);
-            else if (key.Keycode == Key.Key3) Choose(2);
-            else if (key.Keycode == Key.Key4) Choose(3);
-        }
+        // Clavier 1–4: géré uniquement dans _UnhandledInput pour éviter un double traitement.
     }
 
     private void TryChooseByCardClick()

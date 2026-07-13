@@ -289,8 +289,7 @@ public partial class TimedRunUI : Control
         if (IsInstanceValid(_cardAnim))
         {
             // Evite les doublons en hot-reload.
-            _cardAnim!.AnimationFinished -= OnCardAnimationFinished;
-            _cardAnim!.AnimationFinished += OnCardAnimationFinished;
+            ConnectOnce(_cardAnim, "animation_finished", Callable.From<StringName>(OnCardAnimationFinished));
         }
         _cardRigOffset = EnsureOffsetParent(_cardRig, "CardRigOffset");
         _sparkles = GetNode<GpuParticles3D>("../../CardRig/Sparkles");
@@ -365,8 +364,7 @@ public partial class TimedRunUI : Control
         _deckAnim = GetNodeOrNull<AnimationPlayer>("../../Set/DeckRig/DeckAnim");
         if (IsInstanceValid(_deckAnim))
         {
-            _deckAnim!.AnimationFinished -= OnDeckAnimationFinished;
-            _deckAnim!.AnimationFinished += OnDeckAnimationFinished;
+            ConnectOnce(_deckAnim, "animation_finished", Callable.From<StringName>(OnDeckAnimationFinished));
         }
         if (IsInstanceValid(_deckRig))
             _deckRigOffset = EnsureOffsetParent(_deckRig!, "DeckRigOffset");

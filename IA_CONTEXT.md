@@ -14,7 +14,7 @@ Mini-jeu offline de cartes pour réviser AWS Cloud Practitioner.
 
 ## État technique
 
-- Moteur : Godot 4.5.1 Mono
+- Moteur : Godot 4.6.3 Mono
 - Langage : C# (.NET via Godot)
 - Données : JSON (deck) + textures procédurales runtime
 - Plateforme : desktop
@@ -41,7 +41,6 @@ Les NodePaths sont importants car `TimedRunUI.cs` fait des `GetNode<>()`.
 ### Racine
 - `Main3D` (Node3D)
   - `WorldEnvironment`
-  - `Sun` (DirectionalLight3D)
   - `Camera` (Camera3D)
   - `Set` (Node3D)
     - `Table` (MeshInstance3D)
@@ -127,7 +126,7 @@ Validation runtime actuelle (dans `LoadDeck()`):
 
 ## Outils disponibles (dans ce repo)
 
-- Godot 4.5.1 Mono
+- Godot 4.6.3 Mono
 - .NET `dotnet` (build)
 - Pas de Blender (à vérifier selon machine; sur cet environnement la commande n’était pas trouvée).
 

@@ -59,14 +59,13 @@ public partial class TimedRunUI : Control
         if (parent3d.Name == offsetName)
             return parent3d;
 
-        var offset = new Node3D { Name = offsetName };
-        parent3d.AddChild(offset);
-
-        offset.GlobalTransform = node.GlobalTransform;
-        parent3d.RemoveChild(node);
-        offset.AddChild(node);
+        // On ne reparente PLUS à chaud : faire AddChild/RemoveChild pendant _Ready
+        // déclenche "Parent node is busy setting up children" et l'offset finissait
+        // orphelin (hors-arbre) dans tous les cas — le jeu tourne déjà sur ce fallback.
+        // On reproduit donc ce comportement effectif (offset hors-arbre = writes sur
+        // son transform sans effet) sans générer d'erreurs au démarrage.
         node.Transform = Transform3D.Identity;
-        return offset;
+        return new Node3D { Name = offsetName };
     }
 
     private static bool TryGetAnimTransformSample(Animation anim, double time, out Transform3D transform)
@@ -293,7 +292,6 @@ public partial class TimedRunUI : Control
     private void FxCorrect()
     {
         SuppressIdle(0.30);
-        PlaySfx(_sfxCorrect, pitch: 0.98f + (float)_rng.NextDouble() * 0.05f);
 
         if (IsInstanceValid(_sparkles))
         {
@@ -306,7 +304,6 @@ public partial class TimedRunUI : Control
     private void FxWrong()
     {
         SuppressIdle(0.20);
-        PlaySfx(_sfxWrong, pitch: 0.98f + (float)_rng.NextDouble() * 0.05f);
     }
 
     private void AnimateCardIdle()

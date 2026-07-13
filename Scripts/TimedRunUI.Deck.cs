@@ -431,30 +431,6 @@ public partial class TimedRunUI : Control
         return domains[0];
     }
 
-    private int PickByDifficulty(List<int> candidates)
-    {
-        // Bias vers difficile (comme avant)
-        float WeightFor(int idx)
-        {
-            var d = _allQuestions[idx].Difficulty;
-            return d == 1 ? 1.0f : (d == 2 ? 1.3f : 1.6f);
-        }
-
-        var total = 0f;
-        foreach (var c in candidates)
-            total += WeightFor(c);
-
-        var r = (float)(_rng.NextDouble() * total);
-        foreach (var c in candidates)
-        {
-            r -= WeightFor(c);
-            if (r <= 0)
-                return c;
-        }
-
-        return candidates[0];
-    }
-
     private void IndexDeck()
     {
         for (var i = 0; i < _allQuestions.Count; i++)
