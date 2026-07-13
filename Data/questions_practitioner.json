@@ -509,29 +509,6 @@
       "problem": "Coûts"
     },
     {
-      "domain": "Billing",
-      "difficulty": 3,
-      "category": "CostAllocation",
-      "prompt": "Pour ventiler les coûts par équipe/projet, quelle pratique est la plus adaptée ?",
-      "answers": [
-        "Utiliser des tags de cost allocation",
-        "Créer un VPC par équipe",
-        "Activer MFA pour tous",
-        "Utiliser uniquement S3"
-      ],
-      "correctIndex": 0,
-      "explanation": "Les tags (cost allocation) aident à attribuer les coûts et à faire des rapports.",
-      "services": [
-        "Cost Allocation Tags"
-      ],
-      "tags": [
-        "billing",
-        "costallocation",
-        "ccp"
-      ],
-      "problem": "Coûts"
-    },
-    {
       "domain": "Security",
       "difficulty": 3,
       "category": "Encryption",
@@ -1177,29 +1154,6 @@
         "ccp"
       ],
       "problem": "Stockage"
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Networking",
-      "prompt": "Quel service permet une connexion réseau dédiée entre on-premises et AWS ?",
-      "answers": [
-        "AWS Direct Connect",
-        "Amazon CloudFront",
-        "Amazon Route 53",
-        "AWS WAF"
-      ],
-      "correctIndex": 0,
-      "explanation": "Direct Connect fournit une liaison dédiée (souvent plus stable et avec latence prévisible) entre votre réseau et AWS.",
-      "services": [
-        "Route 53"
-      ],
-      "tags": [
-        "technology",
-        "networking",
-        "ccp"
-      ],
-      "problem": "Réseau"
     },
     {
       "domain": "Technology",
@@ -2904,29 +2858,6 @@
     {
       "domain": "Security",
       "difficulty": 2,
-      "category": "ThreatDetection",
-      "problem": "Sécurité",
-      "services": [
-        "GuardDuty"
-      ],
-      "tags": [
-        "security",
-        "threat-detection",
-        "ccp"
-      ],
-      "prompt": "Quel service détecte des menaces en analysant les logs (CloudTrail, VPC Flow Logs, DNS) ?",
-      "answers": [
-        "Amazon GuardDuty",
-        "AWS Budgets",
-        "Amazon Route 53",
-        "AWS CloudFormation"
-      ],
-      "correctIndex": 0,
-      "explanation": "GuardDuty agrège/analyse plusieurs sources pour détecter des comportements suspects."
-    },
-    {
-      "domain": "Security",
-      "difficulty": 2,
       "category": "DataClassification",
       "problem": "Sécurité",
       "services": [
@@ -2995,29 +2926,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Shield Standard protège contre des attaques DDoS courantes; Shield Advanced ajoute des protections/supports supplémentaires."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "Storage",
-      "problem": "Stockage",
-      "services": [
-        "EBS"
-      ],
-      "tags": [
-        "storage",
-        "block",
-        "ccp"
-      ],
-      "prompt": "Quel service fournit un stockage bloc persistant attaché à une instance EC2 (comme un disque) ?",
-      "answers": [
-        "Amazon EBS",
-        "Amazon S3",
-        "Amazon Glacier",
-        "Amazon Route 53"
-      ],
-      "correctIndex": 0,
-      "explanation": "EBS fournit des volumes bloc attachés à EC2."
     },
     {
       "domain": "Technology",
@@ -3138,30 +3046,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Snowball permet des transferts de données offline à grande échelle avec des appliances."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Containers",
-      "problem": "Calcul",
-      "services": [
-        "ECS",
-        "Fargate"
-      ],
-      "tags": [
-        "containers",
-        "serverless",
-        "ccp"
-      ],
-      "prompt": "Quel service permet d'exécuter des conteneurs sans gérer les serveurs sous-jacents (mode serverless) ?",
-      "answers": [
-        "AWS Fargate",
-        "Amazon EBS",
-        "AWS Artifact",
-        "Amazon S3"
-      ],
-      "correctIndex": 0,
-      "explanation": "Fargate exécute des tâches ECS/EKS sans gérer d'instances."
     },
     {
       "domain": "Technology",
@@ -3347,29 +3231,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Multi-AZ fournit un déploiement standby synchronisé et un failover automatique; les Read Replicas ciblent la lecture/scaling."
-    },
-    {
-      "domain": "Security",
-      "difficulty": 2,
-      "category": "Compliance",
-      "problem": "Conformité",
-      "services": [
-        "Artifact"
-      ],
-      "tags": [
-        "compliance",
-        "reports",
-        "ccp"
-      ],
-      "prompt": "Quel service donne accès à des rapports de conformité et accords (SOC, ISO, etc.) pour AWS ?",
-      "answers": [
-        "AWS Artifact",
-        "AWS Budgets",
-        "Amazon SQS",
-        "Amazon EFS"
-      ],
-      "correctIndex": 0,
-      "explanation": "Artifact centralise des rapports et documents liés à la conformité."
     },
     {
       "domain": "Security",
@@ -4174,31 +4035,6 @@
       ],
       "correctIndex": 0,
       "explanation": "Le détail “multi-comptes + SCP + facturation consolidée” correspond à Organizations."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 2,
-      "category": "Analytics",
-      "problem": "Analytique",
-      "services": [
-        "Athena"
-      ],
-      "tags": [
-        "course",
-        "analytics",
-        "athena",
-        "s3",
-        "ccp"
-      ],
-      "prompt": "Tu veux exécuter des requêtes SQL directement sur des fichiers stockés dans S3, sans provisionner de serveur. Quel service choisir ?",
-      "answers": [
-        "Amazon Athena",
-        "Amazon Redshift",
-        "Amazon RDS",
-        "Amazon QuickSight"
-      ],
-      "correctIndex": 0,
-      "explanation": "Le détail “SQL sur S3 sans serveur à gérer” correspond à Athena."
     },
     {
       "domain": "Technology",
@@ -8727,33 +8563,6 @@
       "category": "ML",
       "problem": "À ne pas confondre",
       "services": [
-        "Lex"
-      ],
-      "tags": [
-        "confusable",
-        "scenario",
-        "ml",
-        "chatbot",
-        "trap",
-        "advanced",
-        "ccp"
-      ],
-      "prompt": "Tu veux créer un chatbot qui comprend les demandes des utilisateurs (intentions). Quel service utiliser ?",
-      "answers": [
-        "Amazon Lex",
-        "Amazon Comprehend",
-        "Amazon Polly",
-        "Amazon Connect"
-      ],
-      "correctIndex": 0,
-      "explanation": "Lex = chatbots/voicebots conversationnels."
-    },
-    {
-      "domain": "Technology",
-      "difficulty": 3,
-      "category": "ML",
-      "problem": "À ne pas confondre",
-      "services": [
         "Polly"
       ],
       "tags": [
@@ -10136,6 +9945,1322 @@
       ],
       "correctIndex": 0,
       "explanation": "Connect = centre de contact complet. Lex = chatbot seul."
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "CloudValue",
+      "prompt": "Quel est un avantage économique majeur du cloud AWS par rapport à un datacenter classique ?",
+      "answers": [
+        "Payer uniquement les ressources consommées",
+        "Acheter tous les serveurs à l'avance",
+        "Des coûts fixes quel que soit l'usage",
+        "Gérer soi-même le matériel"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le cloud remplace les dépenses d'investissement (CAPEX) par un modèle à l'usage (OPEX).",
+      "services": [],
+      "tags": [
+        "cloud-concepts",
+        "cost",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Valeur du cloud"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Elasticity",
+      "prompt": "Comment appelle-t-on la capacité du cloud à ajouter ou retirer des ressources selon la demande ?",
+      "answers": [
+        "L'élasticité",
+        "La colocation",
+        "La virtualisation figée",
+        "Le sur-provisionnement"
+      ],
+      "correctIndex": 0,
+      "explanation": "L'élasticité adapte automatiquement la capacité à la charge réelle.",
+      "services": [],
+      "tags": [
+        "cloud-concepts",
+        "elasticity",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Élasticité"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "SharedResponsibility",
+      "prompt": "Dans le modèle de responsabilité partagée, de quoi AWS est-il responsable ?",
+      "answers": [
+        "La sécurité DU cloud (infrastructure)",
+        "La configuration des groupes de sécurité du client",
+        "Le chiffrement des données du client",
+        "La gestion des utilisateurs IAM"
+      ],
+      "correctIndex": 0,
+      "explanation": "AWS gère la sécurité DU cloud ; le client gère la sécurité DANS le cloud.",
+      "services": [],
+      "tags": [
+        "cloud-concepts",
+        "security",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Responsabilité partagée"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "HighAvailability",
+      "prompt": "Pour améliorer la disponibilité d'une application, sur quoi faut-il la répartir ?",
+      "answers": [
+        "Plusieurs zones de disponibilité (AZ)",
+        "Un seul serveur puissant",
+        "Une seule zone de disponibilité",
+        "Un seul disque EBS"
+      ],
+      "correctIndex": 0,
+      "explanation": "Répartir sur plusieurs AZ protège contre la panne d'un centre de données.",
+      "services": [],
+      "tags": [
+        "cloud-concepts",
+        "availability",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Haute disponibilité"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "GlobalInfra",
+      "prompt": "Qu'est-ce qu'une Région AWS ?",
+      "answers": [
+        "Une zone géographique regroupant plusieurs zones de disponibilité",
+        "Un seul serveur physique",
+        "Un type d'instance EC2",
+        "Un service de facturation"
+      ],
+      "correctIndex": 0,
+      "explanation": "Une Région est une zone géographique contenant plusieurs AZ isolées.",
+      "services": [],
+      "tags": [
+        "cloud-concepts",
+        "regions",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Infrastructure mondiale"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "Agility",
+      "prompt": "Quel bénéfice du cloud permet de déployer une application dans le monde entier en quelques minutes ?",
+      "answers": [
+        "L'agilité et la portée mondiale",
+        "L'achat de matériel local",
+        "Les contrats matériels longue durée",
+        "La maintenance manuelle"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le cloud offre agilité et déploiement mondial rapide via les Régions AWS.",
+      "services": [],
+      "tags": [
+        "cloud-concepts",
+        "agility",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Agilité"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 1,
+      "category": "EdgeLocations",
+      "prompt": "À quoi servent principalement les 'edge locations' d'AWS ?",
+      "answers": [
+        "Mettre en cache le contenu près des utilisateurs (CDN)",
+        "Stocker les sauvegardes long terme",
+        "Héberger les bases de données principales",
+        "Gérer les identités"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les edge locations (CloudFront) rapprochent le contenu des utilisateurs pour réduire la latence.",
+      "services": [
+        "CloudFront"
+      ],
+      "tags": [
+        "cloud-concepts",
+        "cdn",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Edge locations"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "CostTools",
+      "prompt": "Quel outil visualise et analyse les coûts et l'usage passés ?",
+      "answers": [
+        "AWS Cost Explorer",
+        "AWS Pricing Calculator",
+        "AWS Shield",
+        "Amazon Inspector"
+      ],
+      "correctIndex": 0,
+      "explanation": "Cost Explorer analyse l'historique des coûts et les tendances.",
+      "services": [
+        "Cost Explorer"
+      ],
+      "tags": [
+        "billing",
+        "cost",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Analyse des coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Budgets",
+      "prompt": "Quel service permet de définir des alertes quand les dépenses dépassent un seuil ?",
+      "answers": [
+        "AWS Budgets",
+        "AWS Config",
+        "Amazon Macie",
+        "AWS Artifact"
+      ],
+      "correctIndex": 0,
+      "explanation": "AWS Budgets déclenche des alertes de coût et d'usage.",
+      "services": [
+        "Budgets"
+      ],
+      "tags": [
+        "billing",
+        "alerts",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Alertes de budget"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Pricing",
+      "prompt": "Quel modèle offre une réduction en s'engageant sur 1 ou 3 ans d'utilisation ?",
+      "answers": [
+        "Les Savings Plans / Instances Réservées",
+        "Les instances Spot",
+        "Les instances à la demande",
+        "Le niveau gratuit"
+      ],
+      "correctIndex": 0,
+      "explanation": "Un engagement 1 ou 3 ans (Savings Plans / Reserved) réduit fortement le prix.",
+      "services": [
+        "Savings Plans"
+      ],
+      "tags": [
+        "billing",
+        "pricing",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Modèles de tarification"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Support",
+      "prompt": "Quel plan de support AWS est inclus gratuitement pour tous les comptes ?",
+      "answers": [
+        "Basic Support",
+        "Business Support",
+        "Enterprise Support",
+        "Developer Support"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le plan Basic est gratuit ; les autres sont payants.",
+      "services": [],
+      "tags": [
+        "billing",
+        "support",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Plans de support"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Organizations",
+      "prompt": "Quel service permet la facturation consolidée de plusieurs comptes AWS ?",
+      "answers": [
+        "AWS Organizations",
+        "AWS IAM",
+        "Amazon VPC",
+        "AWS Config"
+      ],
+      "correctIndex": 0,
+      "explanation": "Organizations regroupe les comptes et consolide la facturation.",
+      "services": [
+        "Organizations"
+      ],
+      "tags": [
+        "billing",
+        "organizations",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Facturation consolidée"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 1,
+      "category": "Pricing",
+      "prompt": "Quel modèle de tarification EC2 est le moins cher pour des charges interruptibles ?",
+      "answers": [
+        "Les instances Spot",
+        "Les instances à la demande",
+        "Les instances réservées",
+        "Les hôtes dédiés"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les instances Spot offrent jusqu'à ~90% de réduction mais peuvent être interrompues.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "pricing",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Tarification EC2"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "IAM",
+      "prompt": "Quel service gère les utilisateurs, groupes et permissions d'accès aux ressources AWS ?",
+      "answers": [
+        "AWS IAM",
+        "Amazon Route 53",
+        "Amazon S3",
+        "AWS Lambda"
+      ],
+      "correctIndex": 0,
+      "explanation": "IAM gère les identités et permissions (utilisateurs, rôles, politiques).",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Gestion des accès"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "RootAccount",
+      "prompt": "Quelle est une bonne pratique pour le compte racine (root) AWS ?",
+      "answers": [
+        "Activer le MFA et ne pas l'utiliser au quotidien",
+        "L'utiliser pour toutes les tâches quotidiennes",
+        "Partager ses identifiants avec l'équipe",
+        "Désactiver toute authentification"
+      ],
+      "correctIndex": 0,
+      "explanation": "On protège le root avec le MFA et on travaille avec des utilisateurs/rôles IAM.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "best-practice",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Compte racine"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 1,
+      "category": "Encryption",
+      "prompt": "Quel service gère la création et le contrôle des clés de chiffrement ?",
+      "answers": [
+        "AWS KMS",
+        "Amazon CloudWatch",
+        "AWS Cost Explorer",
+        "Amazon SNS"
+      ],
+      "correctIndex": 0,
+      "explanation": "KMS (Key Management Service) crée et gère les clés de chiffrement.",
+      "services": [
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "Chiffrement"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Networking",
+      "prompt": "Quel service est le réseau de diffusion de contenu (CDN) d'AWS ?",
+      "answers": [
+        "Amazon CloudFront",
+        "Amazon EBS",
+        "Amazon SQS",
+        "AWS KMS"
+      ],
+      "correctIndex": 0,
+      "explanation": "CloudFront distribue le contenu via des edge locations.",
+      "services": [
+        "CloudFront"
+      ],
+      "tags": [
+        "technology",
+        "cdn",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "CDN"
+    },
+    {
+      "domain": "Technology",
+      "difficulty": 1,
+      "category": "Networking",
+      "prompt": "Quel service fournit un DNS managé et évolutif ?",
+      "answers": [
+        "Amazon Route 53",
+        "Amazon EC2",
+        "Amazon RDS",
+        "AWS Lambda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Route 53 est le service DNS managé d'AWS.",
+      "services": [
+        "Route 53"
+      ],
+      "tags": [
+        "technology",
+        "dns",
+        "ccp",
+        "beginner"
+      ],
+      "problem": "DNS"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Migration",
+      "prompt": "Quelle stratégie de migration consiste à déplacer une application vers le cloud telle quelle, sans modification (lift-and-shift) ?",
+      "answers": [
+        "Rehost",
+        "Refactor",
+        "Repurchase",
+        "Retire"
+      ],
+      "correctIndex": 0,
+      "explanation": "Rehost (lift-and-shift) déplace l'application sans la modifier. Refactor la ré-architecture, Repurchase la remplace par un SaaS, Retire la décommissionne.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Migration",
+      "prompt": "Quelle stratégie de migration consiste à ré-architecturer une application pour la rendre cloud-native (ex: microservices, serverless) ?",
+      "answers": [
+        "Refactor (re-architect)",
+        "Rehost",
+        "Retain",
+        "Relocate"
+      ],
+      "correctIndex": 0,
+      "explanation": "Refactor ré-architecture l'application pour exploiter le cloud (serverless, microservices). Rehost déplace sans changement, Retain garde on-premises, Relocate déplace l'hyperviseur (ex: VMware).",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Migration",
+      "prompt": "Tu veux migrer une base de données on-premises vers AWS avec un minimum d'interruption. Quel service utiliser ?",
+      "answers": [
+        "AWS DMS (Database Migration Service)",
+        "AWS Snowball",
+        "Amazon Athena",
+        "AWS Config"
+      ],
+      "correctIndex": 0,
+      "explanation": "DMS migre des bases de données vers AWS en gardant la source opérationnelle pendant la migration (réplication continue). Snowball transfère des données en masse, pas spécifiquement des bases en ligne.",
+      "services": [
+        "DMS"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "database",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Migration",
+      "prompt": "Tu dois transférer 500 To de données vers AWS mais ta connexion Internet est lente. Quelle solution est la plus adaptée ?",
+      "answers": [
+        "AWS Snowball",
+        "AWS DataSync via Internet",
+        "Amazon Kinesis",
+        "AWS VPN"
+      ],
+      "correctIndex": 0,
+      "explanation": "Snowball est une appliance physique expédiée par AWS : idéale pour des volumes massifs quand le réseau est un goulot d'étranglement. DataSync passe par le réseau, donc inadapté ici.",
+      "services": [
+        "Snowball"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "storage",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "DisasterRecovery",
+      "prompt": "Quelle stratégie de reprise d'activité (DR) maintient une copie minimale de l'infrastructure critique, prête à monter en charge en cas de sinistre ?",
+      "answers": [
+        "Pilot light",
+        "Backup & restore",
+        "Multi-site actif-actif",
+        "Warm standby"
+      ],
+      "correctIndex": 0,
+      "explanation": "Pilot light garde le cœur critique allumé (ex: base répliquée) et démarre le reste au besoin. Warm standby maintient une version réduite mais complète ; multi-site fait tourner tout en double.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "disaster-recovery",
+        "ccp"
+      ],
+      "problem": "Résilience"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "DisasterRecovery",
+      "prompt": "Quelle stratégie de DR offre le RTO le plus faible (bascule quasi instantanée) ?",
+      "answers": [
+        "Multi-site actif-actif",
+        "Pilot light",
+        "Backup & restore",
+        "Warm standby"
+      ],
+      "correctIndex": 0,
+      "explanation": "En multi-site actif-actif, l'application tourne à pleine capacité sur plusieurs sites : la bascule est quasi instantanée (RTO minimal), mais c'est la stratégie la plus chère.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "disaster-recovery",
+        "ccp"
+      ],
+      "problem": "Résilience"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "DisasterRecovery",
+      "prompt": "Quelle stratégie de DR est la moins chère mais avec le temps de reprise (RTO) le plus long ?",
+      "answers": [
+        "Backup & restore",
+        "Multi-site actif-actif",
+        "Warm standby",
+        "Pilot light"
+      ],
+      "correctIndex": 0,
+      "explanation": "Backup & restore ne maintient aucune infrastructure de secours : on restaure depuis les sauvegardes après sinistre. Coût minimal, mais reprise la plus lente.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "disaster-recovery",
+        "ccp"
+      ],
+      "problem": "Résilience"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Hybrid",
+      "prompt": "Tu veux exécuter des services AWS (EC2, EBS) sur ta propre infrastructure on-premises, avec les mêmes API que le cloud AWS. Quelle offre choisir ?",
+      "answers": [
+        "AWS Outposts",
+        "AWS Direct Connect",
+        "AWS Local Zones",
+        "Amazon CloudFront"
+      ],
+      "correctIndex": 0,
+      "explanation": "Outposts installe du matériel AWS managé dans ton datacenter : mêmes services et API qu'en région. Direct Connect n'est qu'un lien réseau ; les Local Zones restent des sites AWS.",
+      "services": [
+        "Outposts"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "hybrid",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quelle infrastructure AWS rapproche calcul et stockage des grandes métropoles pour des latences très faibles (ex: rendu temps réel, gaming), en dehors des régions ?",
+      "answers": [
+        "AWS Local Zones",
+        "Les Availability Zones",
+        "AWS Wavelength",
+        "Les edge locations"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les Local Zones étendent une région dans une métropole pour des latences à un chiffre en ms. Wavelength cible les réseaux 5G des opérateurs ; les edge locations servent le CDN (CloudFront).",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "infrastructure",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "GlobalInfrastructure",
+      "prompt": "Quelle offre AWS intègre le calcul directement dans les réseaux 5G des opérateurs télécom pour une latence mobile ultra-faible ?",
+      "answers": [
+        "AWS Wavelength",
+        "AWS Local Zones",
+        "AWS Outposts",
+        "AWS Global Accelerator"
+      ],
+      "correctIndex": 0,
+      "explanation": "Wavelength place des ressources AWS au sein des réseaux 5G des opérateurs : le trafic mobile n'a pas à sortir du réseau télécom. Local Zones ciblent les métropoles, Outposts ton datacenter.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "infrastructure",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "CloudValue",
+      "prompt": "Quel avantage financier illustre le passage d'un datacenter on-premises au cloud AWS ?",
+      "answers": [
+        "Remplacer des dépenses d'investissement (CapEx) par des dépenses variables (OpEx)",
+        "Augmenter les dépenses d'investissement initiales",
+        "Payer les serveurs à l'avance sur 5 ans",
+        "Supprimer tous les coûts d'exploitation"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le cloud transforme les gros investissements matériels (CapEx) en dépenses variables à l'usage (OpEx) : on paie ce qu'on consomme, sans immobiliser du capital.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "value",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "Elasticity",
+      "prompt": "Quelle est la différence entre scalabilité horizontale et verticale ?",
+      "answers": [
+        "Horizontale : ajouter des instances ; verticale : augmenter la taille d'une instance",
+        "Horizontale : augmenter la taille d'une instance ; verticale : ajouter des instances",
+        "Les deux termes sont synonymes",
+        "Verticale signifie répartir sur plusieurs régions"
+      ],
+      "correctIndex": 0,
+      "explanation": "Scalabilité horizontale (scale out) = ajouter des instances en parallèle. Verticale (scale up) = grossir une instance existante (CPU/RAM). Le cloud facilite surtout l'horizontale.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "elasticity",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Architecture",
+      "prompt": "Quel concept d'architecture consiste à réduire les dépendances entre composants (ex: via une file de messages) pour améliorer la résilience ?",
+      "answers": [
+        "Le découplage (loose coupling)",
+        "Le couplage fort",
+        "La scalabilité verticale",
+        "Le monolithe"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le découplage isole les composants entre eux (ex: SQS entre un frontend et un traitement) : la panne de l'un n'entraîne pas l'autre. C'est une bonne pratique Well-Architected.",
+      "services": [
+        "SQS"
+      ],
+      "tags": [
+        "cloudconcepts",
+        "architecture",
+        "ccp"
+      ],
+      "problem": "Architecture"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "CloudValue",
+      "prompt": "Quelle affirmation décrit le mieux les « économies d'échelle » (economies of scale) d'AWS ?",
+      "answers": [
+        "AWS achète et mutualise massivement, ce qui réduit le coût unitaire répercuté aux clients",
+        "Chaque client négocie individuellement ses tarifs matériels",
+        "Les prix augmentent avec le nombre de clients",
+        "Les économies ne s'appliquent qu'aux grandes entreprises"
+      ],
+      "correctIndex": 0,
+      "explanation": "L'agrégation de la demande de millions de clients permet à AWS d'acheter à très grande échelle et de baisser ses prix — un des 6 avantages classiques du cloud.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "value",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 2,
+      "category": "CloudValue",
+      "prompt": "Quel bénéfice du cloud décrit le fait de ne plus avoir à deviner la capacité nécessaire à l'avance ?",
+      "answers": [
+        "« Stop guessing capacity » : on ajuste les ressources à la demande réelle",
+        "L'obligation de surdimensionner dès le départ",
+        "L'achat de matériel pour 5 ans",
+        "La capacité fixe garantie par contrat"
+      ],
+      "correctIndex": 0,
+      "explanation": "Dans le cloud, on provisionne selon la demande réelle et on ajuste en quelques minutes : plus besoin d'estimer la capacité des années à l'avance (ni de surpayer, ni de saturer).",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "value",
+        "elasticity",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "CloudConcepts",
+      "difficulty": 3,
+      "category": "Migration",
+      "prompt": "Tu veux comparer le coût total de possession (TCO) de ton infrastructure on-premises avec un équivalent AWS avant de migrer. Quel programme/outil AWS peut aider ?",
+      "answers": [
+        "Migration Evaluator",
+        "AWS Cost Explorer",
+        "AWS Budgets",
+        "AWS Trusted Advisor"
+      ],
+      "correctIndex": 0,
+      "explanation": "Migration Evaluator analyse ton parc on-premises et produit un business case de migration (TCO). Cost Explorer et Budgets ne travaillent que sur des coûts AWS existants.",
+      "services": [],
+      "tags": [
+        "cloudconcepts",
+        "migration",
+        "costs",
+        "ccp"
+      ],
+      "problem": "Migration"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Identity",
+      "prompt": "Quel service permet de gérer l'authentification unique (SSO) de tes employés vers plusieurs comptes AWS et applications ?",
+      "answers": [
+        "AWS IAM Identity Center (ex-AWS SSO)",
+        "Amazon Cognito",
+        "AWS KMS",
+        "AWS Directory Service"
+      ],
+      "correctIndex": 0,
+      "explanation": "IAM Identity Center centralise le SSO des employés vers plusieurs comptes AWS et applications. Cognito gère les identités des utilisateurs finaux de TES applications (sign-up/sign-in).",
+      "services": [
+        "IAM Identity Center"
+      ],
+      "tags": [
+        "security",
+        "identity",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Quel service fournit des identifiants de sécurité temporaires lorsqu'une entité assume un rôle IAM ?",
+      "answers": [
+        "AWS STS (Security Token Service)",
+        "AWS KMS",
+        "AWS Secrets Manager",
+        "AWS Certificate Manager"
+      ],
+      "correctIndex": 0,
+      "explanation": "STS émet des identifiants temporaires (clé, secret, token de session) quand on assume un rôle. C'est le mécanisme sous-jacent des rôles IAM.",
+      "services": [
+        "STS",
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Encryption",
+      "prompt": "Quel mécanisme protège les données « en transit » entre un client et AWS ?",
+      "answers": [
+        "Le chiffrement TLS/SSL (ex: HTTPS)",
+        "Le chiffrement des volumes EBS",
+        "Les snapshots EBS",
+        "Les tags de ressources"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les données en transit se protègent avec TLS/SSL (HTTPS, certificats via ACM). Le chiffrement EBS protège les données au repos, pas en transit.",
+      "services": [
+        "ACM"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Encryption",
+      "prompt": "Quel terme désigne le chiffrement des données stockées (S3, EBS, RDS) ?",
+      "answers": [
+        "Le chiffrement au repos (at rest)",
+        "Le chiffrement en transit (in transit)",
+        "Le hachage (hashing)",
+        "La tokenisation"
+      ],
+      "correctIndex": 0,
+      "explanation": "« At rest » = données stockées sur disque (S3, EBS, RDS…), souvent chiffrées via KMS. « In transit » = données qui circulent sur le réseau (TLS).",
+      "services": [
+        "KMS"
+      ],
+      "tags": [
+        "security",
+        "encryption",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Quel outil IAM permet de télécharger un rapport listant tous les utilisateurs et l'état de leurs identifiants (mot de passe, clés d'accès, MFA) ?",
+      "answers": [
+        "Le rapport d'identifiants IAM (credential report)",
+        "AWS CloudTrail",
+        "IAM Access Analyzer",
+        "AWS Trusted Advisor"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le credential report IAM (CSV téléchargeable) liste chaque utilisateur avec l'âge du mot de passe, la rotation des clés et l'état MFA — utile pour les audits.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "audit",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "IAM",
+      "prompt": "Quel outil aide à identifier les ressources (buckets S3, rôles IAM…) partagées avec des entités externes à ton compte ?",
+      "answers": [
+        "IAM Access Analyzer",
+        "Le credential report IAM",
+        "Amazon Inspector",
+        "AWS Shield"
+      ],
+      "correctIndex": 0,
+      "explanation": "Access Analyzer détecte les ressources accessibles depuis l'extérieur de ta zone de confiance (compte/organisation) : bucket public, rôle assumable par un tiers, etc.",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "iam",
+        "audit",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "RootAccount",
+      "prompt": "Quelle tâche ne peut être réalisée QUE par l'utilisateur root du compte AWS ?",
+      "answers": [
+        "Clôturer (fermer) le compte AWS",
+        "Créer un utilisateur IAM",
+        "Lancer une instance EC2",
+        "Créer un bucket S3"
+      ],
+      "correctIndex": 0,
+      "explanation": "Certaines actions sont réservées au root : fermer le compte, changer l'adresse email root, etc. Tout le reste doit se faire via des identités IAM (bonne pratique : ne pas utiliser root au quotidien).",
+      "services": [
+        "IAM"
+      ],
+      "tags": [
+        "security",
+        "root",
+        "ccp"
+      ],
+      "problem": "Identité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "ThreatDetection",
+      "prompt": "Après une alerte GuardDuty, quel service aide à investiguer la cause racine en analysant les relations entre événements et ressources ?",
+      "answers": [
+        "Amazon Detective",
+        "Amazon Macie",
+        "AWS Config",
+        "Amazon Athena"
+      ],
+      "correctIndex": 0,
+      "explanation": "Detective agrège logs et findings (GuardDuty, VPC Flow Logs, CloudTrail) et construit un graphe pour investiguer un incident. Macie cible les données sensibles S3.",
+      "services": [
+        "Detective",
+        "GuardDuty"
+      ],
+      "tags": [
+        "security",
+        "threat-detection",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "Compliance",
+      "prompt": "As-tu le droit de réaliser des tests d'intrusion (pentest) sur tes propres instances EC2 ?",
+      "answers": [
+        "Oui, pour une liste de services autorisés, sans approbation préalable d'AWS",
+        "Non, c'est interdit dans tous les cas",
+        "Oui, uniquement avec un plan de support Enterprise",
+        "Oui, y compris contre l'infrastructure d'AWS elle-même"
+      ],
+      "correctIndex": 0,
+      "explanation": "AWS autorise le pentest sur tes propres ressources pour une liste de services (EC2, RDS, Lambda…), sans demande préalable. Attaquer l'infrastructure AWS ou d'autres clients reste interdit (ex: DDoS).",
+      "services": [],
+      "tags": [
+        "security",
+        "compliance",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "Protection",
+      "prompt": "Quel service permet de gérer de façon centralisée les règles WAF, Shield Advanced et Security Groups sur tous les comptes d'une organisation ?",
+      "answers": [
+        "AWS Firewall Manager",
+        "AWS WAF",
+        "AWS Network Firewall",
+        "AWS Organizations"
+      ],
+      "correctIndex": 0,
+      "explanation": "Firewall Manager déploie et applique des politiques de sécurité (WAF, Shield Advanced, Security Groups…) de façon centralisée sur plusieurs comptes via Organizations.",
+      "services": [
+        "Firewall Manager",
+        "WAF",
+        "Shield"
+      ],
+      "tags": [
+        "security",
+        "protection",
+        "ccp"
+      ],
+      "problem": "Gouvernance"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 3,
+      "category": "ThreatDetection",
+      "prompt": "Quelle association service → usage est correcte ?",
+      "answers": [
+        "GuardDuty → détection de menaces ; Inspector → vulnérabilités ; Macie → données sensibles",
+        "GuardDuty → données sensibles ; Inspector → menaces ; Macie → vulnérabilités",
+        "GuardDuty → vulnérabilités ; Inspector → données sensibles ; Macie → menaces",
+        "Les trois services font exactement la même chose"
+      ],
+      "correctIndex": 0,
+      "explanation": "Trio classique de l'examen : GuardDuty détecte les menaces (analyse de logs), Inspector scanne les vulnérabilités (CVE, exposition), Macie découvre les données sensibles (PII) dans S3.",
+      "services": [
+        "GuardDuty",
+        "Inspector",
+        "Macie"
+      ],
+      "tags": [
+        "security",
+        "threat-detection",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "Security",
+      "difficulty": 2,
+      "category": "SharedResponsibility",
+      "prompt": "Dans le modèle de responsabilité partagée, la configuration des Security Groups relève de qui ?",
+      "answers": [
+        "Du client",
+        "D'AWS",
+        "D'AWS par défaut, du client sur demande",
+        "De personne : c'est entièrement automatique"
+      ],
+      "correctIndex": 0,
+      "explanation": "La configuration réseau côté client (Security Groups, NACL, règles d'accès) fait partie de la sécurité DANS le cloud : c'est la responsabilité du client.",
+      "services": [],
+      "tags": [
+        "security",
+        "shared-responsibility",
+        "ccp"
+      ],
+      "problem": "Sécurité"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "FreeTier",
+      "prompt": "Quels sont les trois types d'offre gratuite (Free Tier) AWS ?",
+      "answers": [
+        "12 mois gratuits, toujours gratuit (always free), essais gratuits (trials)",
+        "1 mois gratuit, 6 mois gratuits, 12 mois gratuits",
+        "Gratuit pour les étudiants, les startups et les ONG uniquement",
+        "Tout AWS est gratuit sous un certain quota, sans catégories"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le Free Tier combine : 12 mois gratuits à l'ouverture du compte (ex: EC2 t2.micro), « always free » (ex: 1M de requêtes Lambda/mois), et des essais limités dans le temps (trials).",
+      "services": [],
+      "tags": [
+        "billing",
+        "free-tier",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Savings",
+      "prompt": "Quelle différence est correcte entre Savings Plans et Reserved Instances ?",
+      "answers": [
+        "Les Savings Plans engagent un montant de dépense ($/h) flexible ; les RI ciblent un type d'instance précis",
+        "Les Reserved Instances sont plus flexibles que les Savings Plans",
+        "Les Savings Plans sont sans aucun engagement",
+        "Les deux mécanismes sont strictement identiques"
+      ],
+      "correctIndex": 0,
+      "explanation": "Un Savings Plan engage une dépense horaire ($/h) sur 1 ou 3 ans et s'applique de façon flexible (EC2, Fargate, Lambda selon le plan). Une RI réserve un type d'instance/région précis.",
+      "services": [],
+      "tags": [
+        "billing",
+        "savings",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "CostManagement",
+      "prompt": "Quel service détecte automatiquement des dépenses inhabituelles (anomalies) via le machine learning et t'alerte ?",
+      "answers": [
+        "AWS Cost Anomaly Detection",
+        "AWS Budgets",
+        "AWS Trusted Advisor",
+        "Amazon CloudWatch"
+      ],
+      "correctIndex": 0,
+      "explanation": "Cost Anomaly Detection apprend tes patterns de dépense et alerte sur les écarts anormaux, sans seuil fixe. Budgets, lui, alerte sur des seuils que TU définis.",
+      "services": [
+        "Cost Anomaly Detection"
+      ],
+      "tags": [
+        "billing",
+        "cost-management",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "CostVisibility",
+      "prompt": "Quel rapport fournit les données de facturation les plus détaillées (par heure, par ressource, par tag) ?",
+      "answers": [
+        "AWS Cost and Usage Report (CUR)",
+        "AWS Cost Explorer",
+        "La facture PDF mensuelle",
+        "AWS Budgets"
+      ],
+      "correctIndex": 0,
+      "explanation": "Le CUR est le rapport le plus granulaire : lignes par heure/ressource/tag, livré dans S3 pour analyse (Athena, QuickSight). Cost Explorer est un outil de visualisation, moins détaillé.",
+      "services": [
+        "Cost and Usage Report"
+      ],
+      "tags": [
+        "billing",
+        "cost-visibility",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Organizations",
+      "prompt": "Avec la facturation consolidée d'AWS Organizations, comment les remises de volume sont-elles calculées ?",
+      "answers": [
+        "L'usage de tous les comptes est agrégé, ce qui aide à atteindre les paliers de remise",
+        "Chaque compte est calculé séparément, sans agrégation",
+        "Les remises ne s'appliquent qu'au compte payeur",
+        "La facturation consolidée supprime les remises de volume"
+      ],
+      "correctIndex": 0,
+      "explanation": "La facturation consolidée agrège l'usage de tous les comptes de l'organisation : on atteint plus vite les paliers de tarification dégressive (ex: S3) et on partage RI/Savings Plans.",
+      "services": [
+        "Organizations"
+      ],
+      "tags": [
+        "billing",
+        "organizations",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Pricing",
+      "prompt": "Concernant les transferts de données, quelle affirmation est généralement correcte ?",
+      "answers": [
+        "Le transfert entrant (vers AWS) est gratuit, le transfert sortant (vers Internet) est facturé",
+        "Le transfert sortant est gratuit, l'entrant est facturé",
+        "Tous les transferts de données sont gratuits",
+        "Entrant et sortant sont facturés au même tarif"
+      ],
+      "correctIndex": 0,
+      "explanation": "Règle générale AWS : data transfer IN gratuit, data transfer OUT vers Internet facturé (dégressif). Les transferts entre AZ/régions peuvent aussi être facturés.",
+      "services": [],
+      "tags": [
+        "billing",
+        "pricing",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Optimization",
+      "prompt": "Quel service recommande des types d'instances EC2 optimaux en analysant l'utilisation réelle (CPU, mémoire) via le machine learning ?",
+      "answers": [
+        "AWS Compute Optimizer",
+        "AWS Trusted Advisor",
+        "AWS Cost Explorer",
+        "Amazon Inspector"
+      ],
+      "correctIndex": 0,
+      "explanation": "Compute Optimizer utilise le ML sur les métriques CloudWatch pour recommander la bonne taille d'instance (rightsizing). Trusted Advisor signale la sous-utilisation mais de façon moins fine.",
+      "services": [
+        "Compute Optimizer"
+      ],
+      "tags": [
+        "billing",
+        "optimization",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "CostAllocation",
+      "prompt": "Que faut-il faire pour que tes tags apparaissent dans les rapports de coûts (Cost Explorer, CUR) ?",
+      "answers": [
+        "Activer ces tags comme « cost allocation tags » dans la console de facturation",
+        "Rien, tous les tags sont automatiquement inclus",
+        "Créer un budget par tag dans AWS Budgets",
+        "Ouvrir un ticket au support AWS"
+      ],
+      "correctIndex": 0,
+      "explanation": "Les tags ne remontent dans les rapports de coûts qu'après activation explicite en tant que « cost allocation tags » dans la console Billing (et seulement à partir de ce moment).",
+      "services": [],
+      "tags": [
+        "billing",
+        "cost-allocation",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Pricing",
+      "prompt": "Quel modèle d'achat EC2 est requis pour utiliser des licences logicielles liées au serveur physique (BYOL) ?",
+      "answers": [
+        "Dedicated Hosts",
+        "Dedicated Instances",
+        "Instances Spot",
+        "Reserved Instances"
+      ],
+      "correctIndex": 0,
+      "explanation": "Dedicated Hosts donne la visibilité sur le serveur physique (sockets, cœurs) exigée par certaines licences BYOL. Dedicated Instances isole le matériel mais sans cette visibilité.",
+      "services": [
+        "EC2"
+      ],
+      "tags": [
+        "billing",
+        "pricing",
+        "ccp"
+      ],
+      "problem": "À ne pas confondre"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 2,
+      "category": "Budgets",
+      "prompt": "Quels types de budgets peut-on créer dans AWS Budgets ?",
+      "answers": [
+        "Budgets de coût, d'usage, et de couverture/utilisation des RI et Savings Plans",
+        "Uniquement des budgets de coût en dollars",
+        "Uniquement des budgets par service EC2",
+        "Des budgets de temps de connexion à la console"
+      ],
+      "correctIndex": 0,
+      "explanation": "AWS Budgets couvre : budgets de coût, budgets d'usage (ex: heures EC2), et budgets de couverture/utilisation des Reserved Instances et Savings Plans — chacun avec alertes.",
+      "services": [
+        "Budgets"
+      ],
+      "tags": [
+        "billing",
+        "budgets",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Pricing",
+      "prompt": "Tu arrêtes (stop) une instance EC2 sans la supprimer. Que continues-tu de payer ?",
+      "answers": [
+        "Le stockage EBS attaché (et l'éventuelle IP Elastic non associée)",
+        "Le temps de calcul de l'instance",
+        "Rien du tout",
+        "La bande passante réseau de l'instance"
+      ],
+      "correctIndex": 0,
+      "explanation": "Instance arrêtée = plus de facturation compute, mais les volumes EBS restent provisionnés et facturés. Une Elastic IP non associée à une instance en cours d'exécution est aussi facturée.",
+      "services": [
+        "EC2",
+        "EBS"
+      ],
+      "tags": [
+        "billing",
+        "pricing",
+        "ccp"
+      ],
+      "problem": "Coûts"
+    },
+    {
+      "domain": "Billing",
+      "difficulty": 3,
+      "category": "Pricing",
+      "prompt": "Quelle affirmation sur la tarification d'AWS Lambda est correcte ?",
+      "answers": [
+        "Tu paies par requête et par durée d'exécution (ms), rien pendant l'inactivité",
+        "Tu paies par heure d'instance provisionnée, même sans trafic",
+        "Lambda est facturé par abonnement mensuel fixe",
+        "Lambda est entièrement gratuit sans limite"
+      ],
+      "correctIndex": 0,
+      "explanation": "Lambda illustre le « pay per use » serverless : facturation au nombre de requêtes et aux ms d'exécution (selon la mémoire allouée). Le Free Tier « always free » inclut 1M de requêtes/mois.",
+      "services": [
+        "Lambda"
+      ],
+      "tags": [
+        "billing",
+        "pricing",
+        "serverless",
+        "ccp"
+      ],
+      "problem": "Coûts"
     }
   ]
 }

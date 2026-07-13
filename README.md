@@ -12,7 +12,7 @@
   <a href="https://github.com/Guilhem-Bonnet/MiniJeuCartesAWS/releases/latest">
     <img src="https://img.shields.io/github/v/release/Guilhem-Bonnet/MiniJeuCartesAWS?style=for-the-badge&color=FF9900" alt="Latest Release">
   </a>
-  <img src="https://img.shields.io/badge/Questions-398-blue?style=for-the-badge" alt="Questions">
+  <img src="https://img.shields.io/badge/Questions-448-blue?style=for-the-badge" alt="Questions">
   <img src="https://img.shields.io/badge/Leçons-93-green?style=for-the-badge" alt="Leçons">
   <img src="https://img.shields.io/badge/Services_AWS-95+-orange?style=for-the-badge" alt="Services AWS">
 </p>
@@ -66,7 +66,7 @@
 - **Progression visuelle** : score, streak, meilleur score
 
 ### 📚 Contenu complet pour le CCP
-- **398 questions** couvrant les 4 domaines de l'examen
+- **448 questions** couvrant les 4 domaines de l'examen
 - **93 leçons** pour apprendre chaque service AWS
 - **95+ services AWS** : EC2, Lambda, S3, RDS, IAM, VPC, CloudFront, et bien plus
 - **Questions pièges** réalistes basées sur l'examen officiel
@@ -92,10 +92,10 @@
 
 | Domaine | Description | Questions |
 |---------|-------------|-----------|
-| ☁️ **Cloud Concepts** | Avantages du cloud, modèles de déploiement | ~60 |
-| 🔒 **Security & Compliance** | IAM, chiffrement, conformité | ~100 |
-| 💻 **Technology** | Services AWS, architectures | ~180 |
-| 💰 **Billing & Pricing** | Modèles de tarification, outils de coûts | ~60 |
+| ☁️ **Cloud Concepts** | Avantages du cloud, migration, DR, infrastructure globale | ~63 |
+| 🔒 **Security & Compliance** | IAM, chiffrement, conformité | ~93 |
+| 💻 **Technology** | Services AWS, architectures | ~248 |
+| 💰 **Billing & Pricing** | Modèles de tarification, outils de coûts | ~44 |
 
 ### Services AWS inclus
 
@@ -175,7 +175,7 @@ godot --path .
 ```
 MiniJeuCartesAWS/
 ├── Data/
-│   ├── questions_practitioner.json  # 398 questions
+│   ├── questions_practitioner.json  # 448 questions
 │   └── course_practitioner.json     # 93 leçons
 ├── Scenes/
 │   └── Main3D.tscn                  # Scène principale

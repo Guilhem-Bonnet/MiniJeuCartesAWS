@@ -1,79 +1,94 @@
 # Roadmap — MiniJeuCartesAWS
 
 Ce document décrit :
-- l’état actuel du jeu (ce qui existe déjà)
-- la cible (“où on veut aller”)
-- le plan de route (priorités + critères d’acceptation)
+- l'état actuel du jeu (ce qui existe déjà)
+- la cible ("où on veut aller")
+- le plan de route (priorités + critères d'acceptation)
 
-## État actuel (V3)
+## État actuel (juillet 2026)
 
 ### Gameplay
-- Timed run : un chrono, le joueur répond au maximum de questions.
-- Tirage pondéré par domaines (CloudConcepts / Security / Technology / Billing).
-- Biais difficulté (difficulté 1–3) + questions difficiles dans le deck.
-- Après réponse : verso avec correction + explication, puis carte suivante.
+- 4 modes de jeu en place : **Chrono** (timed run), **Infini**, **Examen** (60 min), **Renforcement** (déblocable, tirage boosté sur les questions ratées via `WrongStreak`).
+- Tirage pondéré par domaines (CloudConcepts / Security / Technology / Billing) + biais difficulté (1–3).
+- **Deck physique** : pile visible, tirage depuis le deck, défausse, animation de shuffle au refill.
+- **Profils joueurs** : stats par question (Asked/Correct/streaks), achievements, meilleurs scores.
+- Style de carte par difficulté : d1 papier clair, d2 bleuté, d3 sombre "collector" texte or.
+- Architecture multi-certifications prête (`Certifications[]`, sélecteur dans le menu) — un seul deck branché (CCP FR).
+
+### Contenu
+- **448 questions** (0 doublon, QC passé) + **93 leçons** dans `Data/`.
+- Répartition domaines : Technology 248 (55 %), Security 93 (21 %), CloudConcepts 63 (14 %), Billing 44 (10 %).
+- Poids de l'examen CLF-C02 pour comparaison : Technology 34 %, Security 30 %, CloudConcepts 24 %, Billing 12 %.
 
 ### Présentation
-- Tabletop 3D “lofi” (table, mur, fenêtre lumineuse, neige légère, lampe chaude).
-- Carte format standard (ratio poker 1:1.4), style “collector”.
-- Rendu : face/verso via SubViewportTexture + shader (grain/cadre/fond), plus textures procédurales décor.
+- Tabletop 3D "lofi", carte ratio poker 1,4:1.
+- Lisibilité vérifiée en jeu (juillet 2026) : viewports 2867×2048 ratio exact, MSAA 2D 4x, texte net. Rien à corriger.
 
-## Cible (vision)
+### Distribution
+- v1.0.0 publiée (janvier 2026) : Windows, Linux, macOS.
+- ⚠️ Dernier run CI "Build macOS" en échec (cause inconnue, logs expirés).
 
-**Ressenti :** “Je joue à un jeu de société avec de vraies cartes”.
+## Plan de route
 
-### Cible UX/animation
-- Un **deck visible** (pile) sur la table.
-- Quand on tire : une carte **sort du deck**, vient au **focus** (lisible, sans cacher tout le décor).
-- Après réponse : carte **part** vers une zone de défausse.
-- La pile du deck **diminue visuellement**.
-- Quand le deck visuel est vide : animation de **mélange** / “reformage du deck” (tout en gardant une logique de questions infinie).
-- La partie continue tant que le chrono n’est pas terminé.
+### V6.5 — Hygiène & fondations (à faire en premier, ~1 session)
 
-### Cible lisibilité
-- Texte toujours net (pas de scintillement).
-- Pas d’artefacts (z-fighting, aliasing, stretching).
+**But :** repartir sur une base saine avant toute feature.
 
-## Plan de route (proposé)
+1. Installer `git-lfs` (`sudo dnf install git-lfs`) — sans lui, `git status`/`diff` échouent silencieusement sur ce dépôt.
+2. Committer le travail en attente en 2 commits séparés :
+   - refactor `ConnectOnce` (Scripts/*.cs, Main3D.tscn, csproj)
+   - contenu V6 (448 questions, README, ROADMAP)
+3. Supprimer les fichiers parasites `e list` et `t --limit 5` (dumps de `less` créés par une commande mal tapée).
+4. Relancer la CI macOS sur un tag de test et diagnostiquer l'échec.
+5. Mettre à jour `REGLES_DU_JEU.md` (les 4 modes et les profils existent déjà, la doc est en retard).
 
-### V4 — Deck physique (priorité)
+**Critères d'acceptation :** `git status` propre et fiable ; CI verte sur les 3 plateformes.
 
-**But :** matérialiser la pile et la trajectoire des cartes.
+### V7 — Examen blanc complet (la feature la plus utile pour l'objectif pédagogique)
 
-Étapes proposées :
-1. Ajouter un `DeckRig` sur la table (pile + marqueurs `DeckTop`, `CardFocus`, `DiscardTarget`).
-2. Faire évoluer `TimedRunUI.cs` pour piloter l’animation :
-   - spawn depuis `DeckTop`
-   - tween vers `CardFocus`
-   - verso après réponse
-   - tween vers `DiscardTarget`
-3. Faire “diminuer” la pile :
-   - soit scaling vertical
-   - soit nombre de meshes (N cartes) qui s’épuise
-4. Refill : quand pile vide → animation “shuffle”, puis pile redevient pleine.
+**But :** transformer le mode Examen actuel (simple chrono 60 min) en véritable simulation CLF-C02.
 
-**Critères d’acceptation :**
-- Le joueur voit clairement une pile sur la table.
-- La carte active vient du deck (pas pop au centre).
-- Après réponse, la carte quitte le focus.
-- La pile descend progressivement.
-- Refill visible et compréhensible.
+1. Tirage d'un jeu **fixe de 65 questions sans répétition**, réparties selon les poids officiels (24/30/34/12).
+2. Mode "strict" : pas de correction pendant l'examen ; navigation possible entre questions (marquer/revenir) — ou a minima enchaînement sans verso.
+3. Écran de résultats de fin :
+   - score sur 100–1000 avec seuil de réussite 700 (comme le vrai examen)
+   - répartition réussite par domaine
+   - liste des questions ratées avec leurs explications
+4. Historique des examens blancs dans le profil (progression visible d'un examen à l'autre).
 
-### V5 — Polish lisibilité
-- Ajuster FOV/distance caméra pour équilibre décor/lisibilité.
-- Ajuster tailles SubViewports si nécessaire.
-- Améliorer le shader “collector” (cadre par difficulté plus explicite).
+**Critères d'acceptation :** un joueur peut passer un examen blanc de bout en bout et sait s'il aurait été reçu ; les questions ratées sont consultables après coup.
 
-### V6 — Contenu
-- Augmenter le volume du deck `questions_practitioner.json` (difficulté 2–3, diversité).
-- Ajouter un contrôle qualité (questions dupliquées, réponses ambiguës).
+### V8 — Contenu : équilibrage & liaison leçons (fil rouge, par lots)
+
+1. Rééquilibrer vers les poids CLF-C02 : ajouter par lots ~40 CloudConcepts, ~30 Security, ~20 Billing (objectif intermédiaire : Technology < 45 %).
+2. Script de contrôle qualité réutilisable (`tools/qc_deck.py`) : doublons exacts/proches, structure, distributions — à lancer avant chaque commit de contenu.
+3. Lier questions ↔ leçons : depuis le verso d'une question ratée, bouton "voir la leçon" (les leçons existent déjà dans `course_practitioner.json`).
+
+**Critères d'acceptation :** QC automatisé passant ; chaque question ratée offre un chemin vers la leçon correspondante.
+
+### V9 — Deuxième certification
+
+L'architecture est prête (`Certifications[]` dans `TimedRunUI.Modes.cs`) : ajouter un deck **AWS Solutions Architect Associate (SAA-C03)** — commencer petit (~150 questions d2–d3) et réutiliser le QC de V8.
+
+**Critères d'acceptation :** le sélecteur du menu propose 2 certifications fonctionnelles avec stats séparées par deck.
+
+### V10 — Release & distribution
+
+1. Tag **v1.1.0** (448 questions + refactor + examen blanc) une fois V6.5 et V7 faits.
+2. Page itch.io (gratuit) pour la visibilité — décision à valider.
+3. Contrainte connue : **pas d'export web possible** (Godot 4 + C# ne supporte pas l'export HTML5) ; le web impliquerait un portage GDScript, hors scope.
+
+## Dette technique (fil rouge, opportuniste)
+
+- `TimedRunUI` est une god class (~51 Ko + 14 fichiers partiels). Extraction progressive, en commençant par la logique pure testable : tirage du deck / pondération / scoring → classes sans dépendance Godot + tests `dotnet test`.
+- Code mort : `FrameCameraForReadability()` / `AutoFrameCameraOnReady` (jamais activé) — supprimer ou documenter.
+- CI : ajouter un job léger sur push (dotnet build + validation JSON du deck) pour attraper les régressions avant les tags.
 
 ## Risques / pièges
-- Godot C# : l’éditeur peut garder une DLL “ancienne” si on ne rebuild pas.
-- Z-fighting : s’assurer que face/verso ont un offset suffisant.
-- Perf : SubViewports très grands + shaders peuvent coûter (sur machines modestes).
+- Godot C# : l'éditeur peut garder une DLL "ancienne" si on ne rebuild pas.
+- git-lfs absent sur une machine = `git status` mensonger (vu en juillet 2026).
+- Perf : SubViewports très grands + shaders peuvent coûter sur machines modestes.
 
-## Définition de “terminé”
-- Le jeu est jouable du début à la fin du chrono.
-- Le ressenti “cartes physiques” est évident (deck + tirage + discard + refill).
-- Lisible en 1920×1080 et résolutions courantes.
+## Définition de "terminé" (jalon en cours : V7)
+- Un candidat CCP peut s'entraîner (Chrono/Renforcement) **et** se tester (Examen blanc) dans le jeu.
+- Il sait, chiffres à l'appui, s'il est prêt pour le vrai examen.
