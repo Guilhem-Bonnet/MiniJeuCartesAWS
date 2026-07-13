@@ -2,10 +2,11 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-GODOT_BIN="$ROOT_DIR/.tools/godot_mono/Godot_v4.5.1-stable_mono_linux_x86_64/Godot_v4.5.1-stable_mono_linux.x86_64"
+# Résolution du binaire Godot Mono : $GODOT_BIN prioritaire, sinon godot-mono dans le PATH.
+GODOT_BIN="${GODOT_BIN:-$(command -v godot-mono || true)}"
 
-if [[ ! -x "$GODOT_BIN" ]]; then
-  echo "Godot Mono introuvable ou non exécutable: $GODOT_BIN" >&2
+if [[ -z "$GODOT_BIN" || ! -x "$GODOT_BIN" ]]; then
+  echo "Godot Mono introuvable. Installe godot-mono dans le PATH ou définis GODOT_BIN." >&2
   exit 1
 fi
 

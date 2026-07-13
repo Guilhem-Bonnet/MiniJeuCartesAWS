@@ -9,4 +9,11 @@ export PATH="$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH"
 
 cd "$PROJECT_DIR"
 
-exec "$HOME/bin/godot" "$@"
+# godot-mono requis (projet C#) ; surcharge possible via GODOT_BIN.
+GODOT_BIN="${GODOT_BIN:-$(command -v godot-mono || true)}"
+if [[ -z "$GODOT_BIN" ]]; then
+  echo "Erreur: godot-mono introuvable. Définis GODOT_BIN=/chemin/vers/godot (mono)" >&2
+  exit 1
+fi
+
+exec "$GODOT_BIN" "$@"

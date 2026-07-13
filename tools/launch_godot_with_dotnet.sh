@@ -17,10 +17,11 @@ fi
 # 2) Trouver Godot (mono) 
 GODOT_BIN="${GODOT_BIN:-}"
 if [[ -z "$GODOT_BIN" ]]; then
-  if command -v godot >/dev/null 2>&1; then
+  # Priorité au build mono (projet C#) — le godot Fedora n'a pas le support .NET.
+  if command -v godot-mono >/dev/null 2>&1; then
+    GODOT_BIN="$(command -v godot-mono)"
+  elif command -v godot >/dev/null 2>&1; then
     GODOT_BIN="$(command -v godot)"
-  elif [[ -x "$HOME/bin/godot" ]]; then
-    GODOT_BIN="$HOME/bin/godot"
   else
     echo "Erreur: Godot introuvable. Définis GODOT_BIN=/chemin/vers/godot (mono)" >&2
     exit 1

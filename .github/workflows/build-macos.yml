@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 env:
-  GODOT_VERSION: "4.5.1"
+  GODOT_VERSION: "4.6.3"
   EXPORT_NAME: MiniJeuCartesAWS
 
 jobs:
@@ -25,7 +25,8 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          # global.json exige le SDK 9.0.100+ (rollForward: latestFeature)
+          dotnet-version: '9.0.x'
 
       - name: Setup Godot
         run: |
