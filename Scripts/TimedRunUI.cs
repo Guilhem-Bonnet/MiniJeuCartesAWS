@@ -1267,6 +1267,9 @@ public partial class TimedRunUI : Control
         else
             FxWrong();
 
+        // Question ratée → proposer la leçon correspondante sur le verso ([L]).
+        _pendingLessonIndex = ok ? -1 : FindLessonIndexForQuestion(_currentQuestion);
+
         SetBackSideResult(chosenIndex, ok);
         AnimateCardRevealBack();
 

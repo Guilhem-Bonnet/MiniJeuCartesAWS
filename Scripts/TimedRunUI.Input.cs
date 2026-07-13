@@ -53,6 +53,17 @@ public partial class TimedRunUI : Control
         if (_isPaused)
             return;
 
+        // Overlay Cours ouvert pendant un run: seul Échap (géré plus haut) agit.
+        if (IsCourseOverlayVisible())
+            return;
+
+        // Verso d'une question ratée: L ouvre la leçon liée.
+        if (key.Keycode == Key.L && _answeredCurrent && _cardIsBackSide && _awaitingContinueClick && _pendingLessonIndex >= 0)
+        {
+            OpenCourseOverlayAtLesson(_pendingLessonIndex);
+            return;
+        }
+
         if (key.Keycode == Key.Key1) Choose(0);
         else if (key.Keycode == Key.Key2) Choose(1);
         else if (key.Keycode == Key.Key3) Choose(2);
@@ -65,6 +76,10 @@ public partial class TimedRunUI : Control
             return;
 
         if (_isPaused)
+            return;
+
+        // Overlay Cours ouvert: ne pas laisser les clics traverser vers la carte 3D.
+        if (IsCourseOverlayVisible())
             return;
 
         // Clic gauche sur la carte => choisir une réponse (sans UI overlay).

@@ -18,6 +18,9 @@ public partial class TimedRunUI : Control
 
     private CourseDeck? _courseDeck;
 
+    // Index de la leçon liée à la question courante (-1 si aucune / bonne réponse).
+    private int _pendingLessonIndex = -1;
+
     private sealed class CourseDeck
     {
         public string CourseId { get; set; } = "";
@@ -229,6 +232,14 @@ public partial class TimedRunUI : Control
         if (_runActive)
             return;
 
+        OpenCourseOverlayAtLesson(0);
+    }
+
+    // Ouvre l'overlay directement sur une leçon donnée. Utilisable pendant un run
+    // (verso d'une question ratée → revoir la leçon) : le chrono continue, c'est le
+    // choix du joueur de prendre ce temps.
+    private void OpenCourseOverlayAtLesson(int lessonIndex)
+    {
         _rulesVisible = false;
         HideSettingsPanel();
 
@@ -244,11 +255,12 @@ public partial class TimedRunUI : Control
         foreach (var lesson in _courseDeck.Lessons)
             _courseList.AddItem(lesson.Title);
 
-        // Sélection par défaut
         if (_courseDeck.Lessons.Length > 0)
         {
-            _courseList.Select(0);
-            ApplyCourseToUI(0);
+            var idx = Math.Clamp(lessonIndex, 0, _courseDeck.Lessons.Length - 1);
+            _courseList.Select(idx);
+            _courseList.EnsureCurrentIsVisible();
+            ApplyCourseToUI(idx);
         }
         else
         {
@@ -256,6 +268,72 @@ public partial class TimedRunUI : Control
         }
 
         _courseOverlay!.Visible = true;
+    }
+
+    // ============================================================================
+    // LIAISON QUESTION ↔ LEÇON
+    // Pas de champ lessonId dans les données : on matche via les services AWS
+    // (noms normalisés), avec repli sur les tags/catégorie.
+    // ============================================================================
+
+    private static string NormalizeServiceName(string s)
+    {
+        var t = s.Trim().ToLowerInvariant();
+        if (t.StartsWith("aws ")) t = t[4..];
+        if (t.StartsWith("amazon ")) t = t[7..];
+        return t;
+    }
+
+    private int FindLessonIndexForQuestion(Question q)
+    {
+        _courseDeck ??= LoadCourseDeck();
+        var lessons = _courseDeck?.Lessons;
+        if (lessons == null || lessons.Length == 0)
+            return -1;
+
+        var qServices = (q.Services ?? Array.Empty<string>()).Select(NormalizeServiceName).ToHashSet();
+        var qTags = (q.Tags ?? Array.Empty<string>()).Select(t => t.Trim().ToLowerInvariant()).ToHashSet();
+        var qCategory = (q.Category ?? "").Trim().ToLowerInvariant();
+
+        var bestIdx = -1;
+        var bestScore = 0;
+
+        for (var i = 0; i < lessons.Length; i++)
+        {
+            var l = lessons[i];
+            var score = 0;
+
+            // Services communs : critère principal (x3).
+            foreach (var s in l.Services ?? Array.Empty<string>())
+            {
+                if (qServices.Contains(NormalizeServiceName(s)))
+                    score += 3;
+            }
+
+            // Tags communs / catégorie : repli.
+            foreach (var t in l.Tags ?? Array.Empty<string>())
+            {
+                var lt = t.Trim().ToLowerInvariant();
+                if (qTags.Contains(lt)) score += 1;
+                if (lt == qCategory && qCategory.Length > 0) score += 1;
+            }
+
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestIdx = i;
+            }
+        }
+
+        return bestIdx;
+    }
+
+    private string GetLessonTitle(int index)
+    {
+        var lessons = _courseDeck?.Lessons;
+        if (lessons == null || index < 0 || index >= lessons.Length)
+            return "";
+        return lessons[index].Title;
     }
 
     private void OnCourseSelected(long index)

@@ -126,11 +126,21 @@ public partial class TimedRunUI : Control
         var chosenColor = ok ? "#2EE59C" : "#FF4D5A";
         var icon = ok ? "✅" : "❌";
 
+        // Question ratée : chemin vers la leçon correspondante (touche L).
+        var lessonLine = "";
+        if (!ok && _pendingLessonIndex >= 0)
+        {
+            var lessonTitle = GetLessonTitle(_pendingLessonIndex);
+            if (!string.IsNullOrWhiteSpace(lessonTitle))
+                lessonLine = $"[color=#8FE0FF]📖 \\[L\\] Revoir la leçon : {EscapeBbcode(lessonTitle)}[/color]\n\n";
+        }
+
         // Note: on ne liste pas les choix (doublon avec le recto) ; on affiche l’essentiel.
         _cardBackContent.Text =
             $"{icon} [b]Ta réponse:[/b] [color={chosenColor}]{EscapeBbcode(chosenText)}[/color]\n" +
             $"[b]Bonne réponse:[/b] [color=#2EE59C]{EscapeBbcode(correctText)}[/color]\n\n" +
             $"[b]Pourquoi ?[/b]\n{EscapeBbcode(_currentQuestion.Explanation)}\n\n" +
+            lessonLine +
             $"[center][b]Clique sur la carte pour continuer[/b][/center]";
     }
 
