@@ -292,7 +292,8 @@ public partial class TimedRunUI : Control
             ConnectOnce(_cardAnim, "animation_finished", Callable.From<StringName>(OnCardAnimationFinished));
         }
         _cardRigOffset = EnsureOffsetParent(_cardRig, "CardRigOffset");
-        _sparkles = GetNode<GpuParticles3D>("../../CardRig/Sparkles");
+        // Optionnel: le node Sparkles n'existe plus dans Main3D.tscn (FxCorrect est null-safe).
+        _sparkles = GetNodeOrNull<GpuParticles3D>("../../CardRig/Sparkles");
         _cardFrontMesh = GetNode<MeshInstance3D>("../../CardRig/CardFace");
         _cardBackMesh = GetNode<MeshInstance3D>("../../CardRig/CardBack");
         _cardClickArea = GetNodeOrNull<StaticBody3D>("../../CardRig/CardClickArea");
