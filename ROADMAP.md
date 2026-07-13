@@ -49,19 +49,17 @@ Implémenté dans `Scripts/TimedRunUI.Exam.cs` :
 3. ✅ Écran de résultats : score 100–1000 (seuil 700, REÇU/RECALÉ), répartition par domaine, questions ratées avec la bonne réponse (les non-répondues comptent fausses).
 4. ✅ Les examens sont enregistrés dans l'historique du profil (`RunRecord.GameMode`). (Vue dédiée de progression : à faire.)
 
-### V8 — Contenu : équilibrage & liaison leçons (fil rouge, par lots)
+### V8 — Contenu : équilibrage & liaison leçons ✅ (fait, juillet 2026)
 
-1. Rééquilibrer vers les poids CLF-C02 : ajouter par lots ~40 CloudConcepts, ~30 Security, ~20 Billing (objectif intermédiaire : Technology < 45 %).
-2. Script de contrôle qualité réutilisable (`tools/qc_deck.py`) : doublons exacts/proches, structure, distributions — à lancer avant chaque commit de contenu.
-3. Lier questions ↔ leçons : depuis le verso d'une question ratée, bouton "voir la leçon" (les leçons existent déjà dans `course_practitioner.json`).
+1. ✅ Deck CCP rééquilibré **exactement** aux poids CLF-C02 : 108/134/152/54 (24/30/34/12 %) à taille constante (448). 96 Technology retirées (quasi-doublons, templates répétitifs, redondances intra-catégorie — couverture des services vérifiée), 96 ajoutées (45 CloudConcepts, 41 Security, 10 Billing, orientées d1/d2 : le deck passe de 62 % à 50 % de d3).
+2. ✅ `tools/qc_deck.py` opérationnel (structure, doublons, distributions) — 0 erreur, 2 quasi-doublons restants (hors Technology, à traiter au prochain lot).
+3. ✅ Liaison questions ↔ leçons : sur le verso d'une question ratée, la touche **L** ouvre l'overlay Cours sur la leçon liée (matching par services normalisés, repli tags/catégorie — pas de champ lessonId nécessaire).
 
-**Critères d'acceptation :** QC automatisé passant ; chaque question ratée offre un chemin vers la leçon correspondante.
+### V9 — Deuxième certification ✅ (fait, juillet 2026)
 
-### V9 — Deuxième certification
+✅ Deck **AWS Solutions Architect Associate (SAA-C03)** : 150 questions d2–d3 (`Data/questions_saa.json`, deckId `aws-saa-v1`), réparties Security 42 / Technology 66 (résilience + performance) / Billing 30 (coûts) / CloudConcepts 12 (design). Sélecteur du menu : 2 certifications, stats séparées par deck (IDs de questions distincts par deckId).
 
-L'architecture est prête (`Certifications[]` dans `TimedRunUI.Modes.cs`) : ajouter un deck **AWS Solutions Architect Associate (SAA-C03)** — commencer petit (~150 questions d2–d3) et réutiliser le QC de V8.
-
-**Critères d'acceptation :** le sélecteur du menu propose 2 certifications fonctionnelles avec stats séparées par deck.
+À affiner plus tard : seuil examen SAA à 720 (au lieu de 700), leçons dédiées SAA dans le cours.
 
 ### V10 — Release & distribution
 

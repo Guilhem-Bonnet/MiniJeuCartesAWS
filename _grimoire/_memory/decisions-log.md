@@ -15,6 +15,18 @@
 
 ## Décisions
 
+### [2026-07-13] V8 : rééquilibrage à taille constante + liaison leçons sans lessonId
+- **Contexte** : Technology à 55 % (cible CLF-C02 : 34 %) ; roadmap exigeait un chemin question ratée → leçon.
+- **Décision** : retrait de 96 Technology (quasi-doublons → templates « contrainte principale »/« mot-clé ici » → redondances intra-catégorie, avec garde-fou : aucun service AWS ne perd toute couverture) + ajout de 96 questions générées (45 CC, 41 Sec, 10 Billing, orientées d1/d2). Liaison leçons par **matching services normalisés** à l'exécution (préfixes AWS/Amazon retirés), repli tags/catégorie — pas de champ lessonId dans les données. Touche L sur le verso.
+- **Alternatives rejetées** : ajouter sans retirer (deck à 729, dilution) ; champ lessonId explicite (migration de 448 questions + maintenance double).
+- **Agent** : Claude Code
+
+### [2026-07-13] V9 : deck SAA-C03 réutilise les 4 domaines moteur
+- **Contexte** : SAA-C03 a ses propres domaines (Secure/Resilient/High-Performing/Cost-Optimized) mais le moteur (tirage pondéré, stats, examen) est câblé sur CloudConcepts/Security/Technology/Billing.
+- **Décision** : mapper le contenu SAA sur les 4 buckets existants (Security=secure design, Technology=résilience+perf, Billing=coûts, CloudConcepts=principes de design). 150 questions d2-d3, deckId `aws-saa-v1`.
+- **Alternatives rejetées** : domaines SAA natifs (refactor DomainWeights/NormalizeDomain par certification — à faire si une 3e certif l'exige). Seuil examen 720 spécifique SAA : reporté.
+- **Agent** : Claude Code
+
 ### [2026-07-13] Examen blanc V7 : jeu fixe pré-tiré, mode strict, score AWS
 - **Contexte** : le mode Examen n'était qu'un Chrono avec timer 60 min ; V7 exigeait une vraie simulation CLF-C02.
 - **Décision** : `TimedRunUI.Exam.cs` — pré-tirage de 65 questions (quotas 16/19/22/8 par plus fort reste sur les poids officiels 24/30/34/12), pas de verso pendant l'examen, score linéaire 100+900×(correct/65) avec seuil 700, non-répondues comptées fausses.
