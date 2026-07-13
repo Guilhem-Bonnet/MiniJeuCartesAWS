@@ -145,7 +145,10 @@ public partial class TimedRunUI : Control
 
     private void UpdateTopRow()
     {
-        var score = $"Score: {_correct}/{_answered}";
+        // Examen blanc strict : on affiche la progression, pas le score (pas de feedback en cours).
+        var score = IsExamMode() && _runActive && _examQueue.Count > 0
+            ? $"Question: {Math.Min(_examCursor, _examQueue.Count)}/{_examQueue.Count}"
+            : $"Score: {_correct}/{_answered}";
         var timer = $"{BuildMarker} ⏱️ {FormatTime(_timeRemaining)}";
 
         // Défensif: si la scène HUD a été modifiée (ex: suppression du post-it),

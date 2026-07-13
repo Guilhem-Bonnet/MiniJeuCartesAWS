@@ -12,6 +12,7 @@ public partial class TimedRunUI : Control
     {
         TimeExpired,
         NoQuestions,
+        ExamCompleted,
     }
 
     private const string BuildMarker = "V3";
@@ -994,6 +995,17 @@ public partial class TimedRunUI : Control
             return;
         }
 
+        // Examen blanc : jeu fixe de 65 questions sans répétition, tiré une fois au départ.
+        if (IsExamMode())
+        {
+            BuildExamSet();
+            if (_examQueue.Count == 0)
+            {
+                EndRun(EndRunReason.NoQuestions);
+                return;
+            }
+        }
+
             NextQuestion(first: true);
         }
         catch (Exception ex)
@@ -1029,21 +1041,28 @@ public partial class TimedRunUI : Control
 
         RecordRunToCurrentProfile();
 
-        var accuracy = _answered <= 0 ? 0 : (int)Math.Round(100.0 * _correct / _answered);
-
-        _panelTitleLabel.Text = reason switch
+        if (IsExamMode() && _examQueue.Count > 0 && reason != EndRunReason.NoQuestions)
         {
-            EndRunReason.NoQuestions => $"📦 Plus de questions disponibles\n\nScore: {_correct}/{_answered} ({accuracy}%)",
-            _ => $"⏳ Temps écoulé !\n\nScore: {_correct}/{_answered} ({accuracy}%)",
-        };
-
-        _panelBodyLabel.Text = (reason switch
+            ShowExamResults(reason);
+        }
+        else
         {
-            EndRunReason.NoQuestions => "Impossible de tirer une nouvelle question (deck vide/incompatible).\n" +
-                                        "Change de certification ou vérifie le deck JSON.\n\n",
-            _ => "Rejouer pour un nouveau tirage aléatoire.\n\n",
-        }) + BuildDomainBreakdown();
-        _panelBodyLabel.SelfModulate = NeutralText;
+            var accuracy = _answered <= 0 ? 0 : (int)Math.Round(100.0 * _correct / _answered);
+
+            _panelTitleLabel.Text = reason switch
+            {
+                EndRunReason.NoQuestions => $"📦 Plus de questions disponibles\n\nScore: {_correct}/{_answered} ({accuracy}%)",
+                _ => $"⏳ Temps écoulé !\n\nScore: {_correct}/{_answered} ({accuracy}%)",
+            };
+
+            _panelBodyLabel.Text = (reason switch
+            {
+                EndRunReason.NoQuestions => "Impossible de tirer une nouvelle question (deck vide/incompatible).\n" +
+                                            "Change de certification ou vérifie le deck JSON.\n\n",
+                _ => "Rejouer pour un nouveau tirage aléatoire.\n\n",
+            }) + BuildDomainBreakdown();
+            _panelBodyLabel.SelfModulate = NeutralText;
+        }
 
         _restartButton.Text = "Rejouer";
         _restartButton.Visible = true;
@@ -1084,7 +1103,17 @@ public partial class TimedRunUI : Control
         _chosenAnswerIndex = -1;
         _correctAnswerIndex = -1;
 
-        if (!TryDrawQuestionWeighted(out var q))
+        Question q;
+        if (IsExamMode())
+        {
+            // Examen blanc : on itère sur le jeu fixe, fin d'examen quand il est épuisé.
+            if (!TryDrawExamQuestion(out q))
+            {
+                EndRun(EndRunReason.ExamCompleted);
+                return;
+            }
+        }
+        else if (!TryDrawQuestionWeighted(out q))
         {
             // Mode infini: si on a épuisé les questions (ou la politique anti-répétition), on recycle.
             foreach (var d in _usedByDomain.Keys.ToList())
@@ -1217,6 +1246,16 @@ public partial class TimedRunUI : Control
         stat.asked += 1;
         if (ok) stat.correct += 1;
         _domainStats[domain] = stat;
+
+        // Examen blanc strict : pas de correction pendant l'examen — on enregistre
+        // la réponse et on enchaîne directement sur la question suivante.
+        if (IsExamMode())
+        {
+            RecordExamAnswer(_currentQuestion, _currentOptions[chosenIndex].Text, ok);
+            UpdateTopRow();
+            AnimateCardSendAwayAndMaybeShuffle(_runToken, _questionToken);
+            return;
+        }
 
         HighlightAnswers(chosenIndex);
 
