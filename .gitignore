@@ -5,6 +5,10 @@
 # Logs/tools Godot locaux (ne pas versionner)
 godot/app_userdata/
 godot/mono/build_logs/
+godot/editor_settings-*.tres
+
+# Toolchain Godot locale (télécharger via godotengine/godot releases, ne pas versionner)
+.tools/
 
 # Godot export presets
 export.cfg
